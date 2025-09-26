@@ -15,10 +15,10 @@ public class Colors {
 
         this.colors = new int[5];
         this.colors[0]= p5.color(255,0,0);
+        this.colors[1]= p5.color(255,0,0);
         this.colors[2]= p5.color(255,0,0);
         this.colors[3]= p5.color(255,0,0);
         this.colors[4]= p5.color(255,0,0);
-        this.colors[5]= p5.color(255,0,0);
     }
 
     // Getter del número de colors
@@ -49,19 +49,19 @@ public class Colors {
     void displayColors(PApplet p5, float x, float y, float w){
 
         p5.pushStyle();
-        //llegenda
+        //Llegenda
         p5.fill(0); p5.textAlign(p5.LEFT); p5.textSize(36);
-        p5.text("Colors", x, y-10);
+        p5.text("Colors:", x, y-10);
 
-        //Paleta de colots
-        float wc= w/ getNumColors();
-        for(int i= 0; i<getNumColors(); i++){
+        // Paleta de colors
+        float wc = w / getNumColors();
+        for(int i=0; i<getNumColors(); i++){
             p5.fill(getColorAt(i)); p5.stroke(0); p5.strokeWeight(3);
-            p5.rect(x, i*wc, y, wc, wc );
+            p5.rect(x + i*wc, y, wc, wc);
         }
         p5.popStyle();
+    }
 
 
     }
 
-}
