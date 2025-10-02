@@ -14,10 +14,10 @@ public class Colors {
     void setColors(PApplet p5){
 
         this.colors = new int[5];
-        this.colors[0]= p5.color(255,0,0);
-        this.colors[1]= p5.color(255,0,0);
+        this.colors[0]= p5.color(150,100,0);
+        this.colors[1]= p5.color(0,255,0);
         this.colors[2]= p5.color(255,0,0);
-        this.colors[3]= p5.color(255,0,0);
+        this.colors[3]= p5.color(0,0,255);
         this.colors[4]= p5.color(255,0,0);
     }
 
