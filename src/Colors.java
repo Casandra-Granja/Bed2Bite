@@ -14,11 +14,11 @@ public class Colors {
     void setColors(PApplet p5){
 
         this.colors = new int[5];
-        this.colors[0]= p5.color(150,100,0);
-        this.colors[1]= p5.color(0,255,0);
-        this.colors[2]= p5.color(255,0,0);
-        this.colors[3]= p5.color(0,0,255);
-        this.colors[4]= p5.color(255,0,0);
+        this.colors[0]= p5.color(0xFF285F69);
+        this.colors[1]= p5.color(0xFF80F556);
+        this.colors[2]= p5.color(0xFFF5281D);
+        this.colors[3]= p5.color(0xFFF5DD2A);
+        this.colors[4]= p5.color(0xFF000000);
     }
 
     // Getter del número de colors
@@ -27,19 +27,30 @@ public class Colors {
     }
 
     // Getter del color primari
-    public int getFirstColor(){
+    public int getBlueColor(){
         return  this.colors[0];
     }
 
     // Getter del color secundari
-    public int getSecondColor(){
+    public int getGreenColor(){
         return  this.colors[1];
     }
 
     // Getter del color terciari
-    public int getThirdColor(){
+    public int getRedColor(){
         return  this.colors[2];
     }
+
+    // Getter del color quaternari
+    public int getYellowColor(){
+        return  this.colors[3];
+    }
+
+    // Getter del color cinc
+    public int getBlackColor(){
+        return  this.colors[4];
+    }
+
 
     // Getter del color i-èssim
     public int getColorAt(int i){

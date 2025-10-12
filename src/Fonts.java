@@ -10,10 +10,11 @@ public class Fonts {
     }
 
     void setFonts(PApplet p5){
-        this.fonts= new PFont[3];
+        this.fonts= new PFont[4];
         this.fonts[0]= p5.createFont("data/Targa.ttf", Mides.midaTitol);
-        this.fonts[1]= p5.createFont("data/CQ Mono.otf", Mides.midaTitol);
-        this.fonts[2]= p5.createFont("data/Typori-Regular.ttf", Mides.midaTitol);
+        this.fonts[1]= p5.createFont("data/Seacon-Free.ttf", Mides.midaParagraf);
+        this.fonts[2]= p5.createFont("data/Maginer-Regular.otf", Mides.midaSubtitol);
+        this.fonts[3]= p5.createFont("data/Florida Project Phase Two.ttf", Mides.midaSubtitol);
     }
 
     int getNumFonts(){
@@ -30,6 +31,9 @@ public class Fonts {
 
     PFont getThirdFont(){
         return this.fonts[2];
+    }
+    PFont getFourthFont(){
+        return this.fonts[3];
     }
 
     PFont getFontAt(int i){

@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46d8275a-ec90-426f-be9d-91e886dac47c" name="Changes" comment="Canvi">
-      <change afterPath="$PROJECT_DIR$/src/Fonts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Mides.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Layout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Colors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Colors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Fonts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Fonts.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +61,20 @@
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
 }</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Bed2Bite" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -93,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758891417853</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1759389721414</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1759389721414</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
