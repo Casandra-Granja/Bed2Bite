@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 
-
 public class Main extends PApplet {
 
     Colors c1;
@@ -13,33 +12,21 @@ public class Main extends PApplet {
     }
 
     public void settings(){
-        size(800,800);
+        fullScreen();
 
     }
 
     public void setup(){
         c1= new Colors(this);
         f1= new Fonts(this);
-        gui= new GUI();
+        gui= new GUI(this);
 
     }
 
-    public void draw() {
-        c1.displayColors(this, 100, 100, width - 200);
+    public void draw(){
+        f1.display(this, 100, 400, 50);
 
-        textFont(f1.getFirstFont());
-        text("Títol de l'App", 50, 200);
-
-        fill(50);
-        textFont(f1.getSecondFont());
-        text("Títol de l'App", 50, 250);
-
-        textFont(f1.getThirdFont());
-        text("Títol de l'App", 50, 300);
-
-
-        //f1.display(this, 100, 400, 50);
-        /* switch (gui.pantallaActual) {
+        switch (gui.pantallaActual) {
 
             case INICIAL:
                 gui.dibuixaPantallaInicial(this);
@@ -51,6 +38,7 @@ public class Main extends PApplet {
                 gui.dibuixaPantallaDetalls(this);
                 break;
         }
+        updateCursor(this);
     }
 
     public void keyPressed(){
@@ -64,9 +52,21 @@ public class Main extends PApplet {
             else if(key== '2'){
                 gui.pantallaActual= GUI.PANTALLA.ABOUT;
             }
-        }
-        }
-         */
+    }
 
+    public void mousePressed(){
+        if(gui.b1.mouseOverButton(this)){
+            println("B1 has been pressed!!");
+        }
+    }
+
+    public void updateCursor(PApplet p5){
+        if(gui.b1.updateHandCursor(p5)){
+            cursor(HAND);
+        }
+        else{
+            cursor(ARROW);
+        }
     }
 }
+
