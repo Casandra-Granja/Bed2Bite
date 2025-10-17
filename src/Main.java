@@ -24,7 +24,7 @@ public class Main extends PApplet {
     }
 
     public void draw(){
-        f1.display(this, 100, 400, 50);
+       // f1.display(this, 100, 400, 50);
 
         switch (gui.pantallaActual) {
 
