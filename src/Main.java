@@ -52,12 +52,14 @@ public class Main extends PApplet {
             else if(key== '2'){
                 gui.pantallaActual= GUI.PANTALLA.ABOUT;
             }
+            gui.tfUsuari.keyPressed(key, keyCode);
     }
 
     public void mousePressed(){
         if(gui.b1.mouseOverButton(this)){
             println("B1 has been pressed!!");
         }
+        gui.tfUsuari.isPressed(this);
     }
 
     public void updateCursor(PApplet p5){

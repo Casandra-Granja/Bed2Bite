@@ -6,11 +6,13 @@ public class GUI {
 
     public PANTALLA pantallaActual;
 
-    Button b1, b2;
+    Button b1;
+    TextField tfUsuari;
 
     public GUI(PApplet p5){
         pantallaActual = PANTALLA.INICIAL;
-        b1= new Button(p5, "RED", 40,400,250,100);
+        b1= new Button(p5, "RED", 40,400,250,100); //FUNCIÓ QUE CREA ELS BOTONS
+        tfUsuari = new TextField(p5, 40, 30, 200,100);
 
     }
 
@@ -24,6 +26,7 @@ public class GUI {
         restaurantsMain(p5);
         restaurants1(p5);
         restaurants2(p5);
+        tfUsuari.display(p5);
 
 
         //HACER FUNCIONES PARA CADA COSA, SIDE BAR, LOGO... PARA LUEGO DIRECTAMENTE UTILIZARLOS EN LOS METODOS EJ: DIBUIXASIDEBAR(P5) I EN DIBUIXA SIDEBAR DIBJARLO CON RECT, CERCLE, TEXT...
@@ -107,7 +110,7 @@ public class GUI {
         p5.fill(0);
         p5.text("RESTAURANT MAIN", 3*Layout.marginW + Layout.restaurantWidthMain /2, 3*Layout.marginH + Layout.resturantHeightMain /2 + Layout.logoHeight);
     }
-    public void restaurants1 (PApplet p5){
+    public void restaurants1 (PApplet p5){ //pasar parametre x, y
         p5. fill(300,50,100);
         p5. rect(Layout.marginW+ Layout.marginWBR + Layout.restaurantWidthMain, Layout.marginH+ Layout.marginHBR + Layout.logoHeight, Layout.restaurantWidth, Layout.resturantHeight);
         p5.fill(0);
