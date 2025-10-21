@@ -48,6 +48,7 @@ public class TextField {
 
     // Afegeix i/o lleva el text que es tecleja
     //depen del que volem escriure
+    //como hacer que una no pueda escribrir letras?? i como hacer que solo se pueda escribir un numero limitado de caracteres
     public void keyPressed(char key, int keyCode) {
         if (selected) {
             if (keyCode == (int)BACKSPACE) {

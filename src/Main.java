@@ -45,8 +45,14 @@ public class Main extends PApplet {
             case INICIALEXTENDIDA:
                 gui.dibuixaPantallaInicialExtendida(this);
                 break;
-            case ABOUT:
-                gui.dibuixaPantallaAbout(this);
+            case SIGNUP:
+                gui.dibuixaPantallaSingUp(this);
+                break;
+            case SIGNIN:
+                gui.dibuixaPantallaSingIn(this);
+                break;
+            case DESCRIPCIONRESTAURANTE:
+                gui.dibuixaPantallaDescripcionDelRestaurante(this);
                 break;
         }
         updateCursor(this);
@@ -60,29 +66,45 @@ public class Main extends PApplet {
     }
 
     public void keyPressed(){
-            if(key== '0'){
+            if(key== '2'){
                 gui.pantallaActual= GUI.PANTALLA.INICIAL;
 
             }
-            else if(key== '1'){
+            else if(key== '3'){
                 gui.pantallaActual= GUI.PANTALLA.INICIALEXTENDIDA;
             }
-            else if(key== '2'){
-                gui.pantallaActual= GUI.PANTALLA.ABOUT;
+            else if(key== '0'){
+                gui.pantallaActual= GUI.PANTALLA.SIGNUP;
+            }
+            else if(key== '1'){
+                gui.pantallaActual= GUI.PANTALLA.SIGNIN;
+            }
+            else if(key== '4'){
+                gui.pantallaActual= GUI.PANTALLA.DESCRIPCIONRESTAURANTE;
             }
             gui.tfUsuari.keyPressed(key, keyCode);
+            gui.tfPassword.keyPressed(key, keyCode);
+            gui.tfNumHabitacion.keyPressed(key, keyCode);
+            gui.tfNomiApellidos.keyPressed(key, keyCode);
+
+
     }
 
     public void mousePressed(){
-        if(gui.b1.mouseOverButton(this)){
-            println("B1 has been pressed!!");
+        if(gui.bRegister.mouseOverButton(this) ){
+            println("BREGISTER has been pressed!!");
+        } else if (gui.bSignIn.mouseOverButton(this)) {
+            println("BSIGNIN has been pressed!!");
         }
         gui.tfUsuari.isPressed(this);
+        gui.tfPassword.isPressed(this);
+        gui.tfNumHabitacion.isPressed(this);
+        gui.tfNomiApellidos.isPressed(this);
 
     }
 
     public void updateCursor(PApplet p5){
-        if(gui.b1.updateHandCursor(p5)){
+        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5)){
             cursor(HAND);
         }
         else{
