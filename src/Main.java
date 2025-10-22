@@ -7,10 +7,10 @@ public class Main extends PApplet {
     Fonts f1;
     GUI gui;
     // Components de la GUI
-   // RoundButton rb1, rb2;
+    RoundButton rbPerfil;
 
     // Imatges de la GUI
-    PImage icona1, icona2; //vescotial Pshape i LoadShape
+    PImage iconaPerfil, icona2; //vescotial Pshape i LoadShape
 
     public static void main(String[] args) {
         PApplet.main("Main");
@@ -26,11 +26,6 @@ public class Main extends PApplet {
         c1= new Colors(this);
         f1= new Fonts(this);
         gui= new GUI(this);
-        this.setMedia(this);  // Carrega les imatges
-
-        // Inicialització de components (botons)
-        //rb1 = new RoundButton(this, icona1, 150, 500, 60);
-       // rb2 = new RoundButton(this, icona2, 150, 800, 60);
 
     }
 
@@ -56,9 +51,7 @@ public class Main extends PApplet {
                 break;
         }
         updateCursor(this);
-        // Dibuixa els botons
-        //rb1.display(this);
-        //rb2.display(this);
+
 
         // Actualitza forma del cursor
         updateCursor(this);
@@ -95,6 +88,11 @@ public class Main extends PApplet {
             println("BREGISTER has been pressed!!");
         } else if (gui.bSignIn.mouseOverButton(this)) {
             println("BSIGNIN has been pressed!!");
+        } else if (gui.bReservar.mouseOverButton(this)) {
+        println("BRESERVAR has been pressed!!");
+        } else if (gui.bMisReservas.mouseOverButton(this)) {
+            println("BMISRESERVAS has been pressed!!");
+
         }
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
@@ -104,7 +102,7 @@ public class Main extends PApplet {
     }
 
     public void updateCursor(PApplet p5){
-        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5)){
+        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5) || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)){
             cursor(HAND);
         }
         else{
@@ -119,9 +117,6 @@ public class Main extends PApplet {
 
         */
     }
-    public void setMedia(PApplet p5){
-       // icona1 = p5.loadImage("data/bulbOn.png"); //canviar imatges
-        //icona2 = p5.loadImage("data/bulbOff.png");
-    }
+
 }
 

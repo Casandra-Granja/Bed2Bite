@@ -12,6 +12,12 @@ public class Layout {
     //Dimensiones del restaurante
     public static float restaurantWidth = 450, resturantHeight = 330;
 
+    //Dimensiones restaurante en detalle
+    public static float restaurantDetalleWidth= 850, restaurantDetalleHeight= 600;
+
+    //Dimensiones restaurante en detalle
+    public static float infoDetalleWidth= 550;
+
     // Margenes entre los restaurantes
     public static float marginWBR= 50, marginHBR= 40;
 

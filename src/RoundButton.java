@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PShape;
 
 public class RoundButton {
         // Propietats d'un botó:
@@ -7,11 +8,11 @@ public class RoundButton {
         float x, y, r;  // Posició (x, y) i dimensions (radi)
         int fillColor, strokeColor; // Colors del boto (fill / stroke).
         int fillColorOver, fillColorDisabled;  // Colors del boto (actiu / inactiu).
-        PImage icona;  // Icona del botó
+        PShape icona;  // Icona del botó
         boolean enabled;  // Estat del botó (actiu / inactiu).
 
         // Constructor
-        public RoundButton(PApplet p5, PImage img, float x, float y, float r){
+        public RoundButton(PApplet p5, PShape img, float x, float y, float r){
             this.icona = img;
             this.x = x;
             this.y = y;
@@ -25,7 +26,7 @@ public class RoundButton {
 
         // Setters
 
-        public void setImage(PImage img){ this.icona = img; }
+        public void setImage(PShape img){ this.icona = img; }
 
         public void setEnabled(boolean b){
             this.enabled = b;
