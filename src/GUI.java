@@ -12,6 +12,7 @@ public class GUI {
     RoundButton rbPerfil;
     PImage iconaPerfil;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion;
+    Colors c;
 
 
 
@@ -21,7 +22,7 @@ public class GUI {
         creaTextField(p5);
         this.setMedia(p5);  // Carrega les imatges
         creaRoundButton(p5);
-
+        c = new Colors(p5);
 
 
     }
@@ -43,12 +44,12 @@ public class GUI {
 
     }
     public void creaRoundButton(PApplet p5){
-        rbPerfil= new RoundButton(p5, iconaPerfil,100,100,20);
+        rbPerfil= new RoundButton(p5, iconaPerfil,100,100,100);
     }
 
 
     public void setMedia(PApplet p5){
-        iconaPerfil = p5.loadImage("data/iconoPerfil.WEBP"); //canviar imatges
+        iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         //icona2 = p5.loadImage("data/bulbOff.png");
     }
 
@@ -59,7 +60,7 @@ public class GUI {
         p5.background(55);
         zonaPrincipal(p5);
         logo(p5);
-        p5.fill(255,50,20);
+        p5.fill(c.getBlueColor());
         p5.circle(p5.width/2, p5.height/2 -360, 200);
         p5.pushStyle();
         p5.textSize(25);
@@ -108,6 +109,7 @@ public class GUI {
         //iconaPerfil.display(p5); no funciona
         bStats.display(p5);
         bInicio.display(p5);
+        rbPerfil.display(p5);
     }
 
     public void dibuixaPantallaInicialExtendida(PApplet p5) {

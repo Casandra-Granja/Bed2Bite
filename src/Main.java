@@ -111,7 +111,9 @@ public class Main extends PApplet {
     }
 
     public void updateCursor(PApplet p5){
-        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5) || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)|| gui.bStats.updateHandCursor(p5)|| gui.bInicio.updateHandCursor(p5)){
+        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5)
+                || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)||
+                gui.bStats.updateHandCursor(p5)|| gui.bInicio.updateHandCursor(p5)){
             cursor(HAND);
         }
         else{
