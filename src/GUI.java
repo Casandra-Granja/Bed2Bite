@@ -28,12 +28,12 @@ public class GUI {
     }
 
     public void creaBotons(PApplet p5){
-        bRegister= new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80);
-        bSignIn= new Button(p5, "DON'T YOU HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80);
-        bReservar= new Button(p5, "RESERVAR", Layout.marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 25, 200,70);
-        bMisReservas= new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200,60);
-        bStats= new Button(p5, "STATS",Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200,60 );
-        bInicio= new Button(p5, "INICIO",Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200,60 );
+        bRegister= new Button(p5,"YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
+        bSignIn= new Button(p5, "DON'T YOU HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80,c);
+        bReservar= new Button(p5, "RESERVAR", Layout.marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 25, 200,70,c);
+        bMisReservas= new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200,60,c);
+        bStats= new Button(p5, "STATS",Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200,60 ,c);
+        bInicio= new Button(p5, "INICIO",Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200,60,c );
     }
     public void creaTextField(PApplet p5){
         //Pantalla sign in
@@ -106,7 +106,6 @@ public class GUI {
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
         bMisReservas.display(p5);
-        //iconaPerfil.display(p5); no funciona
         bStats.display(p5);
         bInicio.display(p5);
         rbPerfil.display(p5);
@@ -230,7 +229,7 @@ public class GUI {
     }
 
     public void restaurantInfo (PApplet p5){
-        p5. fill(100,50,10);
+        p5. fill(c.getGreenColor());
         p5. rect(Layout.marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR, Layout.marginInicialH +50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight);
         p5.pushStyle();
         p5.textAlign(p5.CENTER);
