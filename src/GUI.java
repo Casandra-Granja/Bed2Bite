@@ -4,13 +4,13 @@ import processing.core.PShape;
 
 public class GUI {
 
-    public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE};
+    public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS};
 
     public PANTALLA pantallaActual;
 
-    Button bRegister, bSignIn, bReservar, bMisReservas;
+    Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio;
     RoundButton rbPerfil;
-    PShape iconaPerfil;
+    PImage iconaPerfil;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion;
 
 
@@ -20,6 +20,7 @@ public class GUI {
         creaBotons(p5);
         creaTextField(p5);
         this.setMedia(p5);  // Carrega les imatges
+        creaRoundButton(p5);
 
 
 
@@ -30,6 +31,8 @@ public class GUI {
         bSignIn= new Button(p5, "DON'T YOU HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80);
         bReservar= new Button(p5, "RESERVAR", Layout.marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 25, 200,70);
         bMisReservas= new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200,60);
+        bStats= new Button(p5, "STATS",Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200,60 );
+        bInicio= new Button(p5, "INICIO",Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200,60 );
     }
     public void creaTextField(PApplet p5){
         //Pantalla sign in
@@ -39,12 +42,13 @@ public class GUI {
         tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80);
 
     }
-
     public void creaRoundButton(PApplet p5){
         rbPerfil= new RoundButton(p5, iconaPerfil,100,100,20);
     }
+
+
     public void setMedia(PApplet p5){
-        iconaPerfil = p5.loadShape("data/iconoPerfil.WEBP"); //canviar imatges
+        iconaPerfil = p5.loadImage("data/iconoPerfil.WEBP"); //canviar imatges
         //icona2 = p5.loadImage("data/bulbOff.png");
     }
 
@@ -101,6 +105,9 @@ public class GUI {
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
         bMisReservas.display(p5);
+        //iconaPerfil.display(p5); no funciona
+        bStats.display(p5);
+        bInicio.display(p5);
     }
 
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
@@ -115,6 +122,9 @@ public class GUI {
         restaurant(p5,Layout.restaurantWidth+ Layout.marginWBR,Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 7" );
         restaurant(p5, 2*(Layout.restaurantWidth + Layout.marginWBR), Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 8");
         bMisReservas.display(p5);
+        bStats.display(p5);
+        bInicio.display(p5);
+
 
     }
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
@@ -127,7 +137,31 @@ public class GUI {
         nombreRestaurante(p5);
         bReservar.display(p5);
         bMisReservas.display(p5);
+        bStats.display(p5);
+        bInicio.display(p5);
 
+
+
+    }
+
+    public void dibuixaPantallaStats(PApplet p5){
+        p5.background(55);
+        zonaPrincipal(p5);
+        taskBar(p5);
+        logo(p5);
+        bMisReservas.display(p5);
+        bStats.display(p5);
+        bInicio.display(p5);
+        dibuixaRanking(p5, 20, 20, 40, "TOP 1");
+        dibuixaRanking(p5, 60, 40, 40,"TOP 2");
+        dibuixaRanking(p5, 80, 60,  40, "TOP 2");
+        p5.circle(p5.width/2, p5.height/2 +300, 500);
+
+    }
+
+    public void dibuixaRanking(PApplet p5, float h, float x, float y, String titulo){
+        p5.rect( Layout.marginInicialW + 50, Layout.marginInicialH+y,Layout.topW, Layout.topH + h);
+        p5.text( titulo, x +Layout.marginInicialW + Layout.topW/2 + Layout.marginInicialW, y+ Layout.marginInicialH +Layout.topH /2);
     }
 
 

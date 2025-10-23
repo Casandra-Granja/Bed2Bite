@@ -49,6 +49,9 @@ public class Main extends PApplet {
             case DESCRIPCIONRESTAURANTE:
                 gui.dibuixaPantallaDescripcionDelRestaurante(this);
                 break;
+            case STATS:
+                gui.dibuixaPantallaStats(this);
+                break;
         }
         updateCursor(this);
 
@@ -59,21 +62,23 @@ public class Main extends PApplet {
     }
 
     public void keyPressed(){
-            if(key== '2'){
-                gui.pantallaActual= GUI.PANTALLA.INICIAL;
-
-            }
-            else if(key== '3'){
-                gui.pantallaActual= GUI.PANTALLA.INICIALEXTENDIDA;
-            }
-            else if(key== '0'){
+            if(key== '0'){
                 gui.pantallaActual= GUI.PANTALLA.SIGNUP;
             }
             else if(key== '1'){
                 gui.pantallaActual= GUI.PANTALLA.SIGNIN;
             }
+            else if(key== '2'){
+                gui.pantallaActual= GUI.PANTALLA.INICIAL;
+            }
+            else if(key== '3'){
+                gui.pantallaActual= GUI.PANTALLA.INICIALEXTENDIDA;
+            }
             else if(key== '4'){
                 gui.pantallaActual= GUI.PANTALLA.DESCRIPCIONRESTAURANTE;
+            }
+            else if(key== '5'){
+                gui.pantallaActual= GUI.PANTALLA.STATS;
             }
             gui.tfUsuari.keyPressed(key, keyCode);
             gui.tfPassword.keyPressed(key, keyCode);
@@ -92,8 +97,12 @@ public class Main extends PApplet {
         println("BRESERVAR has been pressed!!");
         } else if (gui.bMisReservas.mouseOverButton(this)) {
             println("BMISRESERVAS has been pressed!!");
-
+        } else if (gui.bStats.mouseOverButton(this)) {
+        println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            println("BSTATS has been pressed!!");
         }
+
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
         gui.tfNumHabitacion.isPressed(this);
@@ -102,7 +111,7 @@ public class Main extends PApplet {
     }
 
     public void updateCursor(PApplet p5){
-        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5) || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)){
+        if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5) || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)|| gui.bStats.updateHandCursor(p5)|| gui.bInicio.updateHandCursor(p5)){
             cursor(HAND);
         }
         else{
