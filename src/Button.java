@@ -9,7 +9,6 @@ public class Button {
     int fillColorOver, fillColorDisabled;  // Colors del boto (actiu / inactiu).
     String textBoto;  // Text
     boolean enabled;  // Estat del botó (actiu / inactiu).
-    Colors colorsBotons;
 
     // Constructor
     public Button(PApplet p5, String text, float x, float y, float w, float h, Colors colorsBotons){
@@ -18,9 +17,8 @@ public class Button {
         this.y = y;
         this.w = w;
         this.h = h;
-        this.colorsBotons= colorsBotons;
-        this.enabled = true;
         setColors(colorsBotons);
+        this.enabled = true;
     }
 
     // Setters
@@ -32,10 +30,12 @@ public class Button {
     public void setTextBoto(String t){ this.textBoto = t; }
 
     public void setColors(Colors colorsBotons){
-        this.fillColor =  colorsBotons.getBlackColor();
-        this.strokeColor = colorsBotons.getBlueColor();
-        this.fillColorOver = colorsBotons.getYellowColor();
+        this.fillColor =  colorsBotons.getBotonColor();
+        this.strokeColor = colorsBotons.getBlackColor();
+        this.fillColorOver = colorsBotons.getBotonOverColor();
         this.fillColorDisabled = colorsBotons.getRedColor();
+
+
     }
 
     // Getters

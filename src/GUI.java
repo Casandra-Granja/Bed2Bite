@@ -9,8 +9,8 @@ public class GUI {
     public PANTALLA pantallaActual;
 
     Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio;
-    RoundButton rbPerfil;
-    PImage iconaPerfil;
+    //RoundButton rbPerfil;
+    PImage iconaPerfil, logo;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion;
     Colors c;
 
@@ -18,16 +18,17 @@ public class GUI {
 
     public GUI(PApplet p5){
         pantallaActual = PANTALLA.SIGNUP;
-        creaBotons(p5);
+        c = new Colors(p5);
+        creaBotons(p5, c);
         creaTextField(p5);
         this.setMedia(p5);  // Carrega les imatges
         creaRoundButton(p5);
-        c = new Colors(p5);
+
 
 
     }
 
-    public void creaBotons(PApplet p5){
+    public void creaBotons(PApplet p5, Colors c){
         bRegister= new Button(p5,"YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bSignIn= new Button(p5, "DON'T YOU HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80,c);
         bReservar= new Button(p5, "RESERVAR", Layout.marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 25, 200,70,c);
@@ -44,13 +45,14 @@ public class GUI {
 
     }
     public void creaRoundButton(PApplet p5){
-        rbPerfil= new RoundButton(p5, iconaPerfil,100,100,100);
+        //rbPerfil= new RoundButton(p5, iconaPerfil,100,100,100);
     }
 
 
     public void setMedia(PApplet p5){
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         //icona2 = p5.loadImage("data/bulbOff.png");
+        logo= p5.loadImage("data/B2B-Logo.png");
     }
 
 
@@ -61,6 +63,7 @@ public class GUI {
         zonaPrincipal(p5);
         logo(p5);
         p5.fill(c.getBlueColor());
+        p5.fill(100,40,50);
         p5.circle(p5.width/2, p5.height/2 -360, 200);
         p5.pushStyle();
         p5.textSize(25);
@@ -108,7 +111,7 @@ public class GUI {
         bMisReservas.display(p5);
         bStats.display(p5);
         bInicio.display(p5);
-        rbPerfil.display(p5);
+        //rbPerfil.display(p5);
     }
 
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
@@ -182,13 +185,16 @@ public class GUI {
     }
 
     public void logo(PApplet p5){
-        p5. fill(200,50,100);
+       /* p5. fill(200,50,100);r
         p5. rect(Layout.marginW, Layout.marginH, Layout.logoWidth, Layout.logoHeight);
         p5.pushStyle();
         p5.fill(0);
         p5.textAlign(p5.CENTER);
         p5.text("LOGO", Layout.marginW + Layout.logoWidth/2, Layout.marginH + Layout.logoHeight/2);
         p5.popStyle();
+
+        */
+        p5.image(logo, Layout.marginW, Layout.marginH, Layout.logoWidth, Layout.logoHeight);
 
     }
 
