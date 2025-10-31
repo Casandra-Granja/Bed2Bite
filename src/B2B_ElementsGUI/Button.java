@@ -1,3 +1,6 @@
+package B2B_ElementsGUI;
+
+import B2B_Color.Colors;
 import processing.core.PApplet;
 
 public class Button {
@@ -5,8 +8,8 @@ public class Button {
     // Propietats d'un botó:
 
     float x, y, w, h;  // Posició (x, y) i dimensions (w, h)
-    int fillColor, strokeColor; // Colors del boto (fill / stroke).
-    int fillColorOver, fillColorDisabled;  // Colors del boto (actiu / inactiu).
+    int fillColor, strokeColor; // B2B_Color.Colors del boto (fill / stroke).
+    int fillColorOver, fillColorDisabled;  // B2B_Color.Colors del boto (actiu / inactiu).
     String textBoto;  // Text
     boolean enabled;  // Estat del botó (actiu / inactiu).
 

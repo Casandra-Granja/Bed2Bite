@@ -1,3 +1,5 @@
+package B2B_Medidas;
+
 public class Mides {
 
     //staic no fa falta crear un objecte de la clase mides

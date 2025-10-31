@@ -1,3 +1,5 @@
+package B2B_Color;
+
 import processing.core.PApplet;
 
 public class Colors {
@@ -72,7 +74,7 @@ public class Colors {
         p5.pushStyle();
         //Llegenda
         p5.fill(0); p5.textAlign(p5.LEFT); p5.textSize(36);
-        p5.text("Colors:", x, y-10);
+        p5.text("B2B_Color.Colors:", x, y-10);
 
         // Paleta de colors
         float wc = w / getNumColors();

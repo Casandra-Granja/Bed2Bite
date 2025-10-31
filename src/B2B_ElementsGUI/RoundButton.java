@@ -1,13 +1,14 @@
+package B2B_ElementsGUI;
+
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.core.PShape;
 
 public class RoundButton {
         // Propietats d'un botó:
 
         float x, y, r;  // Posició (x, y) i dimensions (radi)
-        int fillColor, strokeColor; // Colors del boto (fill / stroke).
-        int fillColorOver, fillColorDisabled;  // Colors del boto (actiu / inactiu).
+        int fillColor, strokeColor; // B2B_Color.Colors del boto (fill / stroke).
+        int fillColorOver, fillColorDisabled;  // B2B_Color.Colors del boto (actiu / inactiu).
         PImage icona;  // Icona del botó
         boolean enabled;  // Estat del botó (actiu / inactiu).
 
@@ -52,11 +53,11 @@ public class RoundButton {
                 p5.fill(fillColor);          // Color actiu però ratolí fora
             }
             p5.stroke(strokeColor); p5.strokeWeight(2);              //Color i gruixa del contorn
-            p5.ellipse(this.x, this.y, 2*this.r, 2*this.r);    // Cercle del botó
+            p5.circle(this.x, this.y, 2*this.r);    // Cercle del botó
 
             // Imatge del boto
             p5.imageMode(p5.CENTER);
-           p5.image(this.icona, this.x, this.y, 2*this.r, 2*this.r);
+           p5.image(this.icona, this.x, this.y, 2f*this.r, 2f*this.r);
             p5.popStyle();
         }
 

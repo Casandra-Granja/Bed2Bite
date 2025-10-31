@@ -1,3 +1,6 @@
+import B2B_Color.Colors;
+import B2B_ElementsGUI.RoundButton;
+import B2B_Fonts.Fonts;
 import processing.core.PApplet;
 import processing.core.PImage;
 

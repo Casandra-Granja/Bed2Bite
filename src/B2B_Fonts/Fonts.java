@@ -1,3 +1,6 @@
+package B2B_Fonts;
+
+import B2B_Medidas.Mides;
 import processing.core.PApplet;
 import processing.core.PFont;
 

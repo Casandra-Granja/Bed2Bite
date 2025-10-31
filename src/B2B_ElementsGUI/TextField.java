@@ -1,3 +1,5 @@
+package B2B_ElementsGUI;
+
 import processing.core.PApplet;
 
 import static processing.core.PConstants.BACKSPACE;
@@ -7,7 +9,7 @@ public class TextField {
     // Propietats del camp de text
     int x, y, h, w;
 
-    // Colors
+    // B2B_Color.Colors
     int bgColor, fgColor, selectedColor, borderColor;
     int borderWeight = 1;
 
