@@ -92,8 +92,10 @@ public class Main extends PApplet {
     }
 
     public void mousePressed(){
+        //Button
         if(gui.bRegister.mouseOverButton(this) ){
             println("BREGISTER has been pressed!!");
+            gui.pantallaActual= GUI.PANTALLA.INICIAL;
         } else if (gui.bSignIn.mouseOverButton(this)) {
             println("BSIGNIN has been pressed!!");
         } else if (gui.bReservar.mouseOverButton(this)) {
@@ -101,10 +103,19 @@ public class Main extends PApplet {
         } else if (gui.bMisReservas.mouseOverButton(this)) {
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
-        println("BSTATS has been pressed!!");
-        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual= GUI.PANTALLA.STATS;
             println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual= GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
         }
+
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            println("RBPERFIL has been pressed!!");
+        }
+
+        //Text Field
 
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
@@ -114,6 +125,7 @@ public class Main extends PApplet {
     }
 
     public void updateCursor(PApplet p5){
+        //Button
         if(gui.bRegister.updateHandCursor(p5) ||gui.bSignIn.updateHandCursor(p5)
                 || gui.bReservar.updateHandCursor(p5)|| gui.bMisReservas.updateHandCursor(p5)||
                 gui.bStats.updateHandCursor(p5)|| gui.bInicio.updateHandCursor(p5)){
@@ -122,14 +134,14 @@ public class Main extends PApplet {
         else{
             cursor(ARROW);
         }
-       /* if(rb1.mouseOverButton(p5) || rb2.mouseOverButton(p5)){
+        //Round Button
+       if(gui.rbPerfil.updateHandCursor(p5)){
             cursor(HAND);
         }
         else {
             cursor(ARROW);
         }
 
-        */
     }
 
 }

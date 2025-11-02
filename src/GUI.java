@@ -2,9 +2,12 @@ import B2B_Color.Colors;
 import B2B_ElementsGUI.Button;
 import B2B_ElementsGUI.TextField;
 import B2B_ElementsGUI.RoundButton;
+import B2B_Fonts.Fonts;
 import B2B_Medidas.Layout;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
+
 
 public class GUI {
 
@@ -17,6 +20,7 @@ public class GUI {
     PImage iconaPerfil, logo, logoLong;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion;
     Colors c;
+    Fonts f;
 
 
 
@@ -27,14 +31,13 @@ public class GUI {
         creaTextField(p5);
         this.setMedia(p5);  // Carrega les imatges
         creaRoundButton(p5);
-
-
+        f = new Fonts(p5);
 
     }
 
     public void creaBotons(PApplet p5, Colors c){
         bRegister= new Button(p5,"YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
-        bSignIn= new Button(p5, "DON'T YOU HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80,c);
+        bSignIn= new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80,c);
         bReservar= new Button(p5, "RESERVAR", Layout.marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 25, 200,70,c);
         bMisReservas= new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200,60,c);
         bStats= new Button(p5, "STATS",Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200,60 ,c);
@@ -57,7 +60,7 @@ public class GUI {
     }
 
     public void creaRoundButton(PApplet p5){
-        rbPerfil= new RoundButton(p5, iconaPerfil,100,100,100);
+        rbPerfil= new RoundButton(p5, iconaPerfil,p5.width-Layout.marginW-70,100,50);
     }
 
 
@@ -100,75 +103,75 @@ public class GUI {
     public void dibuixaPantallaInicial(PApplet p5) {
         // Dibuixa el fons (gris)
         p5.background(55);    // Color de fons
-        zonaPrincipal(p5);
-        //Elements de la pantalla
-        taskBar(p5);
-        logo(p5);
+        elementosEsenciales(p5);
         restaurantsMain(p5);
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
         restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
-        bMisReservas.display(p5);
-        bStats.display(p5);
-        bInicio.display(p5);
-        rbPerfil.display(p5);
     }
 
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
         p5.background(55);
-        zonaPrincipal(p5);
-        taskBar(p5);
-        logo(p5);
+        elementosEsenciales(p5);
         restaurant(p5,0,0, "RESTAURANT 3");
         restaurant(p5,Layout.restaurantWidth+ Layout.marginWBR, 0, "RESTAURANT 4");
         restaurant(p5, 2*(Layout.restaurantWidth + Layout.marginWBR),0, "RESTAURANT 5");
         restaurant(p5,0, Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 6");
         restaurant(p5,Layout.restaurantWidth+ Layout.marginWBR,Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 7" );
         restaurant(p5, 2*(Layout.restaurantWidth + Layout.marginWBR), Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 8");
-        bMisReservas.display(p5);
-        bStats.display(p5);
-        bInicio.display(p5);
+
 
 
     }
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
         p5.background(55);
-        zonaPrincipal(p5);
-        taskBar(p5);
-        logo(p5);
+        elementosEsenciales(p5);
         restaurantDetalle(p5);
         restaurantInfo(p5);
         nombreRestaurante(p5);
         bReservar.display(p5);
-        bMisReservas.display(p5);
-        bStats.display(p5);
-        bInicio.display(p5);
+
+    }
+    public void dibuixaRanking(PApplet p5, float h, float y, String titulo){
+        p5.pushStyle();
+        p5.rect( Layout.marginInicialW + 50, Layout.marginInicialH+y, Layout.topW, Layout.topH + h);
+        p5.fill(c.getBlackColor()); p5.textSize(50); p5.textAlign(p5.CENTER);
+        p5.line(Layout.topW+Layout.marginInicialW+70, Layout.marginInicialH+y+ Layout.topH+h/2, Layout.topW+Layout.marginInicialW+ 450, Layout.marginInicialH+y+ Layout.topH+h/2);
+        p5.text( titulo, +Layout.marginInicialW + Layout.topW/2 + Layout.marginInicialW, y+ Layout.marginInicialH +Layout.topH /2);
+        p5.popStyle();
+
     }
 
     public void dibuixaPantallaStats(PApplet p5){
         p5.background(55);
+        p5.pushStyle();
+        elementosEsenciales(p5);
+        p5.pushStyle();
+        p5.fill(c.getYellowColor());
+        dibuixaRanking(p5, 70, 50,  "#1");
+        p5.popStyle();
+        dibuixaRanking(p5, 70, 250, "#2");
+        dibuixaRanking(p5, 70, 450,   "#3");
+        p5.circle(p5.width/2+370, p5.height/2+70, 500);
+        p5.popStyle();
+
+
+
+    }
+
+
+
+
+
+    public void elementosEsenciales(PApplet p5){
         zonaPrincipal(p5);
         taskBar(p5);
         logo(p5);
         bMisReservas.display(p5);
         bStats.display(p5);
         bInicio.display(p5);
-        dibuixaRanking(p5, 20, 20, 40, "TOP 1");
-        dibuixaRanking(p5, 60, 40, 40,"TOP 2");
-        dibuixaRanking(p5, 80, 60,  40, "TOP 2");
-        p5.circle(p5.width/2, p5.height/2 +300, 500);
+        rbPerfil.display(p5);
 
     }
-
-    public void dibuixaRanking(PApplet p5, float h, float x, float y, String titulo){
-        p5.pushStyle();
-        p5.rect( Layout.marginInicialW + 50, Layout.marginInicialH+y,Layout.topW, Layout.topH + h);
-        p5.text( titulo, x +Layout.marginInicialW + Layout.topW/2 + Layout.marginInicialW, y+ Layout.marginInicialH +Layout.topH /2);
-    }
-
-
-
-
-
 
     public void taskBar(PApplet p5){
         p5.pushStyle();

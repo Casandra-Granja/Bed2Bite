@@ -24,7 +24,7 @@ public class Fonts {
         return this.fonts.length;
     }
 
-    PFont getFirstFont(){
+     PFont getFirstFont(){
         return this.fonts[0];
     }
 
