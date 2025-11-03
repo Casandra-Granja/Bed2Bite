@@ -18,10 +18,10 @@ public class Layout {
     public static float topW= 200, topH=80;
 
     //Dimensiones restaurante en detalle
-    public static float restaurantDetalleWidth= 850, restaurantDetalleHeight= 600;
+    public static float restaurantDetalleWidth= 810, restaurantDetalleHeight= 600;
 
     //Dimensiones restaurante en detalle
-    public static float infoDetalleWidth= 550;
+    public static float infoDetalleWidth= 590;
 
     // Margenes entre los restaurantes
     public static float marginWBR= 50, marginHBR= 40;
@@ -31,5 +31,7 @@ public class Layout {
 
     //Margenes iniciales, margenes + margen nuevo (por si decido quitar el margen que no me cambie)
     public static float marginInicialW=  23 + marginW, marginInicialH= 65 +marginH + logoHeight;
+
+    public static float imagenMisReservasW= 600, imagenMisReservasH= 100 ;
 
 }
