@@ -167,25 +167,27 @@ public class Main extends PApplet {
 
     public void updateCursor(PApplet p5) {
         //Button
+        boolean cursorHAND = false;
         if (gui.bRegister.updateHandCursor(p5) || gui.bSignIn.updateHandCursor(p5)
                 || gui.bReservar.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
                 gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bModificar.updateHandCursor(p5)|| gui.bEleminar.updateHandCursor(p5)) {
-            cursor(HAND);
-        } else {
-            cursor(ARROW);
+            cursorHAND = true;
         }
         //Round Button
         if (gui.rbPerfil.updateHandCursor(p5)) {
-            cursor(HAND);
-        } else {
-            cursor(ARROW);
+            cursorHAND = true;
         }
         //Radio Button
         if (gui.radbDesayuno.onMouseOver(this)|| gui.radbComida.onMouseOver(this)||gui.radbCena.onMouseOver(this)|| gui.radbhora1.onMouseOver(this)||
                 gui.radbhora2.onMouseOver(this)||gui.radbhora3.onMouseOver(this)|| gui.radbhora4.onMouseOver(this)||gui.radbhora5.onMouseOver(this)||
                 gui.radbhora6.onMouseOver(this)||gui.radbhora7.onMouseOver(this)||gui.radbhora8.onMouseOver(this)||gui.radbhora9.onMouseOver(this)) {
+            cursorHAND = true;
+        }
+
+        if(cursorHAND){
             cursor(HAND);
-        } else {
+        }
+        else {
             cursor(ARROW);
         }
 

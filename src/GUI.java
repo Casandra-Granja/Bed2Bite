@@ -59,11 +59,11 @@ public class GUI {
     }
     public void creaTextField(PApplet p5){
         //Pantalla sign in
-        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80);
-        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80);
-        tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80);
-        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80);
-        tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40);
+        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, c);
+        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, c);
+        tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, c);
+        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, c);
+        tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, c);
 
     }
     public void creaRadioButton(PApplet p5){

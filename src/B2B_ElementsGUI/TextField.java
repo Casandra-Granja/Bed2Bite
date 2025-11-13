@@ -1,5 +1,6 @@
 package B2B_ElementsGUI;
 
+import B2B_Color.Colors;
 import processing.core.PApplet;
 
 import static processing.core.PConstants.BACKSPACE;
@@ -13,6 +14,8 @@ public class TextField {
     int bgColor, fgColor, selectedColor, borderColor;
     int borderWeight = 1;
 
+    int lengthText;
+
     // Text del camp
     public String text = "";
     int textSize = 24;
@@ -20,13 +23,14 @@ public class TextField {
     boolean selected = false;
 
     // Constructor
-    public TextField(PApplet p5, int x, int y, int w, int h) { //Pasar un objecte de la classe colors per afegir els meus colors i afegir un seter al constructor
+    public TextField(PApplet p5, int x, int y, int w, int h, int lengthText, Colors c) { //Pasar un objecte de la classe colors per afegir els meus colors i afegir un seter al constructor
         this.x = x; this.y = y; this.w = w; this.h = h;
         this.bgColor = p5.color(140, 140, 140);
         this.fgColor = p5.color(0, 0, 0);
-        this.selectedColor = p5.color(190, 190, 60);
+        this.selectedColor = c.getBotonOverColor();
         this.borderColor = p5.color(30, 30, 30);
         this.borderWeight = 1;
+        this.lengthText=lengthText;
     }
 
     // Dibuixa el Camp de Text
@@ -72,7 +76,7 @@ public class TextField {
 
     // Afegeix la lletra c al final del text
     public void addText(char c) {
-        if (this.text.length() + 1 < w) {
+        if (this.text.length() + 1 < lengthText) {
             this.text += c;
         }
     }
