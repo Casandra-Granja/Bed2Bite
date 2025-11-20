@@ -178,11 +178,13 @@ public class Main extends PApplet {
             cursorHAND = true;
         }
         //Radio Button
-        if (gui.radbDesayuno.onMouseOver(this)|| gui.radbComida.onMouseOver(this)||gui.radbCena.onMouseOver(this)|| gui.radbhora1.onMouseOver(this)||
+        /*if (gui.radbDesayuno.onMouseOver(this)|| gui.radbComida.onMouseOver(this)||gui.radbCena.onMouseOver(this)|| gui.radbhora1.onMouseOver(this)||
                 gui.radbhora2.onMouseOver(this)||gui.radbhora3.onMouseOver(this)|| gui.radbhora4.onMouseOver(this)||gui.radbhora5.onMouseOver(this)||
                 gui.radbhora6.onMouseOver(this)||gui.radbhora7.onMouseOver(this)||gui.radbhora8.onMouseOver(this)||gui.radbhora9.onMouseOver(this)) {
             cursorHAND = true;
         }
+
+         */
 
         if(cursorHAND){
             cursor(HAND);

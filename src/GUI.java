@@ -26,6 +26,11 @@ public class GUI {
     CheckBox cB;
     MyCard MyCard;
 
+    String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
+    String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
+    String[] horasCena ={"19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"};
+    RadioButton[] radioHoras;
+
 
 
     public GUI(PApplet p5){
@@ -79,15 +84,39 @@ public class GUI {
         radbgTipoReserva = new RadioButtonGroup(3);
         radbgTipoReserva.setRadioButtons(radbDesayuno, radbComida, radbCena);   // Format pels 3 radio buttons
         radbgTipoReserva.setSelected(2);
-        radbhora1= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+120),(int)Layout.marginInicialH+400-30,7);
-        radbhora2= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+120),(int)Layout.marginInicialH+500-30,7);
-        radbhora3= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+120),(int)Layout.marginInicialH+600-30,7);
-        radbhora4= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+ Layout.infoDetalleWidth/2),(int)Layout.marginInicialH+400-30,7);
-        radbhora5= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+ Layout.infoDetalleWidth/2),(int)Layout.marginInicialH+500-30,7);
-        radbhora6= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + Layout.infoDetalleWidth/2),(int)Layout.marginInicialH+600-30,7);
-        radbhora7= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+470),(int)Layout.marginInicialH+400-30,7);
-        radbhora8= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+470),(int)Layout.marginInicialH+500-30,7);
-        radbhora9= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+470),(int)Layout.marginInicialH+600-30,7);
+        if(radbDesayuno.isChecked()) {
+            radioHoras = new RadioButton[horasDesayuno.length];
+            for (int i = 0; i < radioHoras.length; i++) {
+                int c = i % 3;
+                int f = i / 3;
+                int espaiH = 200;
+                int espaiV = 100;
+
+                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+            }
+        }
+        else if (radbComida.isChecked()){
+            radioHoras = new RadioButton[horasComida.length];
+            for (int i = 0; i < radioHoras.length; i++) {
+                int c = i % 3;
+                int f = i / 3;
+                int espaiH = 200;
+                int espaiV = 100;
+
+                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+            }
+        } else if (radbCena.isChecked()){
+            radioHoras = new RadioButton[horasCena.length];
+            for (int i = 0; i < radioHoras.length; i++) {
+                int c = i % 3;
+                int f = i / 3;
+                int espaiH = 200;
+                int espaiV = 100;
+
+                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+            }
+        }
+
         radbgHorarioReserva=new RadioButtonGroup(9);
         radbgHorarioReserva.setRadioButtons(radbhora1, radbhora2, radbhora3, radbhora4,radbhora5, radbhora6, radbhora7,radbhora8, radbhora9);
         radbgHorarioReserva.setSelected(2);
@@ -210,16 +239,38 @@ public class GUI {
         radbgTipoReserva.display(p5);
         p5.textSize(25);
         p5.text("HORA DE LA RESERVA", marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR,Layout.marginInicialH+300);
+
+        for(int i=0; i<radioHoras.length; i++){
+
+            radioHoras[i].display(p5);
+        }
         p5.textSize(22);
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+70,Layout.marginInicialH+400-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+70,Layout.marginInicialH+500-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+70,Layout.marginInicialH+600-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+245,Layout.marginInicialH+400-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+245,Layout.marginInicialH+500-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+245,Layout.marginInicialH+600-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+420,Layout.marginInicialH+400-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+420,Layout.marginInicialH+500-23 );
-        p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+420,Layout.marginInicialH+600-23 );
+        if(radbDesayuno.isChecked()) {
+            for (int i = 0; i < horasDesayuno.length; i++) {
+                int c = i % 3;
+                int f = i / 3;
+                int espaiH = 200;
+                int espaiV = 100;
+                p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+            }
+        }else if(radbComida.isChecked()){
+            for (int i = 0; i < horasComida.length; i++) {
+                int c = i % 3;
+                int f = i / 3;
+                int espaiH = 200;
+                int espaiV = 100;
+                p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+            }
+        }else if(radbCena.isChecked()){
+        for (int i = 0; i < horasCena.length; i++) {
+            int c = i % 3;
+            int f = i / 3;
+            int espaiH = 200;
+            int espaiV = 100;
+            p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+        }
+    }
+
         radbgHorarioReserva.display(p5);
         bReservar.display(p5);
         calendari.display(p5);
