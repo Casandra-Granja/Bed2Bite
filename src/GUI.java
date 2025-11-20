@@ -22,8 +22,9 @@ public class GUI {
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
     Colors c;
     Fonts f;
-    Slider s;
     Calendari calendari;
+    CheckBox cB;
+    MyCard MyCard;
 
 
 
@@ -41,6 +42,7 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, c, 300);
         creaBotonsModificarIEliminar(p5, c, 400);
         calendari= new Calendari((int)marginInicialW, (int)marginInicialH, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
+        cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
 
 
     }
@@ -124,7 +126,6 @@ public class GUI {
         tfNomiApellidos.display(p5);
         p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 - 60 );
         tfNumHabitacion.display(p5);
-        s.display(p5);
         p5.popStyle();
 
     }
@@ -231,6 +232,7 @@ public class GUI {
         imagenMisReservas(p5,150);
         imagenMisReservas(p5,300);
         imagenMisReservas(p5,450);
+        cB.display(p5);
 
 
     }
