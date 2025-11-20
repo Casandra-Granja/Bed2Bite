@@ -22,6 +22,8 @@ public class GUI {
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
     Colors c;
     Fonts f;
+    Slider s;
+    Calendari calendari;
 
 
 
@@ -38,6 +40,8 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, c, 200);
         creaBotonsModificarIEliminar(p5, c, 300);
         creaBotonsModificarIEliminar(p5, c, 400);
+        calendari= new Calendari((int)marginInicialW, (int)marginInicialH, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
+
 
     }
 
@@ -120,6 +124,7 @@ public class GUI {
         tfNomiApellidos.display(p5);
         p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 - 60 );
         tfNumHabitacion.display(p5);
+        s.display(p5);
         p5.popStyle();
 
     }
@@ -216,6 +221,7 @@ public class GUI {
         p5.text("0:00", marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+420,Layout.marginInicialH+600-23 );
         radbgHorarioReserva.display(p5);
         bReservar.display(p5);
+        calendari.display(p5);
         p5.popStyle();
     }
 // 8
