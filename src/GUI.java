@@ -16,8 +16,8 @@ public class GUI {
 
     Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio, bModificar, bEleminar, bCerrarSesion, bModificarCorreo;
     RoundButton rbPerfil;
-    RadioButton radbDesayuno, radbComida, radbCena, radbhora1, radbhora2,radbhora3,radbhora4, radbhora5, radbhora6, radbhora7, radbhora8, radbhora9;
-    RadioButtonGroup radbgTipoReserva, radbgHorarioReserva;
+    RadioButton radbDesayuno, radbComida, radbCena;
+    RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
     PImage iconaPerfil, logo, logoLong;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
     Colors c;
@@ -29,7 +29,9 @@ public class GUI {
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
     String[] horasCena ={"19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"};
-    RadioButton[] radioHoras;
+    RadioButton[] radioHorasDesayno;
+    RadioButton[] radioHorasComida;
+    RadioButton[] radioHorasCena;
 
 
 
@@ -46,7 +48,7 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, c, 200);
         creaBotonsModificarIEliminar(p5, c, 300);
         creaBotonsModificarIEliminar(p5, c, 400);
-        calendari= new Calendari((int)marginInicialW, (int)marginInicialH, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
+        calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
         cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
 
 
@@ -63,6 +65,7 @@ public class GUI {
         bModificarCorreo= new Button(p5, "MODIFICAR CORREO",p5.width/2 -255, p5.height/2 +100 , 510, 80 , c);
 
     }
+
     public void creaBotonsModificarIEliminar (PApplet p5, Colors c, float y){
         bModificar= new Button(p5, "MODIFICAR", marginInicialW+ 50 + imagenMisReservasW+ 520,marginInicialH+y, 100,50, c  );
         bEleminar= new Button(p5, "ELIMINAR",marginInicialW+ 50 + imagenMisReservasW+ 650,marginInicialH+y, 100,50, c  );
@@ -77,50 +80,51 @@ public class GUI {
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, c);
 
     }
+
     public void creaRadioButton(PApplet p5){
         radbDesayuno= new RadioButton(p5,  (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+40),(int)Layout.marginInicialH+220,10);
         radbComida= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+ Layout.infoDetalleWidth/2-20),(int)Layout.marginInicialH+220,10);
         radbCena= new RadioButton(p5,  (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+470),(int)Layout.marginInicialH+220,10);
         radbgTipoReserva = new RadioButtonGroup(3);
         radbgTipoReserva.setRadioButtons(radbDesayuno, radbComida, radbCena);   // Format pels 3 radio buttons
-        radbgTipoReserva.setSelected(2);
-        if(radbDesayuno.isChecked()) {
-            radioHoras = new RadioButton[horasDesayuno.length];
-            for (int i = 0; i < radioHoras.length; i++) {
+        radbgTipoReserva.setSelected(0);
+
+        radioHorasDesayno = new RadioButton[horasDesayuno.length];
+            for (int i = 0; i < radioHorasDesayno.length; i++) {
                 int c = i % 3;
                 int f = i / 3;
                 int espaiH = 200;
                 int espaiV = 100;
 
-                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+                radioHorasDesayno[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
             }
-        }
-        else if (radbComida.isChecked()){
-            radioHoras = new RadioButton[horasComida.length];
-            for (int i = 0; i < radioHoras.length; i++) {
+            radioHorasComida = new RadioButton[horasComida.length];
+            for (int i = 0; i < radioHorasComida.length; i++) {
                 int c = i % 3;
                 int f = i / 3;
                 int espaiH = 200;
                 int espaiV = 100;
 
-                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+                radioHorasComida[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
             }
-        } else if (radbCena.isChecked()){
-            radioHoras = new RadioButton[horasCena.length];
-            for (int i = 0; i < radioHoras.length; i++) {
+            radioHorasCena = new RadioButton[horasCena.length];
+            for (int i = 0; i < radioHorasCena.length; i++) {
                 int c = i % 3;
                 int f = i / 3;
                 int espaiH = 200;
                 int espaiV = 100;
 
-                radioHoras[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
+                radioHorasCena[i] = new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR + 130) + espaiH * c, (int) Layout.marginInicialH + 370 + espaiV * f, 7);
             }
-        }
 
-        radbgHorarioReserva=new RadioButtonGroup(9);
-        radbgHorarioReserva.setRadioButtons(radbhora1, radbhora2, radbhora3, radbhora4,radbhora5, radbhora6, radbhora7,radbhora8, radbhora9);
-        radbgHorarioReserva.setSelected(2);
+            radbgHorarioReservaDesayuno= new RadioButtonGroup(9);
+            radbgHorarioReservaDesayuno.setRadioButtons(radioHorasDesayno);
 
+            radbgHorarioReservaComida= new RadioButtonGroup(8);
+            radbgHorarioReservaComida.setRadioButtons(radioHorasComida);
+
+            radbgHorarioReservaCena= new RadioButtonGroup(9);
+            radbgHorarioReservaCena.setRadioButtons(radioHorasCena);
 
     }
 
@@ -224,6 +228,7 @@ public class GUI {
         elementosEsenciales(p5);
         //Calendario
         p5. rect(marginInicialW , Layout.marginInicialH +50, Layout.restaurantDetalleWidth, Layout.restaurantDetalleHeight);
+
         //Info
         p5. rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR, Layout.marginInicialH +50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight);
         p5.pushStyle();
@@ -239,12 +244,8 @@ public class GUI {
         radbgTipoReserva.display(p5);
         p5.textSize(25);
         p5.text("HORA DE LA RESERVA", marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR,Layout.marginInicialH+300);
-
-        for(int i=0; i<radioHoras.length; i++){
-
-            radioHoras[i].display(p5);
-        }
         p5.textSize(22);
+
         if(radbDesayuno.isChecked()) {
             for (int i = 0; i < horasDesayuno.length; i++) {
                 int c = i % 3;
@@ -252,6 +253,7 @@ public class GUI {
                 int espaiH = 200;
                 int espaiV = 100;
                 p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+                radioHorasDesayno[i].display(p5);
             }
         }else if(radbComida.isChecked()){
             for (int i = 0; i < horasComida.length; i++) {
@@ -259,7 +261,9 @@ public class GUI {
                 int f = i / 3;
                 int espaiH = 200;
                 int espaiV = 100;
-                p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+                p5.text(horasComida[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+                radioHorasComida[i].display(p5);
+
             }
         }else if(radbCena.isChecked()){
         for (int i = 0; i < horasCena.length; i++) {
@@ -267,16 +271,16 @@ public class GUI {
             int f = i / 3;
             int espaiH = 200;
             int espaiV = 100;
-            p5.text(horasDesayuno[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+            p5.text(horasCena[i], marginInicialW + restaurantDetalleWidth + marginWBR + 70 + espaiH * c, marginInicialH + 377 + espaiV * f);
+            radioHorasCena[i].display(p5);
+
         }
     }
-
-        radbgHorarioReserva.display(p5);
         bReservar.display(p5);
         calendari.display(p5);
         p5.popStyle();
     }
-// 8
+    // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
         imagenMisReservas(p5,0);
@@ -287,6 +291,7 @@ public class GUI {
 
 
     }
+
     public void dibuixaPantallaUsuario(PApplet p5){
         elementosEsenciales(p5);
         p5.circle(p5.width/2, p5.height/2 -100, 300);
@@ -313,6 +318,7 @@ public class GUI {
         rbPerfil.display(p5);
 
     }
+
     public void imagenMisReservas(PApplet p5, float y){
 
         p5.rect(marginInicialW+50, marginInicialH+ 70+ y, imagenMisReservasW, imagenMisReservasH);
@@ -325,9 +331,6 @@ public class GUI {
         p5.popStyle();
         bModificar.display(p5);
         bEleminar.display(p5);
-    }
-    public void elementosEspecificacionReserva(PApplet p5){
-
     }
 
     public void taskBar(PApplet p5){
@@ -354,10 +357,10 @@ public class GUI {
     public void logoLong(PApplet p5 , float w, float h){
         p5.image(logoLong, Layout.marginW, Layout.marginH -20, w,  h);
     }
+
     public void logoSing(PApplet p5){
         p5.image(logoLong, p5.width/2-100, p5.height/2 -420, 200,200);
     }
-
 
     public void restaurantsMain (PApplet p5){
         p5.pushStyle();
@@ -379,6 +382,7 @@ public class GUI {
         p5.popStyle();
 
     }
+
     public void restaurantDetalle (PApplet p5){
         p5.pushStyle();
         p5. fill(100,50,100);
@@ -408,6 +412,7 @@ public class GUI {
         p5.text("NOMBRE DEL RESTAURANTE", marginInicialW,Layout.marginInicialH+15);
         p5.popStyle();
     }
+
     public void dibuixaRanking(PApplet p5, float h, float y, String titulo){
         p5.pushStyle();
         p5.rect( marginInicialW + 50, Layout.marginInicialH+y, Layout.topW, Layout.topH + h);

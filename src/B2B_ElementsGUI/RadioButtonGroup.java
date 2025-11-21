@@ -20,6 +20,7 @@ public class RadioButtonGroup {
 
         public void setSelected(int n){
             selectedOption = n;
+            this.rbuttons[n].setChecked(true);
         }
 
         public void display(PApplet p5){

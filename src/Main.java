@@ -152,7 +152,16 @@ public class Main extends PApplet {
         }
         // Si pitjam sobre el radiobuttongroup
         gui.radbgTipoReserva.updateOnClick(this);
-        gui.radbgHorarioReserva.updateOnClick(this);
+        if(gui.radbDesayuno.isChecked()){
+            gui.radbgHorarioReservaDesayuno.updateOnClick(this);
+
+        }else if(gui.radbComida.isChecked()){
+            gui.radbgHorarioReservaComida.updateOnClick(this);
+
+        }else if(gui.radbCena.isChecked()){
+            gui.radbgHorarioReservaCena.updateOnClick(this);
+
+        }
 
         //AÑADIMOS TEXTFIELDS
         //Text Field
@@ -181,6 +190,25 @@ public class Main extends PApplet {
         /*if (gui.radbDesayuno.onMouseOver(this)|| gui.radbComida.onMouseOver(this)||gui.radbCena.onMouseOver(this)|| gui.radbhora1.onMouseOver(this)||
                 gui.radbhora2.onMouseOver(this)||gui.radbhora3.onMouseOver(this)|| gui.radbhora4.onMouseOver(this)||gui.radbhora5.onMouseOver(this)||
                 gui.radbhora6.onMouseOver(this)||gui.radbhora7.onMouseOver(this)||gui.radbhora8.onMouseOver(this)||gui.radbhora9.onMouseOver(this)) {
+            cursorHAND = true;
+        }
+
+         */
+
+        if(gui.radbDesayuno.onMouseOver(this)||gui.radbComida.onMouseOver(this)|| gui.radbCena.onMouseOver(this)){
+            cursorHAND = true;
+        }
+        /*
+        for(int i=0; i<gui.radioHorasDesayno.length; i++){
+            gui.radioHorasDesayno[i].onMouseOver(this);
+            cursorHAND = true;
+        }
+        for(int i=0; i<gui.radioHorasComida.length; i++){
+            gui.radioHorasComida[i].onMouseOver(this);
+            cursorHAND = true;
+        }
+        for(int i=0; i<gui.radioHorasCena.length; i++){
+            gui.radioHorasCena[i].onMouseOver(this);
             cursorHAND = true;
         }
 
