@@ -10,6 +10,7 @@ public class Button {
     float x, y, w, h;  // Posició (x, y) i dimensions (w, h)
     int fillColor, strokeColor; // B2B_Color.Colors del boto (fill / stroke).
     int fillColorOver, fillColorDisabled;  // B2B_Color.Colors del boto (actiu / inactiu).
+    int myTextSize = 20;
     String textBoto;  // Text
     boolean enabled;  // Estat del botó (actiu / inactiu).
 
@@ -40,6 +41,9 @@ public class Button {
 
 
     }
+    public void setMidaTexte(int n){
+        this.myTextSize = n;
+    }
 
     // Getters
     public boolean isEnabled(){
@@ -62,7 +66,7 @@ public class Button {
         p5.rect(this.x, this.y, this.w, this.h, 10);    // Rectangle del botó
 
         // Text (color, alineació i mida)
-        p5.fill(0); p5.textAlign(p5.CENTER); p5.textSize(20);
+        p5.fill(0); p5.textAlign(p5.CENTER); p5.textSize(myTextSize);
         p5.text(textBoto, this.x + this.w/2, this.y + this.h/2 + 10);
         p5.popStyle();
     }

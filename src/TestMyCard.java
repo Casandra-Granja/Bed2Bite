@@ -1,5 +1,4 @@
 import B2B_Color.Colors;
-import B2B_ElementsGUI.MyCard;
 import processing.core.PApplet;
 
 public class TestMyCard extends PApplet {

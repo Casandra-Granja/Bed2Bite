@@ -1,6 +1,6 @@
-package B2B_ElementsGUI;
-
 import B2B_Color.Colors;
+import B2B_ElementsGUI.Button;
+import B2B_ElementsGUI.TextField;
 import processing.core.PApplet;
 import processing.core.PImage;
 
