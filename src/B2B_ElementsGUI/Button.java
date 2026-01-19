@@ -14,6 +14,8 @@ public class Button {
     String textBoto;  // Text
     boolean enabled;  // Estat del botó (actiu / inactiu).
 
+    Colors appColors;
+
     // Constructor
     public Button(PApplet p5, String text, float x, float y, float w, float h, Colors colorsBotons){
         this.textBoto = text;
@@ -21,7 +23,7 @@ public class Button {
         this.y = y;
         this.w = w;
         this.h = h;
-        setColors(colorsBotons);
+        this.appColors = colorsBotons;
         this.enabled = true;
     }
 

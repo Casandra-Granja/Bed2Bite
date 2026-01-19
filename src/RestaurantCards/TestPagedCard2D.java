@@ -1,8 +1,9 @@
+package RestaurantCards;
 
 import B2B_Color.Colors;
 import B2B_ElementsGUI.Button;
 //import gui.PagedCard;
-//import PagedCard2D;
+//import RestaurantCards.PagedCard2D;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -44,7 +45,7 @@ import processing.core.PImage;
         boolean cursorHand = false;
 
         public static void main(String[] args) {
-            PApplet.main("TestPagedCard2D", args);
+            PApplet.main("RestaurantCards.TestPagedCard2D", args);
         }
 
         public void settings(){
@@ -58,14 +59,17 @@ import processing.core.PImage;
             img1 = loadImage("categoria1.png");
             img2 = loadImage("categoria2.png");
 
+            appColors = new Colors(this);
+
             // Creació de la taula
             pc = new PagedCard2D(this,3, 3, appColors);
             pc.setDimensions(50, 50, cardsW, cardsH);
             pc.setData(info);
-            pc.setCards();
+            pc.setCards(this);
             pc.setImages(img1, img2);
 
             // Creació dels botons
+
             b1 = new Button(this, "NEXT", 100 + cardsW, 80, buttonW, buttonH, appColors);
             b2 = new Button(this, "PREV", 100 + cardsW, 100 + buttonH, buttonW, buttonH,appColors);
 
@@ -81,6 +85,8 @@ import processing.core.PImage;
 
             // Dibuixa els botons
             b1.display(this);
+            b1.setColors(appColors);
+            b2.setColors(appColors);
             b2.display(this);
 
             // Actualitza forma del cursor

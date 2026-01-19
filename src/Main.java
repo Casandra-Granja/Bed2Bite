@@ -28,7 +28,7 @@ public class Main extends PApplet {
     public void setup(){
         c1= new Colors(this);
         f1= new Fonts(this);
-        gui= new GUI(this);
+        gui= new GUI(this, c1);
 
     }
 

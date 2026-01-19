@@ -2,6 +2,10 @@ import B2B_Color.Colors;
 import B2B_ElementsGUI.*;
 import B2B_Fonts.Fonts;
 import B2B_Medidas.Layout;
+import MisReservasCards.MisReservasCard;
+import MisReservasCards.PagedCard;
+import RestaurantCards.PagedCard2D;
+import RestaurantCards.RestaurantCard;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -20,12 +24,14 @@ public class GUI {
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
     PImage iconaPerfil, logo, logoLong, img;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
-    Colors c;
+    Colors appColors;
     Fonts f;
     Calendari calendari;
     CheckBox cB;
     MyCard MyCard;
     RestaurantCard rc;
+    PagedCard pc;
+    PImage img1, img2;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -36,22 +42,23 @@ public class GUI {
 
 
 
-    public GUI(PApplet p5){
+    public GUI(PApplet p5, Colors appColors){
         pantallaActual = PANTALLA.SIGNUP;
-        c = new Colors(p5);
-        creaBotons(p5, c);
+        this.appColors= appColors;
+        creaBotons(p5, appColors);
         creaTextField(p5);
         this.setMedia(p5);  // Carrega les imatges
         creaRoundButton(p5);
         creaRadioButton(p5);
         f = new Fonts(p5);
-        creaBotonsModificarIEliminar(p5, c, 100);  //tengo que crear muchos iguales en una pantalla, como lo hago
-        creaBotonsModificarIEliminar(p5, c, 200);
-        creaBotonsModificarIEliminar(p5, c, 300);
-        creaBotonsModificarIEliminar(p5, c, 400);
+        creaBotonsModificarIEliminar(p5, appColors, 100);  //tengo que crear muchos iguales en una pantalla, como lo hago
+        creaBotonsModificarIEliminar(p5, appColors, 200);
+        creaBotonsModificarIEliminar(p5, appColors, 300);
+        creaBotonsModificarIEliminar(p5, appColors, 400);
         calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
         cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
-        rc = new RestaurantCard(p5,img, 10,10, "hola", "hola");
+        pc= new PagedCard(4, appColors);
+
 
 
     }
@@ -66,20 +73,31 @@ public class GUI {
         bCerrarSesion = new Button(p5, "CERRAR SESION",p5.width/2 -255, p5.height/2 +250 , 510, 80 , c);
         bModificarCorreo= new Button(p5, "MODIFICAR CORREO",p5.width/2 -255, p5.height/2 +100 , 510, 80 , c);
 
+        bSignIn.setColors(c);
+        bRegister.setColors(c);
+        bReservar.setColors(c);
+        bMisReservas.setColors(c);
+        bStats.setColors(c);
+        bInicio.setColors(c);
+        bCerrarSesion.setColors(c);
+        bModificarCorreo.setColors(c);
+
     }
 
     public void creaBotonsModificarIEliminar (PApplet p5, Colors c, float y){
         bModificar= new Button(p5, "MODIFICAR", marginInicialW+ 50 + imagenMisReservasW+ 520,marginInicialH+y, 100,50, c  );
         bEleminar= new Button(p5, "ELIMINAR",marginInicialW+ 50 + imagenMisReservasW+ 650,marginInicialH+y, 100,50, c  );
+        bModificar.setColors(appColors);
+        bEleminar.setColors(appColors);
 
     }
     public void creaTextField(PApplet p5){
         //Pantalla sign in
-        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, c);
-        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, c);
-        tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, c);
-        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, c);
-        tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, c);
+        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, appColors);
+        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, appColors);
+        tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, appColors);
+        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, appColors);
+        tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
 
     }
 
@@ -135,7 +153,9 @@ public class GUI {
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         logo= p5.loadImage("data/B2B-Logo.png");
         logoLong= p5.loadImage("data/B2B-LogoLong.png");
-        img = p5.loadImage("data/ImagenRestaurnateTest.png");
+        //img = p5.loadImage("data/ImagenRestaurnateTest.png");
+        img1 = p5.loadImage("categoria1.png");
+        img2 = p5.loadImage("categoria2.png");
     }
 
     public void creaRoundButton(PApplet p5){
@@ -185,7 +205,7 @@ public class GUI {
         // Dibuixa el fons (gris)
         p5.background(55);    // Color de fons
         elementosEsenciales(p5);
-        rc.display(p5, true);
+        //rc.display(p5, true);
         //restaurantsMain(p5);
         //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
         //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
@@ -218,7 +238,7 @@ public class GUI {
         p5.pushStyle();
         elementosEsenciales(p5);
         p5.pushStyle();
-        p5.fill(c.getYellowColor());
+        p5.fill(appColors.getYellowColor());
         dibuixaRanking(p5, 70, 50,  "#1");
         p5.popStyle();
         dibuixaRanking(p5, 70, 250, "#2");
@@ -287,10 +307,11 @@ public class GUI {
     // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
-        imagenMisReservas(p5,0);
-        imagenMisReservas(p5,150);
-        imagenMisReservas(p5,300);
-        imagenMisReservas(p5,450);
+        pc.display(p5);
+        //imagenMisReservas(p5,0);
+        // imagenMisReservas(p5,150);
+        // imagenMisReservas(p5,300);
+        //imagenMisReservas(p5,450);
         cB.display(p5);
 
 
@@ -399,7 +420,7 @@ public class GUI {
 
     public void restaurantInfo (PApplet p5){
         p5.pushStyle();
-        p5. fill(c.getGreenColor());
+        p5. fill(appColors.getGreenColor());
         p5. rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR, Layout.marginInicialH +50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight);
         p5.textAlign(p5.CENTER);
         p5.fill(0);
@@ -420,11 +441,13 @@ public class GUI {
     public void dibuixaRanking(PApplet p5, float h, float y, String titulo){
         p5.pushStyle();
         p5.rect( marginInicialW + 50, Layout.marginInicialH+y, Layout.topW, Layout.topH + h);
-        p5.fill(c.getBlackColor()); p5.textSize(50); p5.textAlign(p5.CENTER);
+        p5.pushStyle();
+        p5.fill(appColors.getBlackColor()); p5.textSize(50); p5.textAlign(p5.CENTER);
+        p5.popStyle();
         p5.line(Layout.topW+ marginInicialW+70, Layout.marginInicialH+y+ Layout.topH+h/2, Layout.topW+ marginInicialW+ 450, Layout.marginInicialH+y+ Layout.topH+h/2);
         p5.text( titulo, +marginInicialW + Layout.topW/2 + marginInicialW, y+ Layout.marginInicialH +Layout.topH /2);
         p5.popStyle();
 
     }
-
 }
+

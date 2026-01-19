@@ -1,3 +1,5 @@
+package RestaurantCards;
+
 import B2B_Color.Colors;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -19,10 +21,11 @@ import processing.core.PImage;
         float wc, hc;
         int selectedCard = -1;
 
+        Colors appColors;
+
         // Constructor
         public PagedCard2D(PApplet p5,int numRows, int numCols, Colors appColors) {
-            appColors = new Colors(p5);
-            setColors(appColors);
+            this.appColors = appColors;
             this.numRowsPage = numRows;
             this.numCardsRow = numCols;
             this.numCardsPage = numRows * numCols;
@@ -46,7 +49,7 @@ import processing.core.PImage;
             this.numTotalPages = d.length / this.numCardsPage;
         }
 
-        public void setCards() {
+        public void setCards(PApplet p5) {
 
             cards = new RestaurantCard[numCards];
 
@@ -57,7 +60,8 @@ import processing.core.PImage;
 
                 float yCard = y + (hc + 5) * nr;
                 float xCard = x + (wc + 5)* nc;
-                cards[numCard] = new RestaurantCard(cardsData[numCard]);
+                cards[numCard] = new RestaurantCard(cardsData[numCard],p5);
+                cards[numCard].appColors = appColors;
                 cards[numCard].setDimensions(xCard, yCard, wc, hc);
             }
 
@@ -72,6 +76,7 @@ import processing.core.PImage;
                 } else {
                     img = img2;
                 }
+                cards[numCard].setImage(img);
             }
         }
         public void setColors(Colors appColors){

@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46d8275a-ec90-426f-be9d-91e886dac47c" name="Changes" comment="Canvi">
-      <change afterPath="$PROJECT_DIR$/src/PagedCard2D.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/TestPagedCard2D.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/CheckBoxStar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/CheckBoxStarList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCardTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/B2B_ElementsGUI/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/B2B_ElementsGUI/Button.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestPagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +59,8 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "Application.MisReservasCardTest.executor": "Run",
+    "Application.PagedCardTest.executor": "Run",
     "Application.RestaurantCardTest.executor": "Run",
     "Application.TestMyCard.executor": "Run",
     "Application.TestPagedCard2D.executor": "Run",
@@ -295,7 +305,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767862447116</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1768821288119</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1768821288119</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
