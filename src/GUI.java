@@ -18,13 +18,14 @@ public class GUI {
     RoundButton rbPerfil;
     RadioButton radbDesayuno, radbComida, radbCena;
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
-    PImage iconaPerfil, logo, logoLong;
+    PImage iconaPerfil, logo, logoLong, img;
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
     Colors c;
     Fonts f;
     Calendari calendari;
     CheckBox cB;
     MyCard MyCard;
+    RestaurantCard rc;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -50,6 +51,7 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, c, 400);
         calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
         cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
+        rc = new RestaurantCard(p5,img, 10,10, "hola", "hola");
 
 
     }
@@ -133,6 +135,7 @@ public class GUI {
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         logo= p5.loadImage("data/B2B-Logo.png");
         logoLong= p5.loadImage("data/B2B-LogoLong.png");
+        img = p5.loadImage("data/ImagenRestaurnateTest.png");
     }
 
     public void creaRoundButton(PApplet p5){
@@ -182,9 +185,10 @@ public class GUI {
         // Dibuixa el fons (gris)
         p5.background(55);    // Color de fons
         elementosEsenciales(p5);
-        restaurantsMain(p5);
-        restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
-        restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
+        rc.display(p5, true);
+        //restaurantsMain(p5);
+        //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
+        //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
     }
     //3
     public void dibuixaPantallaInicialExtendida(PApplet p5) {

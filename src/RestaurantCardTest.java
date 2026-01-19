@@ -13,12 +13,12 @@ public class RestaurantCardTest extends PApplet {
 
     }
     public void setup(){
-        rc1= new RestaurantCard(this, loadImage("data/imagenRestauranteTest.png"),100,100,"Restaurante 1");
+        rc1= new RestaurantCard(this, loadImage("data/imagenRestauranteTest.png"),100,100,"Restaurante 1", "hola");
     }
 
     public void draw(){
         background(220);
-        rc1.display(this);
+        rc1.display(this,true);
     }
 
 }
