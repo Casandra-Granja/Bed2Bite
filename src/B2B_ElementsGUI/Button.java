@@ -24,6 +24,7 @@ public class Button {
         this.w = w;
         this.h = h;
         this.appColors = colorsBotons;
+        this.setColors(colorsBotons);
         this.enabled = true;
     }
 

@@ -65,14 +65,13 @@ public class PagedCardTest extends PApplet {
         pc = new PagedCard(numCardsPage,appColors);
         pc.setDimensions(50, 50, cardsW, cardsH);
         pc.setData(info);
-        pc.setCards(this);
+        pc.setCards(this, appColors);
         pc.setImages(img1, img2);
 
         // Creació dels botons
         b1 = new Button(this, "NEXT", 100 + cardsW, 80, buttonW, buttonH, appColors);
         b2 = new Button(this, "PREV", 100 + cardsW, 100 + buttonH, buttonW, buttonH,appColors);
-        b1.setColors(appColors);
-        b2.setColors(appColors);
+
 
     }
 
@@ -95,12 +94,12 @@ public class PagedCardTest extends PApplet {
     // Modifica el cursor
     void updateCursor(PApplet p5){
 
-        if((b1.mouseOverButton(p5) && b1.isEnabled())||
-                (b2.mouseOverButton(p5) && b2.isEnabled())){
+        if((b1.mouseOverButton(p5) && b1.isEnabled()) ||
+                (b2.mouseOverButton(p5) && b2.isEnabled() )|| pc.checkMouseOver(this)){
             cursorHand = true;
         }
         else {
-            cursorHand = pc.checkMouseOver(p5);
+            cursorHand = false;
         }
 
         if(cursorHand){

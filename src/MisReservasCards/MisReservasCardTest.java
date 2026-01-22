@@ -1,5 +1,5 @@
 
-/*package MisReservasCards;
+package MisReservasCards;
 
 import B2B_Color.Colors;
 import processing.core.PApplet;
@@ -8,7 +8,6 @@ public class MisReservasCardTest extends PApplet {
 
     MisReservasCard mrc;
     Colors c;
-    String[] info;
 
     public static void main(String[] args) {
         PApplet.main("MisReservasCards.MisReservasCardTest");
@@ -23,7 +22,8 @@ public class MisReservasCardTest extends PApplet {
     public void setup() {
         c = new Colors(this);
 
-        mrc = new MisReservasCard(info, this, "Hello MyCard", c); //Se tiene que cambiar el constructor
+        mrc = new MisReservasCard( this, "Hello MyCard", "info", c); //Se tiene que cambiar el constructor
+        mrc.CrearBotons(this);
 
     }
 
@@ -39,7 +39,7 @@ public class MisReservasCardTest extends PApplet {
     }
 }
 
- */
+
 
 
 

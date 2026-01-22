@@ -17,23 +17,29 @@ public class MisReservasCard {
         CheckBoxStarList cbl;
         String[] imgs = {"starON.png", "starOFF.png"};
 
-        public MisReservasCard(String[] info,PApplet p5, String titol, Colors appColors){
+        public MisReservasCard(PApplet p5, String titol, String info, Colors appColors){
             this.titol= titol;
+            this.info = info;
             this.x= Layout.marginInicialW+ 10;
             this.y= Layout.marginInicialH +10;
             this.h= 150;
             this.w= p5.width-Layout.marginInicialW-90;
             this.appColors = appColors;
-            //bModificar= new Button(p5, "MODIFICAR", (int)w-45, (int)(y+5), 80,40,appColors);
-            //bEliminar= new Button(p5, "ELIMINAR", (int)w-45, (int)(y+100), 80,40,appColors);
-           // bEliminar.setColors(appColors);
-            //bEliminar.setMidaTexte(15);
-            //bModificar.setColors(appColors);
-            //bModificar.setMidaTexte(15);
-            //cbl = new CheckBoxStarList(p5, 5, imgs, (int)x+270, (int)(y+100) , 40, 40);
-           // cbl.setCheckBoxStars(1);
+
+        }
+        public void CrearBotons(PApplet p5){
+            bModificar= new Button(p5, "MODIFICAR", (int)w-45, (int)(y+5), 80,40,appColors);
+            bEliminar= new Button(p5, "ELIMINAR", (int)w-45, (int)(y+100), 80,40,appColors);
+            bEliminar.setColors(appColors);
+            bEliminar.setMidaTexte(15);
+            bModificar.setColors(appColors);
+            bModificar.setMidaTexte(15);
+            cbl = new CheckBoxStarList(p5, 5, imgs, (int)x+270, (int)(y+100) , 40, 40);
+            cbl.setCheckBoxStars(1);
+        }
+        public MisReservasCard(String [] info){
             this.titol = info[0];
-            this.info = info[1];
+             this.info = info[1];
 
         }
 
@@ -64,14 +70,15 @@ public class MisReservasCard {
             }
 
             p5.fill(0);
-            p5.text(titol,x+5, h/4 + 15);
+            p5.text(titol,x+5, y + h/4 + 15);
+            p5.text(info,x+5, y + h/4 + 30);
 
-           // bModificar.display(p5);
-           // bEliminar.display(p5);
+           bModificar.display(p5);
+           bEliminar.display(p5);
 
-            //cbl.display(p5);
+            cbl.display(p5);
             //Actualitza cursor
-            //updateCursor(p5);
+            updateCursor(p5);
 
 
 

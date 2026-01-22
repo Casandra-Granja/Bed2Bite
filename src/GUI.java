@@ -73,15 +73,6 @@ public class GUI {
         bCerrarSesion = new Button(p5, "CERRAR SESION",p5.width/2 -255, p5.height/2 +250 , 510, 80 , c);
         bModificarCorreo= new Button(p5, "MODIFICAR CORREO",p5.width/2 -255, p5.height/2 +100 , 510, 80 , c);
 
-        bSignIn.setColors(c);
-        bRegister.setColors(c);
-        bReservar.setColors(c);
-        bMisReservas.setColors(c);
-        bStats.setColors(c);
-        bInicio.setColors(c);
-        bCerrarSesion.setColors(c);
-        bModificarCorreo.setColors(c);
-
     }
 
     public void creaBotonsModificarIEliminar (PApplet p5, Colors c, float y){

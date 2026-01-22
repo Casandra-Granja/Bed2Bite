@@ -5,20 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46d8275a-ec90-426f-be9d-91e886dac47c" name="Changes" comment="Canvi">
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/CheckBoxStar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/CheckBoxStarList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCardTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/B2B_ElementsGUI/Button.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/B2B_ElementsGUI/Button.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TestPagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,24 +49,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.MisReservasCardTest.executor": "Run",
-    "Application.PagedCardTest.executor": "Run",
-    "Application.RestaurantCardTest.executor": "Run",
-    "Application.TestMyCard.executor": "Run",
-    "Application.TestPagedCard2D.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/casan/Documents/processing-4.3.4/processing-4.3.4/core/library/jogl-all.jar",
-    "onboarding.tips.debug.path": "C:/Users/casan/IdeaProjects/Bed2Bite/src/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.MisReservasCardTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PagedCardTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.RestaurantCardTest.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestMyCard.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestPagedCard2D.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/casan/Documents/processing-4.3.4/processing-4.3.4/core/library/jogl-all.jar&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/casan/IdeaProjects/Bed2Bite/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -313,7 +306,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768821288119</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1768857883823</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1768857883823</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1768858405386</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1768858405386</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

@@ -41,7 +41,7 @@ public class PagedCard {
         this.numTotalPages = d.length / this.numCardsPage;
     }
 
-    public void setCards(PApplet p5) {
+    public void setCards(PApplet p5, Colors appColors) {
 
         cards = new MisReservasCard[this.cardsData.length];
 
@@ -55,8 +55,9 @@ public class PagedCard {
 
             for (int i = firstCardPage; i <= lastCardPage; i++) {
                 if (i<cards.length) {
-                    cards[i] = new MisReservasCard(cardsData[i],p5,"titol",appColors);
+                    cards[i] = new MisReservasCard(p5, cardsData[i][0], cardsData[i][1], appColors);
                     cards[i].setDimensions(x, yCard, w, hCard);
+                    cards[i].CrearBotons(p5);
                     yCard += hCard + b;
                 }
             }
@@ -115,6 +116,7 @@ public class PagedCard {
         int lastCardPage  = numCardsPage*(numPage+1) - 1;
         for (int i = firstCardPage; i <= lastCardPage; i++) {
             if (i<cards.length && cards[i]!=null && cards[i].mouseOver(p5)) {
+                cards[i].clickMouseOnCardItems(p5);
                 selectedCard = i;
                 selected = true;
                 break;
@@ -136,5 +138,6 @@ public class PagedCard {
         }
         return false;
     }
+
 
 }
