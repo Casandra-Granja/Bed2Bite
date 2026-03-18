@@ -28,10 +28,9 @@ public class GUI {
     Fonts f;
     Calendari calendari;
     CheckBox cB;
-    MyCard MyCard;
-    RestaurantCard rc;
-    PagedCard pc;
     PImage img1, img2;
+
+    PagedCard2D pc2D;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -57,7 +56,7 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, appColors, 400);
         calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
         cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
-        pc= new PagedCard(4, appColors);
+        pc2D= new PagedCard2D(3,3,appColors);
 
 
 
@@ -298,7 +297,6 @@ public class GUI {
     // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
-        pc.display(p5);
         //imagenMisReservas(p5,0);
         // imagenMisReservas(p5,150);
         // imagenMisReservas(p5,300);

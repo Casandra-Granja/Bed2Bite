@@ -17,7 +17,7 @@ public class RestaurantCardTest extends PApplet {
     }
     public void setup(){
         appColors = new Colors(this);
-        rc1= new RestaurantCard(this, loadImage("data/imagenRestauranteTest.png"),100,100,"Restaurante 1", "hola",appColors);
+        rc1= new RestaurantCard(this, loadImage("data/imagenRestauranteTest.png"),100,100,"hola",appColors);
     }
 
     public void draw(){

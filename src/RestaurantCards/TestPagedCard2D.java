@@ -62,10 +62,10 @@ import processing.core.PImage;
             appColors = new Colors(this);
 
             // Creació de la taula
-            pc = new PagedCard2D(this,3, 3, appColors);
+            pc = new PagedCard2D(3, 3, appColors);
             pc.setDimensions(50, 50, cardsW, cardsH);
             pc.setData(info);
-            pc.setCards(this);
+            pc.setCards();
             pc.setImages(img1, img2);
 
             // Creació dels botons
@@ -85,8 +85,6 @@ import processing.core.PImage;
 
             // Dibuixa els botons
             b1.display(this);
-            b1.setColors(appColors);
-            b2.setColors(appColors);
             b2.display(this);
 
             // Actualitza forma del cursor

@@ -37,11 +37,6 @@ public class MisReservasCard {
             cbl = new CheckBoxStarList(p5, 5, imgs, (int)x+270, (int)(y+100) , 40, 40);
             cbl.setCheckBoxStars(1);
         }
-        public MisReservasCard(String [] info){
-            this.titol = info[0];
-             this.info = info[1];
-
-        }
 
         public void setDimensions(float x, float y, float w, float h){
             this.x = x; this.y = y;

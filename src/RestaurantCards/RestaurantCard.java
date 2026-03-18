@@ -9,28 +9,28 @@ import processing.core.PImage;
 public class RestaurantCard {
     PImage img;
     float x, y, w, h;
-    String titulo;
+    String titol;
     Button bAcceder;
     Colors appColors;
     String info;
 
-    public RestaurantCard(PApplet p5, PImage img, int x, int y, String titulo, String info, Colors appColors) {
+    //Constructor utilizado para provar la card sola, sin la paged Card
+    public RestaurantCard(PApplet p5, PImage img, int x, int y, String titulo, Colors appColors) {
         this.appColors = appColors;
         this.img = img;
         this.x = x + Layout.marginWBR;
         this.y = y + Layout.marginHBR;
         this.w = Layout.restaurantWidth;
         this.h = Layout.resturantHeight;
-        this.titulo = titulo;
+        this.titol = titulo;
         bAcceder = new Button(p5, "VER", this.x + this.w - 70, this.y + this.h - 70, 60, 60, appColors);
         bAcceder.setMidaTexte(18);
     }
 
-    public RestaurantCard(String[] info, PApplet p5) {
-        bAcceder = new Button(p5, "VER", this.x + this.w - 70, this.y + this.h - 70, 60, 60, appColors);
-        bAcceder.setMidaTexte(18);
-        this.titulo = info[0];
-        this.info = info[1];
+    //Constructor utilizadp para crear la paged Card
+    public RestaurantCard(String titol, String info) {
+        this.titol= titol;
+        this.info = info;
 
     }
     public void setDimensions(float x, float y, float w, float h){
@@ -61,17 +61,14 @@ public class RestaurantCard {
             p5.image(img, x + 5, y + 5, w - 10, h - 90);
         }
         p5.pushStyle();
-
         p5.fill(0);
-        p5.text(titulo, x + 5, h / 4 + 15);
+        p5.text(titol, x + 5, h / 4 + 15);
         p5.popStyle();
         p5.pushStyle();
         p5.fill(appColors.getBlueColor());
         p5.line(x, y + h - 85, x + w, y + h - 85);
         p5.popStyle();
-        bAcceder.display(p5);
-        //p5.text(info, this.x + 10, this.y + this.h - 70);
-
+        //bAcceder.display(p5);
         p5.popStyle();
 
     }

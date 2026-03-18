@@ -15,6 +15,8 @@ public class Main extends PApplet {
     // Imatges de la GUI
     PImage iconaPerfil, icona2; //vescotial Pshape i LoadShape
 
+    public static DataBase db;
+
     public static void main(String[] args) {
         PApplet.main("Main");
 
@@ -29,6 +31,9 @@ public class Main extends PApplet {
         c1= new Colors(this);
         f1= new Fonts(this);
         gui= new GUI(this, c1);
+        db= new DataBase("admin", "12345", "provabbdd");
+        db.connect();
+
 
     }
 
