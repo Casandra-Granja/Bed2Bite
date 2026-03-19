@@ -7,7 +7,7 @@ import B2B_ElementsGUI.Button;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-    public class TestPagedCard2D extends PApplet {
+    public class PagedCard2DRestaurantCardTest extends PApplet {
 
         // Botons
         Button b1, b2;
@@ -16,7 +16,7 @@ import processing.core.PImage;
         float buttonW = 60, buttonH = 60;
 
         // Cards Paginades
-        PagedCard2D pc;
+        PagedCard2DRestaurantCard pc;
 
         // Dimensions de les cards
         float cardsW = 800, cardsH = 700;
@@ -62,7 +62,7 @@ import processing.core.PImage;
             appColors = new Colors(this);
 
             // Creació de la taula
-            pc = new PagedCard2D(3, 3, appColors);
+            pc = new PagedCard2DRestaurantCard(3, 3, appColors);
             pc.setDimensions(50, 50, cardsW, cardsH);
             pc.setData(info);
             pc.setCards();

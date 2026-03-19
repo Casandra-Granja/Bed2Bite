@@ -5,17 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46d8275a-ec90-426f-be9d-91e886dac47c" name="Changes" comment="Canvi">
-      <change afterPath="$PROJECT_DIR$/src/DataBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DatabaseClasseConnectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/windows_amd64.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/windows_amd64.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/B2B_Medidas/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/B2B_Medidas/Layout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/MisReservasCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCardTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardMisReservas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardMisReservasTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCardTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,14 +74,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DatabaseClasseConnectionTest">
-    <configuration name="DatabaseClasseConnectionTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="DatabaseClasseConnectionTest" />
-      <module name="Bed2Bite" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Bed2Bite" />
@@ -92,18 +82,65 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestMyCard" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestMyCard" />
+    <configuration name="MisReservasCardTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MisReservasCards.MisReservasCardTest" />
       <module name="Bed2Bite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="MisReservasCards.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PagedCard2DRestaurantCardTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="RestaurantCards.PagedCard2DRestaurantCardTest" />
+      <module name="Bed2Bite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RestaurantCards.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PagedCardMisReservasTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MisReservasCards.PagedCardMisReservasTest" />
+      <module name="Bed2Bite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="MisReservasCards.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RestaurantCardTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="RestaurantCards.RestaurantCardTest" />
+      <module name="Bed2Bite" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="RestaurantCards.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatabaseClasseConnectionTest" />
+        <item itemvalue="Application.RestaurantCardTest" />
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.TestMyCard" />
+        <item itemvalue="Application.MisReservasCardTest" />
+        <item itemvalue="Application.PagedCardMisReservasTest" />
+        <item itemvalue="Application.PagedCard2DRestaurantCardTest" />
       </list>
     </recent_temporary>
   </component>
@@ -348,7 +385,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769071860164</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1773866588291</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1773866588291</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

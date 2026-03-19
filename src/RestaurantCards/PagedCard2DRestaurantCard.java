@@ -1,11 +1,10 @@
 package RestaurantCards;
 
 import B2B_Color.Colors;
-import MisReservasCards.MisReservasCard;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-    public class PagedCard2D {
+    public class PagedCard2DRestaurantCard {
 
 
         String[][] cardsData;    // Dades de les Cards
@@ -25,7 +24,7 @@ import processing.core.PImage;
         Colors appColors;
 
         // Constructor
-        public PagedCard2D(int numRows, int numCols, Colors appColors) {
+        public PagedCard2DRestaurantCard(int numRows, int numCols, Colors appColors) {
             this.appColors = appColors;
             this.numRowsPage = numRows;
             this.numCardsRow = numCols;

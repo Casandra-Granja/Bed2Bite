@@ -5,7 +5,7 @@ import B2B_ElementsGUI.Button;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class PagedCardTest extends PApplet {
+public class PagedCardMisReservasTest extends PApplet {
 
     // Botons
     Button b1, b2;
@@ -14,7 +14,7 @@ public class PagedCardTest extends PApplet {
     float buttonW = 60, buttonH = 60;
 
     // Cards Paginades
-    MisReservasCards.PagedCard pc;
+    PagedCardMisReservas pc;
 
     // Dimensions de les cards
     float cardsW = 800, cardsH = 700;
@@ -62,7 +62,7 @@ public class PagedCardTest extends PApplet {
         img2 = loadImage("categoria2.png");
 
         // Creació de la taula
-        pc = new PagedCard(numCardsPage,appColors);
+        pc = new PagedCardMisReservas(numCardsPage,appColors);
         pc.setDimensions(50, 50, cardsW, cardsH);
         pc.setData(info);
         pc.setCards(this, appColors);

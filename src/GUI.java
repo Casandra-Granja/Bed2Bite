@@ -2,10 +2,8 @@ import B2B_Color.Colors;
 import B2B_ElementsGUI.*;
 import B2B_Fonts.Fonts;
 import B2B_Medidas.Layout;
-import MisReservasCards.MisReservasCard;
-import MisReservasCards.PagedCard;
-import RestaurantCards.PagedCard2D;
-import RestaurantCards.RestaurantCard;
+import MisReservasCards.PagedCardMisReservas;
+import RestaurantCards.PagedCard2DRestaurantCard;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -14,11 +12,12 @@ import static B2B_Medidas.Layout.*;
 
 public class GUI {
 
+
     public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO};
 
     public PANTALLA pantallaActual;
 
-    Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio, bModificar, bEleminar, bCerrarSesion, bModificarCorreo;
+    Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio, bModificar, bEleminar, bCerrarSesion, bModificarCorreo, bPrevMisReservasPC, bNextMisReservasPC,  bPrevRestaurantPC, bNextRestaurantPC;
     RoundButton rbPerfil;
     RadioButton radbDesayuno, radbComida, radbCena;
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
@@ -30,7 +29,9 @@ public class GUI {
     CheckBox cB;
     PImage img1, img2;
 
-    PagedCard2D pc2D;
+
+    PagedCardMisReservas misReservasPC;
+    PagedCard2DRestaurantCard restaurantePC;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -38,6 +39,35 @@ public class GUI {
     RadioButton[] radioHorasDesayno;
     RadioButton[] radioHorasComida;
     RadioButton[] radioHorasCena;
+
+    // Dades de les cards Mis reservas
+    String[][] infoMisReservasCards = {
+            {"Títol 1", "Lloc 1", "Data 1", "Secció 1", "Descripció 1"},
+            {"Títol 2", "Lloc 2", "Data 2", "Secció 2", "Descripció 2"},
+            {"Títol 3", "Lloc 3", "Data 3", "Secció 1", "Descripció 3"},
+            {"Títol 4", "Lloc 4", "Data 4", "Secció 1", "Descripció 4"},
+            {"Títol 5", "Lloc 5", "Data 5", "Secció 2", "Descripció 5"},
+            {"Títol 6", "Lloc 6", "Data 6", "Secció 2", "Descripció 6"},
+            {"Títol 7", "Lloc 7", "Data 7", "Secció 1", "Descripció 7"},
+            {"Títol 8", "Lloc 8", "Data 8", "Secció 8", "Descripció 8"},
+            {"Títol 9", "Lloc 9", "Data 9", "Secció 9", "Descripció 9"},
+            {"Títol 0", "Lloc 0", "Data 0", "Secció 0", "Descripció 0"},
+    };
+
+    // Dades de les cards Restaurant Cards
+    String[][] infoRestaurantCards = {
+            {"Títol 0", "Lloc 0", "Data 0", "Secció 0", "Descripció 0"},
+            {"Títol 1", "Lloc 1", "Data 1", "Secció 1", "Descripció 1"},
+            {"Títol 2", "Lloc 2", "Data 2", "Secció 2", "Descripció 2"},
+            {"Títol 3", "Lloc 3", "Data 3", "Secció 1", "Descripció 3"},
+            {"Títol 4", "Lloc 4", "Data 4", "Secció 1", "Descripció 4"},
+            {"Títol 5", "Lloc 5", "Data 5", "Secció 2", "Descripció 5"},
+            {"Títol 6", "Lloc 6", "Data 6", "Secció 2", "Descripció 6"},
+            {"Títol 7", "Lloc 7", "Data 7", "Secció 1", "Descripció 7"},
+            {"Títol 8", "Lloc 8", "Data 8", "Secció 8", "Descripció 8"},
+            {"Títol 9", "Lloc 9", "Data 9", "Secció 9", "Descripció 9"},
+            {"Títol 10", "Lloc 10", "Data 10", "Secció 10", "Descripció 10"},
+    };
 
 
 
@@ -56,7 +86,7 @@ public class GUI {
         creaBotonsModificarIEliminar(p5, appColors, 400);
         calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
         cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
-        pc2D= new PagedCard2D(3,3,appColors);
+        setCards(p5);
 
 
 
@@ -71,7 +101,10 @@ public class GUI {
         bInicio= new Button(p5, "INICIO",Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200,60,c );
         bCerrarSesion = new Button(p5, "CERRAR SESION",p5.width/2 -255, p5.height/2 +250 , 510, 80 , c);
         bModificarCorreo= new Button(p5, "MODIFICAR CORREO",p5.width/2 -255, p5.height/2 +100 , 510, 80 , c);
-
+        bPrevMisReservasPC = new Button(p5, "NEXT", 100 + misReservasCardsW, 80, misReservasButtonW, misReservasButtonH, appColors);
+        bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH,appColors);
+        bNextRestaurantPC = new Button(p5, "NEXT", 100 + restaurantCardsW, 80, restaurantButtonW, restaurantButtonH, appColors);
+        bPrevRestaurantPC = new Button(p5, "PREV", 100 + restaurantCardsW, 100 + restaurantButtonH, restaurantButtonW, restaurantButtonH,appColors);
     }
 
     public void creaBotonsModificarIEliminar (PApplet p5, Colors c, float y){
@@ -147,6 +180,23 @@ public class GUI {
         img1 = p5.loadImage("categoria1.png");
         img2 = p5.loadImage("categoria2.png");
     }
+    public void setCards(PApplet p5){
+        //PagedCatrd Mis reservas
+        misReservasPC = new PagedCardMisReservas(4,appColors);
+        misReservasPC.setDimensions(50, 50, misReservasCardsW, misReservasCardsH); //crear a medidas
+        misReservasPC.setData(infoMisReservasCards);
+        misReservasPC.setCards(p5, appColors);
+        misReservasPC.setImages(img1, img2);
+
+        //PagedCard2D Restaurant Card
+        restaurantePC = new PagedCard2DRestaurantCard(3, 3, appColors);
+        restaurantePC.setDimensions(50, 50, restaurantCardsW, restaurantCardsH);
+        restaurantePC.setData(infoRestaurantCards);
+        restaurantePC.setCards();
+        restaurantePC.setImages(img1, img2);
+
+
+    }
 
     public void creaRoundButton(PApplet p5){
         rbPerfil= new RoundButton(p5, iconaPerfil,p5.width-Layout.marginW-70,100,50);
@@ -199,6 +249,10 @@ public class GUI {
         //restaurantsMain(p5);
         //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
         //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
+        restaurantePC.display(p5);
+        bPrevRestaurantPC.display(p5);
+        bNextRestaurantPC.display(p5);
+
     }
     //3
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
@@ -297,11 +351,10 @@ public class GUI {
     // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
-        //imagenMisReservas(p5,0);
-        // imagenMisReservas(p5,150);
-        // imagenMisReservas(p5,300);
-        //imagenMisReservas(p5,450);
         cB.display(p5);
+        misReservasPC.display(p5);
+        bPrevMisReservasPC.display(p5);
+        bNextMisReservasPC.display(p5);
 
 
     }
@@ -331,20 +384,6 @@ public class GUI {
         bInicio.display(p5);
         rbPerfil.display(p5);
 
-    }
-
-    public void imagenMisReservas(PApplet p5, float y){
-
-        p5.rect(marginInicialW+50, marginInicialH+ 70+ y, imagenMisReservasW, imagenMisReservasH);
-        p5.pushStyle();
-        p5.rectMode(p5.CENTER);
-        p5.strokeWeight(3);
-        p5.line(imagenMisReservasW + marginInicialW+ 60, marginInicialH+ 50+ y+ imagenMisReservasH, imagenMisReservasW + marginInicialW+ 500,marginInicialH+ 50+ y+ imagenMisReservasH );
-        p5.fill(0);
-        p5.text("Imagen Restaurante", marginInicialW+100, marginInicialH +50+y + imagenMisReservasH/2);
-        p5.popStyle();
-        bModificar.display(p5);
-        bEleminar.display(p5);
     }
 
     public void taskBar(PApplet p5){

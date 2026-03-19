@@ -4,7 +4,7 @@ import B2B_Color.Colors;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-public class PagedCard {
+public class PagedCardMisReservas {
 
 
     String[][] cardsData;    // Dades de les Cards
@@ -21,7 +21,7 @@ public class PagedCard {
     Colors appColors;
 
     // Constructor
-    public PagedCard(int ncp, Colors appColors) {
+    public PagedCardMisReservas(int ncp, Colors appColors) {
         this.numCardsPage = ncp;
         this.numPage = 0;
         this.appColors= appColors;

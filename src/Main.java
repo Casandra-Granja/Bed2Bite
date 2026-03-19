@@ -168,6 +168,28 @@ public class Main extends PApplet {
 
         }
 
+        //CARD MIS RESERVAS
+        if(gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()){
+            gui.misReservasPC.nextPage();
+        }
+        else if(gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()){
+            gui.misReservasPC.prevPage();
+        }
+        else {
+            gui.misReservasPC.checkCardSelection(this);
+        }
+        //CARD RESTAURANT
+
+        if(gui.bNextRestaurantPC.mouseOverButton(this) && gui.bNextRestaurantPC.isEnabled()){
+            gui.restaurantePC.nextPage();
+        }
+        else if(gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()){
+            gui.restaurantePC.prevPage();
+        }
+        else {
+            gui.restaurantePC.checkCardSelection(this);
+        }
+
         //AÑADIMOS TEXTFIELDS
         //Text Field
 
@@ -178,6 +200,7 @@ public class Main extends PApplet {
         gui.tfNumPersonas.isPressed(this);
 
     }
+
 
     public void updateCursor(PApplet p5) {
         //Button
@@ -191,33 +214,22 @@ public class Main extends PApplet {
         if (gui.rbPerfil.updateHandCursor(p5)) {
             cursorHAND = true;
         }
-        //Radio Button
-        /*if (gui.radbDesayuno.onMouseOver(this)|| gui.radbComida.onMouseOver(this)||gui.radbCena.onMouseOver(this)|| gui.radbhora1.onMouseOver(this)||
-                gui.radbhora2.onMouseOver(this)||gui.radbhora3.onMouseOver(this)|| gui.radbhora4.onMouseOver(this)||gui.radbhora5.onMouseOver(this)||
-                gui.radbhora6.onMouseOver(this)||gui.radbhora7.onMouseOver(this)||gui.radbhora8.onMouseOver(this)||gui.radbhora9.onMouseOver(this)) {
-            cursorHAND = true;
-        }
-
-         */
 
         if(gui.radbDesayuno.onMouseOver(this)||gui.radbComida.onMouseOver(this)|| gui.radbCena.onMouseOver(this)){
             cursorHAND = true;
         }
-        /*
-        for(int i=0; i<gui.radioHorasDesayno.length; i++){
-            gui.radioHorasDesayno[i].onMouseOver(this);
-            cursorHAND = true;
-        }
-        for(int i=0; i<gui.radioHorasComida.length; i++){
-            gui.radioHorasComida[i].onMouseOver(this);
-            cursorHAND = true;
-        }
-        for(int i=0; i<gui.radioHorasCena.length; i++){
-            gui.radioHorasCena[i].onMouseOver(this);
+
+        //CARD MIS RESERVAS
+        if((gui.bPrevMisReservasPC.mouseOverButton(p5) && gui.bPrevMisReservasPC.isEnabled()) ||
+                (gui.bNextMisReservasPC.mouseOverButton(p5) && gui.bNextMisReservasPC.isEnabled() )|| gui.misReservasPC.checkMouseOver(this)){
             cursorHAND = true;
         }
 
-         */
+        if((gui.bPrevRestaurantPC.mouseOverButton(p5) && gui.bPrevRestaurantPC.isEnabled()) ||
+                (gui.bNextRestaurantPC.mouseOverButton(p5) && gui.bNextRestaurantPC.isEnabled() )|| gui.restaurantePC.checkMouseOver(this)){
+            cursorHAND = true;
+        }
+
 
         if(cursorHAND){
             cursor(HAND);
