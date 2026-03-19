@@ -17,21 +17,32 @@ public class GUI {
 
     public PANTALLA pantallaActual;
 
-    Button bRegister, bSignIn, bReservar, bMisReservas, bStats, bInicio, bModificar, bEleminar, bCerrarSesion, bModificarCorreo, bPrevMisReservasPC, bNextMisReservasPC,  bPrevRestaurantPC, bNextRestaurantPC;
+    // --- COMPONENTES DE INTERFAZ (BOTONES) ---
+    Button bInicio, bStats, bMisReservas, bCerrarSesion;
+    Button bSignIn, bRegister, bModificarCorreo;
+    Button bReservar, bModificar, bEleminar;
+    Button bPrevMisReservasPC, bNextMisReservasPC;
+    Button bPrevRestaurantPC, bNextRestaurantPC;
     RoundButton rbPerfil;
+
+    // --- ELEMENTOS DE SELECCIÓN (RADIO BUTTONS) ---
     RadioButton radbDesayuno, radbComida, radbCena;
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
-    PImage iconaPerfil, logo, logoLong, img;
+
+    // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
     TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
+
+    // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
+    PagedCard2DRestaurantCard restaurantePC;
+    PagedCardMisReservas misReservasPC;
+    Calendari calendari;
+
+    // --- RECURSOS VISUALES (IMÁGENES) ---
+    PImage iconaPerfil, logo, logoLong, img, img1, img2;
+
+    // --- ESTILOS Y CONFIGURACIÓN ---
     Colors appColors;
     Fonts f;
-    Calendari calendari;
-    CheckBox cB;
-    PImage img1, img2;
-
-
-    PagedCardMisReservas misReservasPC;
-    PagedCard2DRestaurantCard restaurantePC;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -72,53 +83,58 @@ public class GUI {
 
 
     public GUI(PApplet p5, Colors appColors){
-        pantallaActual = PANTALLA.SIGNUP;
-        this.appColors= appColors;
-        creaBotons(p5, appColors);
+        // 1. Configuración de olores y estado inicial
+        this.appColors = appColors;
+        this.pantallaActual = PANTALLA.SIGNUP;
+
+        // 2. Inicialización de Objetos y Fuentes
+        f = new Fonts(p5);
+        calendari = new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
+
+        // 3. Carga de Multimedia (Imágenes y recursos externos)
+        this.setMedia(p5);
+
+        // 4. Creación de Componentes de la GUI
         creaTextField(p5);
-        this.setMedia(p5);  // Carrega les imatges
         creaRoundButton(p5);
         creaRadioButton(p5);
-        f = new Fonts(p5);
-        creaBotonsModificarIEliminar(p5, appColors, 100);  //tengo que crear muchos iguales en una pantalla, como lo hago
-        creaBotonsModificarIEliminar(p5, appColors, 200);
-        creaBotonsModificarIEliminar(p5, appColors, 300);
-        creaBotonsModificarIEliminar(p5, appColors, 400);
-        calendari= new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
-        cB= new CheckBox(p5, (int)(marginInicialW+restaurantDetalleWidth+marginWBR), (int)marginInicialH+100,10);
+        creaBotons(p5, appColors);
         setCards(p5);
-
-
 
     }
 
     public void creaBotons(PApplet p5, Colors c){
-        bRegister= new Button(p5,"YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
-        bSignIn= new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80,c);
-        bReservar= new Button(p5, "RESERVAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200,70,c);
-        bMisReservas= new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200,60,c);
-        bStats= new Button(p5, "STATS",Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200,60 ,c);
-        bInicio= new Button(p5, "INICIO",Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200,60,c );
-        bCerrarSesion = new Button(p5, "CERRAR SESION",p5.width/2 -255, p5.height/2 +250 , 510, 80 , c);
-        bModificarCorreo= new Button(p5, "MODIFICAR CORREO",p5.width/2 -255, p5.height/2 +100 , 510, 80 , c);
+        // --- LOGIN Y REGISTRO ---
+        bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
+        bRegister       = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
+
+        // --- NAVEGACIÓN PRINCIPAL (BANNER / MENÚ) ---
+        bInicio         = new Button(p5, "INICIO", Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200, 60, c);
+        bStats          = new Button(p5, "STATS", Layout.logoWidth+280, Layout.bannerHeight/2 -5, 200, 60, c);
+        bMisReservas    = new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200, 60, c);
+
+        // --- PERFIL Y GESTIÓN DE USUARIO ---
+        bModificarCorreo = new Button(p5, "MODIFICAR CORREO", p5.width/2 -255, p5.height/2 +100 , 510, 80, c);
+        bCerrarSesion    = new Button(p5, "CERRAR SESION", p5.width/2 -255, p5.height/2 +250 , 510, 80, c);
+
+        // --- ACCIONES DE RESERVA ---
+        bReservar       = new Button(p5, "RESERVAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
+
+        // --- NAVEGACIÓN DE CARTAS (RESTAURANTES) ---
+        bNextRestaurantPC = new Button(p5, "NEXT", 240 + restaurantCardsW, 843 + restaurantButtonW, restaurantButtonH,restaurantButtonH, appColors);
+        bPrevRestaurantPC = new Button(p5, "PREV", 170 + restaurantCardsW, 843 + restaurantButtonH, restaurantButtonW, restaurantButtonH, appColors);
+
+        // --- NAVEGACIÓN DE CARTAS (MIS RESERVAS) ---
         bPrevMisReservasPC = new Button(p5, "NEXT", 100 + misReservasCardsW, 80, misReservasButtonW, misReservasButtonH, appColors);
-        bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH,appColors);
-        bNextRestaurantPC = new Button(p5, "NEXT", 100 + restaurantCardsW, 80, restaurantButtonW, restaurantButtonH, appColors);
-        bPrevRestaurantPC = new Button(p5, "PREV", 100 + restaurantCardsW, 100 + restaurantButtonH, restaurantButtonW, restaurantButtonH,appColors);
+        bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH, appColors);
     }
 
-    public void creaBotonsModificarIEliminar (PApplet p5, Colors c, float y){
-        bModificar= new Button(p5, "MODIFICAR", marginInicialW+ 50 + imagenMisReservasW+ 520,marginInicialH+y, 100,50, c  );
-        bEleminar= new Button(p5, "ELIMINAR",marginInicialW+ 50 + imagenMisReservasW+ 650,marginInicialH+y, 100,50, c  );
-        bModificar.setColors(appColors);
-        bEleminar.setColors(appColors);
-
-    }
     public void creaTextField(PApplet p5){
-        //Pantalla sign in
+        // --- PANTALLA SING-IN ---
         tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, appColors);
         tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, appColors);
         tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, appColors);
+        // --- PANTALLA RESERVA ---
         tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, appColors);
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
 
@@ -171,7 +187,6 @@ public class GUI {
 
     }
 
-
     public void setMedia(PApplet p5){
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         logo= p5.loadImage("data/B2B-Logo.png");
@@ -180,17 +195,18 @@ public class GUI {
         img1 = p5.loadImage("categoria1.png");
         img2 = p5.loadImage("categoria2.png");
     }
+
     public void setCards(PApplet p5){
         //PagedCatrd Mis reservas
         misReservasPC = new PagedCardMisReservas(4,appColors);
-        misReservasPC.setDimensions(50, 50, misReservasCardsW, misReservasCardsH); //crear a medidas
+        misReservasPC.setDimensions(marginInicialW , marginInicialH-100, misReservasCardsW, misReservasCardsH); //crear a medidas
         misReservasPC.setData(infoMisReservasCards);
         misReservasPC.setCards(p5, appColors);
         misReservasPC.setImages(img1, img2);
 
         //PagedCard2D Restaurant Card
-        restaurantePC = new PagedCard2DRestaurantCard(3, 3, appColors);
-        restaurantePC.setDimensions(50, 50, restaurantCardsW, restaurantCardsH);
+        restaurantePC = new PagedCard2DRestaurantCard(2, 3, appColors);
+        restaurantePC.setDimensions(marginInicialW+ 50, marginInicialH-50, restaurantCardsW +50, restaurantCardsH+50);
         restaurantePC.setData(infoRestaurantCards);
         restaurantePC.setCards();
         restaurantePC.setImages(img1, img2);
@@ -205,7 +221,7 @@ public class GUI {
 
     //**************************************************** PANTALLAS  *************************************************************************************
 
- // 0
+    // 0
     public void dibuixaPantallaSingUp(PApplet p5) {
         p5.pushStyle();
         p5.background(55);
@@ -351,7 +367,6 @@ public class GUI {
     // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
-        cB.display(p5);
         misReservasPC.display(p5);
         bPrevMisReservasPC.display(p5);
         bNextMisReservasPC.display(p5);
@@ -377,7 +392,7 @@ public class GUI {
 
     public void elementosEsenciales(PApplet p5){
         zonaPrincipal(p5);
-        taskBar(p5);
+        //taskBar(p5);
         logo(p5);
         bMisReservas.display(p5);
         bStats.display(p5);

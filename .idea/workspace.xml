@@ -9,10 +9,8 @@
       <change beforePath="$PROJECT_DIR$/src/B2B_Medidas/Layout.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/B2B_Medidas/Layout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardMisReservas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MisReservasCards/PagedCardTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MisReservasCards/PagedCardMisReservasTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/TestPagedCard2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCardTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/PagedCard2DRestaurantCard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RestaurantCards/RestaurantCard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +72,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.MisReservasCardTest">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Bed2Bite" />
@@ -136,9 +134,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RestaurantCardTest" />
-        <item itemvalue="Application.Main" />
         <item itemvalue="Application.MisReservasCardTest" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.RestaurantCardTest" />
         <item itemvalue="Application.PagedCardMisReservasTest" />
         <item itemvalue="Application.PagedCard2DRestaurantCardTest" />
       </list>
@@ -393,7 +391,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773866588291</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Canvi">
+      <option name="closed" value="true" />
+      <created>1773916101999</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1773916101999</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

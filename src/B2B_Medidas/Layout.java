@@ -43,7 +43,7 @@ public class Layout {
     public static float misReservasButtonW = 60, misReservasButtonH = 60;
 
     // Dimensions de les cards de Restaurant Card
-    public static float restaurantCardsW = 800, restaurantCardsH = 700;
+    public static float restaurantCardsW = 1200, restaurantCardsH = 700;
 
     // Dimensions dels botons de restaurant Card
     public static float restaurantButtonW = 60, restaurantButtonH = 60;

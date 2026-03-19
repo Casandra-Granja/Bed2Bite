@@ -138,55 +138,51 @@ public class Main extends PApplet {
         } else if (gui.bInicio.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.INICIAL;
             println("BINICIO has been pressed!!");
-        } else if (gui.bModificar.mouseOverButton(this)) {
+        } /*else if (gui.bModificar.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.ESPECIFICACIONRESERVA;
             println("BMODIFICAR has been pressed!!");
         } else if (gui.bEleminar.mouseOverButton(this)) {
             println("BELIMINAR has been pressed!!");
-        } else if (gui.bModificarCorreo.mouseOverButton(this)) {
+            */
+        else if (gui.bModificarCorreo.mouseOverButton(this)) {
             println("BMODIFICARCORREO has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.SIGNUP;
-        }
-        else if (gui.bCerrarSesion.mouseOverButton(this)) {
+        } else if (gui.bCerrarSesion.mouseOverButton(this)) {
             println("BCERRARSESION has been pressed!!");
         }
-            //Round Button
+        //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
         // Si pitjam sobre el radiobuttongroup
         gui.radbgTipoReserva.updateOnClick(this);
-        if(gui.radbDesayuno.isChecked()){
+        if (gui.radbDesayuno.isChecked()) {
             gui.radbgHorarioReservaDesayuno.updateOnClick(this);
 
-        }else if(gui.radbComida.isChecked()){
+        } else if (gui.radbComida.isChecked()) {
             gui.radbgHorarioReservaComida.updateOnClick(this);
 
-        }else if(gui.radbCena.isChecked()){
+        } else if (gui.radbCena.isChecked()) {
             gui.radbgHorarioReservaCena.updateOnClick(this);
 
         }
 
         //CARD MIS RESERVAS
-        if(gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()){
+        if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
             gui.misReservasPC.nextPage();
-        }
-        else if(gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()){
+        } else if (gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()) {
             gui.misReservasPC.prevPage();
-        }
-        else {
+        } else {
             gui.misReservasPC.checkCardSelection(this);
         }
         //CARD RESTAURANT
 
-        if(gui.bNextRestaurantPC.mouseOverButton(this) && gui.bNextRestaurantPC.isEnabled()){
+        if (gui.bNextRestaurantPC.mouseOverButton(this) && gui.bNextRestaurantPC.isEnabled()) {
             gui.restaurantePC.nextPage();
-        }
-        else if(gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()){
+        } else if (gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()) {
             gui.restaurantePC.prevPage();
-        }
-        else {
+        } else {
             gui.restaurantePC.checkCardSelection(this);
         }
 
@@ -198,13 +194,70 @@ public class Main extends PApplet {
         gui.tfNumHabitacion.isPressed(this);
         gui.tfNomiApellidos.isPressed(this);
         gui.tfNumPersonas.isPressed(this);
-
     }
 
 
+
     public void updateCursor(PApplet p5) {
-        //Button
         boolean cursorHAND = false;
+
+        // FILTRAR POR PANTALLA
+        switch (gui.pantallaActual) {
+
+            case SIGNUP:
+                // Perfil NO está. Solo el botón de registro.
+                if (gui.bRegister.updateHandCursor(p5)) cursorHAND = true;
+                break;
+
+            case SIGNIN:
+                // Perfil NO está. Solo el botón de login.
+                if (gui.bSignIn.updateHandCursor(p5)) cursorHAND = true;
+                break;
+
+            case INICIAL:
+            case INICIALEXTENDIDA:
+                // Perfil SÍ está + Cartas de restaurante
+                if (gui.rbPerfil.updateHandCursor(p5) || gui.restaurantePC.checkMouseOver(p5) ||
+                        (gui.bNextRestaurantPC.isEnabled() && gui.bNextRestaurantPC.mouseOverButton(p5)) ||
+                        (gui.bPrevRestaurantPC.isEnabled() && gui.bPrevRestaurantPC.mouseOverButton(p5))) {
+                    cursorHAND = true;
+                }
+                break;
+
+            case MISRESERVAS:
+                // Perfil SÍ está + Cartas de mis reservas
+                if (gui.rbPerfil.updateHandCursor(p5) || gui.misReservasPC.checkMouseOver(p5) ||
+                        (gui.bNextMisReservasPC.isEnabled() && gui.bNextMisReservasPC.mouseOverButton(p5)) ||
+                        (gui.bPrevMisReservasPC.isEnabled() && gui.bPrevMisReservasPC.mouseOverButton(p5))) {
+                    cursorHAND = true;
+                }
+                break;
+
+            case ESPECIFICACIONRESERVA:
+                // Perfil SÍ está + RadioButtons y botón reservar
+                if (gui.rbPerfil.updateHandCursor(p5) || gui.radbDesayuno.onMouseOver(p5) ||
+                        gui.radbComida.onMouseOver(p5) || gui.radbCena.onMouseOver(p5) ||
+                        gui.bReservar.updateHandCursor(p5)) {
+                    cursorHAND = true;
+                }
+                break;
+
+            default:
+                // Para cualquier otra pantalla (USUARIO, STATS, etc.)
+                // Comprobamos el perfil por defecto
+                if (gui.rbPerfil.updateHandCursor(p5)) cursorHAND = true;
+                break;
+        }
+
+        // Aplicar el cursor final
+        if (cursorHAND) {
+            p5.cursor(HAND);
+        } else {
+            p5.cursor(ARROW);
+        }
+        }
+
+        /*
         if (gui.bRegister.updateHandCursor(p5) || gui.bSignIn.updateHandCursor(p5)
                 || gui.bReservar.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
                 gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bModificar.updateHandCursor(p5)|| gui.bEleminar.updateHandCursor(p5)) {
@@ -238,6 +291,7 @@ public class Main extends PApplet {
             cursor(ARROW);
         }
 
-    }
+         */
+
     }
 

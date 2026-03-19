@@ -45,30 +45,41 @@ public class RestaurantCard {
 
     public void display(PApplet p5, boolean selected) {
         p5.pushStyle();
+
+        // 1. Dibujar el fondo de la carta
         p5.rectMode(p5.CORNER);
         if(selected){
             p5.fill(appColors.getBotonOverColor());
-        }
-        else {
+        } else {
             p5.fill(appColors.getBotonColor());
         }
+        p5.stroke(0, 50); // Un pequeño borde para que se distingan
         p5.rect(x, y, w, h, 15);
 
+        // 2. Dibujar la Imagen o el placeholder
+        // Ajustamos para que deje espacio al texto abajo
+        float imageHeight = h * 0.6f;
         if (img == null) {
-            p5.rect(x + 5, y + 5, w - 10, h / 4, 5);
+            p5.fill(200);
+            p5.rect(x + 5, y + 5, w - 10, imageHeight, 5);
         } else {
             p5.imageMode(p5.CORNER);
-            p5.image(img, x + 5, y + 5, w - 10, h - 90);
+            p5.image(img, x + 5, y + 5, w - 10, imageHeight);
         }
-        p5.pushStyle();
+
+        // 3. Dibujar la línea divisoria (ahora relativa a 'y')
+        p5.stroke(appColors.getBlueColor());
+        p5.line(x + 10, y + imageHeight + 10, x + w - 10, y + imageHeight + 10);
+
+        // 4. Dibujar el Título
         p5.fill(0);
-        p5.text(titol, x + 5, h / 4 + 15);
-        p5.popStyle();
-        p5.pushStyle();
-        p5.fill(appColors.getBlueColor());
-        p5.line(x, y + h - 85, x + w, y + h - 85);
-        p5.popStyle();
-        //bAcceder.display(p5);
+        p5.textSize(16);
+        p5.textAlign(PApplet.CENTER, PApplet.TOP);
+
+        // Dibujamos el texto debajo de la imagen, centrado en la carta
+        // El área de texto empieza en y + imageHeight + 20
+        p5.text(titol, x + 5, y + imageHeight + 20, w - 10, h - imageHeight - 25);
+
         p5.popStyle();
 
     }

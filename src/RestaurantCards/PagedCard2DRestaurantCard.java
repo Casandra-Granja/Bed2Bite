@@ -23,6 +23,8 @@ import processing.core.PImage;
 
         Colors appColors;
 
+        float spacing = 50; // Cambia este valor para aumentar o disminuir el espacio
+
         // Constructor
         public PagedCard2DRestaurantCard(int numRows, int numCols, Colors appColors) {
             this.appColors = appColors;
@@ -39,33 +41,40 @@ import processing.core.PImage;
             this.y = y;
             this.w = w;
             this.h = h;
-            this.wc =( w - 5*(numCardsRow-1)) / numCardsRow;
-            this.hc = (h - 5*(numRowsPage -1)) / numRowsPage;
+
+            // Espacio total a repartir entre las columnas
+            float totalSpacingW = spacing * (numCardsRow - 1);
+            float totalSpacingH = spacing * (numRowsPage - 1);
+
+            // El ancho de cada carta es (Ancho total - Espacios) / número de columnas
+            this.wc = (w - totalSpacingW) / numCardsRow;
+            this.hc = (h - totalSpacingH) / numRowsPage;
         }
 
         public void setData(String[][] d) {
             this.cardsData = d;
             this.numCards = d.length;
-            this.numTotalPages = d.length / this.numCardsPage;
+            //this.numTotalPages = d.length / this.numCardsPage;
+            // Corrección para calcular el total de páginas correctamente (empezando en 0)
+            this.numTotalPages = (int) Math.ceil((double)d.length / this.numCardsPage) - 1;
         }
 
         public void setCards() {
-
             cards = new RestaurantCard[numCards];
 
-            for(int numCard=0; numCard<cardsData.length; numCard++){
+            for(int i = 0; i < cardsData.length; i++){
+                // Fila y columna dentro de la página actual
+                int nr = (i / numCardsRow) % numRowsPage;
+                int nc = i % numCardsRow;
 
-                int nr = (numCard / numCardsRow) % numRowsPage;
-                int nc = numCard % numCardsRow;
+                // Posición individual de ESTA carta
+                float xCard = x + (wc + spacing) * nc;
+                float yCard = y + (hc + spacing) * nr;
 
-                float yCard = y + (hc + 5) * nr;
-                float xCard = x + (wc + 5)* nc;
-
-
-
-                cards[numCard] = new RestaurantCard(cardsData[numCard][0],cardsData[numCard][1]);
-                cards[numCard].appColors = appColors;
-                cards[numCard].setDimensions(xCard, yCard, wc, hc);
+                // Creamos la carta con su texto (cardsData[i][0] es el nombre)
+                cards[i] = new RestaurantCard(cardsData[i][0], cardsData[i][1]);
+                cards[i].appColors = appColors;
+                cards[i].setDimensions(xCard, yCard, wc, hc);
             }
 
         }
