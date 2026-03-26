@@ -214,5 +214,22 @@ public class DataBase {
             return info;
 
         }
+        public boolean loginCorrecte(String nom, String password){
+
+        String q = "SELECT COUNT(*) AS N " +
+                "FROM usuario" +
+                " WHERE User = '" + nom + "' AND Contraseña ='" + password + "'";
+        System.out.println(q);
+        try{
+            ResultSet rs = query.executeQuery(q);
+            rs.next();
+            int n= rs.getInt("N");
+            return (n==1);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+        }
 
     }

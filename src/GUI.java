@@ -19,7 +19,7 @@ public class GUI {
 
     // --- COMPONENTES DE INTERFAZ (BOTONES) ---
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
-    Button bSignIn, bRegister, bModificarCorreo;
+    Button bSignIn, bDontHaveAnAccount, bModificarCorreo;
     Button bReservar, bModificar, bEleminar;
     Button bPrevMisReservasPC, bNextMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
@@ -85,7 +85,7 @@ public class GUI {
     public GUI(PApplet p5, Colors appColors){
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
-        this.pantallaActual = PANTALLA.SIGNUP;
+        this.pantallaActual = PANTALLA.SIGNIN;
 
         // 2. Inicialización de Objetos y Fuentes
         f = new Fonts(p5);
@@ -106,7 +106,7 @@ public class GUI {
     public void creaBotons(PApplet p5, Colors c){
         // --- LOGIN Y REGISTRO ---
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
-        bRegister       = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
+        bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
 
         // --- NAVEGACIÓN PRINCIPAL (BANNER / MENÚ) ---
         bInicio         = new Button(p5, "INICIO", Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200, 60, c);
@@ -252,7 +252,8 @@ public class GUI {
         tfPassword.display(p5);
         p5.text("USER",p5.width/2 -255, p5.height/2 +90);
         tfUsuari.display(p5);
-        bRegister.display(p5);
+        bDontHaveAnAccount.display(p5);
+        bSignIn.display(p5);
         p5.popStyle();
 
     }
@@ -261,14 +262,9 @@ public class GUI {
         // Dibuixa el fons (gris)
         p5.background(55);    // Color de fons
         elementosEsenciales(p5);
-        //rc.display(p5, true);
-        //restaurantsMain(p5);
-        //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR, 0, "RESTAURANT 1");
-        //restaurant(p5, Layout.restaurantWidthMain + Layout.marginWBR , Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 2");
         restaurantePC.display(p5);
         bPrevRestaurantPC.display(p5);
         bNextRestaurantPC.display(p5);
-
     }
     //3
     public void dibuixaPantallaInicialExtendida(PApplet p5) {

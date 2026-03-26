@@ -11,6 +11,7 @@ public class Main extends PApplet {
     GUI gui;
     // Components de la GUI
     RoundButton rbPerfil;
+    boolean loginWrong = false;
 
     // Imatges de la GUI
     PImage iconaPerfil, icona2; //vescotial Pshape i LoadShape
@@ -31,7 +32,7 @@ public class Main extends PApplet {
         c1= new Colors(this);
         f1= new Fonts(this);
         gui= new GUI(this, c1);
-        db= new DataBase("admin", "12345", "provabbdd");
+        db= new DataBase("admin", "12345", "mydb");
         db.connect();
 
 
@@ -77,12 +78,16 @@ public class Main extends PApplet {
         // Actualitza forma del cursor
         updateCursor(this);
 
+        if(loginWrong && gui.pantallaActual== GUI.PANTALLA.SIGNIN){
+            text("YOU ARE NOT LOGGED IN!", 200, 100);
+        }
+
     }
 
     public void keyPressed(){
 
         //AÑADIMOS PANTALLAS
-            if(key== '0'){
+           /* if(key== '0'){
                 gui.pantallaActual= GUI.PANTALLA.SIGNUP;
             }
             else if(key== '1'){
@@ -109,27 +114,94 @@ public class Main extends PApplet {
             else if(key== '8'){
                 gui.pantallaActual= GUI.PANTALLA.USUARIO;
             }
-            //AÑADIMOS TEXTFIELDS
-            gui.tfUsuari.keyPressed(key, keyCode);
-            gui.tfPassword.keyPressed(key, keyCode);
-            gui.tfNumHabitacion.keyPressed(key, keyCode);
-            gui.tfNomiApellidos.keyPressed(key, keyCode);
-            gui.tfNumPersonas.keyPressed(key,keyCode); //comom hacer que este solo deje numeros i un espacio reducido
 
+            */
+            //AÑADIMOS TEXTFIELDS
+            gui.tfUsuari.keyPressed(keyCode);
+            gui.tfPassword.keyPressed(keyCode);
+            gui.tfNumHabitacion.keyPressed(keyCode);
+            gui.tfNomiApellidos.keyPressed(keyCode);
+            gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
+    }
+
+    public void keyTyped(){
+        gui.tfUsuari.keyTyped(key);
+        gui.tfPassword.keyTyped(key);
+        gui.tfNumHabitacion.keyTyped(key);
+        gui.tfNomiApellidos.keyTyped(key);
+        gui.tfNumPersonas.keyTyped(key);
 
     }
 
-    public void mousePressed() {
-        //AÑADIMOS BOTONES
-        //Button
-        if (gui.bRegister.mouseOverButton(this)) {
+    public void mousePressedPantallaSINGUP(){
+        if (gui.bDontHaveAnAccount.mouseOverButton(this)) {
             println("BREGISTER has been pressed!!");
-            gui.pantallaActual = GUI.PANTALLA.INICIAL;
-        } else if (gui.bSignIn.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.SIGNIN;
+        }
+        if (gui.bSignIn.mouseOverButton(this)) {
+            String nom = gui.tfUsuari.getText();
+            String password = gui.tfPassword.getText();
+            if (db.loginCorrecte(nom, password)) {
+                gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            } else {
+                //posar popup
+                loginWrong = true;
+            }
             println("BSIGNIN has been pressed!!");
-        } else if (gui.bReservar.mouseOverButton(this)) {
-            println("BRESERVAR has been pressed!!");
-        } else if (gui.bMisReservas.mouseOverButton(this)) {
+        }
+        gui.tfUsuari.isPressed(this);
+        gui.tfPassword.isPressed(this);
+        gui.tfNumHabitacion.isPressed(this);
+        gui.tfNomiApellidos.isPressed(this);
+
+    }
+    public void mousePressedPantallaSINGIN(){
+        if (gui.bSignIn.mouseOverButton(this)) {
+            String nom = gui.tfUsuari.getText();
+            String password = gui.tfPassword.getText();
+            if (db.loginCorrecte(nom, password)) {
+                gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            } else {
+                //posar popup
+                loginWrong = true;
+            }
+            println("BSIGNIN has been pressed!!");
+        }
+        if (gui.bDontHaveAnAccount.mouseOverButton(this)) {
+            println("BREGISTER has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.SIGNUP;
+        }
+        gui.tfUsuari.isPressed(this);
+        gui.tfPassword.isPressed(this);
+    }
+    public void mousePressedPantallaINICIAL(){
+        if (gui.bMisReservas.mouseOverButton(this)) {
+        gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+        println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+        gui.pantallaActual = GUI.PANTALLA.STATS;
+        println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+        gui.pantallaActual = GUI.PANTALLA.INICIAL;
+        println("BINICIO has been pressed!!");
+        }
+        //CARD RESTAURANT
+
+        if (gui.bNextRestaurantPC.mouseOverButton(this) && gui.bNextRestaurantPC.isEnabled()) {
+            gui.restaurantePC.nextPage();
+        } else if (gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()) {
+            gui.restaurantePC.prevPage();
+        } else {
+            gui.restaurantePC.checkCardSelection(this);
+        }
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
+        }
+    }
+    public void mousePressedPantallaINICIALEXTENDIDA() {
+        if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
@@ -138,24 +210,63 @@ public class Main extends PApplet {
         } else if (gui.bInicio.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.INICIAL;
             println("BINICIO has been pressed!!");
-        } /*else if (gui.bModificar.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.ESPECIFICACIONRESERVA;
-            println("BMODIFICAR has been pressed!!");
-        } else if (gui.bEleminar.mouseOverButton(this)) {
-            println("BELIMINAR has been pressed!!");
-            */
-        else if (gui.bModificarCorreo.mouseOverButton(this)) {
-            println("BMODIFICARCORREO has been pressed!!");
-            gui.pantallaActual = GUI.PANTALLA.SIGNUP;
-        } else if (gui.bCerrarSesion.mouseOverButton(this)) {
-            println("BCERRARSESION has been pressed!!");
         }
         //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
-        // Si pitjam sobre el radiobuttongroup
+    }
+    public void mousePressedPantallaDESCRIPCIONESRESTAURANTE() {
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }else if (gui.bReservar.mouseOverButton(this)) {
+            println("BRESERVAR has been pressed!!");
+        }
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
+        }
+    }
+    public void mousePressedPantallaSTATS(){
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
+        }
+    }
+    public void mousePressedPantallaESPECIFICACIONESRESERVA(){
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }
+        else if (gui.bReservar.mouseOverButton(this)) {
+            println("BRESERVAR has been pressed!!");
+        }// Si pitjam sobre el radiobuttongroup
         gui.radbgTipoReserva.updateOnClick(this);
         if (gui.radbDesayuno.isChecked()) {
             gui.radbgHorarioReservaDesayuno.updateOnClick(this);
@@ -167,7 +278,26 @@ public class Main extends PApplet {
             gui.radbgHorarioReservaCena.updateOnClick(this);
 
         }
+        // Text Field
+        gui.tfNumPersonas.isPressed(this);
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
+        }
 
+    }
+    public void mousePressedPantallaMISRESERVAS(){
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }
         //CARD MIS RESERVAS
         if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
             gui.misReservasPC.nextPage();
@@ -176,24 +306,55 @@ public class Main extends PApplet {
         } else {
             gui.misReservasPC.checkCardSelection(this);
         }
-        //CARD RESTAURANT
-
-        if (gui.bNextRestaurantPC.mouseOverButton(this) && gui.bNextRestaurantPC.isEnabled()) {
-            gui.restaurantePC.nextPage();
-        } else if (gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()) {
-            gui.restaurantePC.prevPage();
-        } else {
-            gui.restaurantePC.checkCardSelection(this);
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
         }
+    }
+    public void mousePressedPantallaUSUARIO(){
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }else if (gui.bModificarCorreo.mouseOverButton(this)) {
+            println("BMODIFICARCORREO has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.SIGNUP;
+        } else if (gui.bCerrarSesion.mouseOverButton(this)) {
+            println("BCERRARSESION has been pressed!!");
+        }
+        //Round Button
+        if (gui.rbPerfil.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            println("RBPERFIL has been pressed!!");
+        }
+    }
 
-        //AÑADIMOS TEXTFIELDS
-        //Text Field
-
-        gui.tfUsuari.isPressed(this);
-        gui.tfPassword.isPressed(this);
-        gui.tfNumHabitacion.isPressed(this);
-        gui.tfNomiApellidos.isPressed(this);
-        gui.tfNumPersonas.isPressed(this);
+    public void mousePressed() {
+        if(gui.pantallaActual == GUI.PANTALLA.SIGNUP) {
+            mousePressedPantallaSINGUP();
+        }else if(gui.pantallaActual == GUI.PANTALLA.SIGNIN){
+            mousePressedPantallaSINGIN();
+        }else if(gui.pantallaActual == GUI.PANTALLA.INICIAL){
+            mousePressedPantallaINICIAL();
+        }else if(gui.pantallaActual == GUI.PANTALLA.INICIALEXTENDIDA){
+            mousePressedPantallaINICIALEXTENDIDA();
+        }else if(gui.pantallaActual == GUI.PANTALLA.DESCRIPCIONRESTAURANTE){
+            mousePressedPantallaDESCRIPCIONESRESTAURANTE();
+        }else if(gui.pantallaActual == GUI.PANTALLA.STATS){
+            mousePressedPantallaSTATS();
+        }else if(gui.pantallaActual == GUI.PANTALLA.ESPECIFICACIONRESERVA){
+            mousePressedPantallaESPECIFICACIONESRESERVA();
+        }else if(gui.pantallaActual == GUI.PANTALLA.MISRESERVAS){
+            mousePressedPantallaMISRESERVAS();
+        }else if(gui.pantallaActual == GUI.PANTALLA.USUARIO){
+            mousePressedPantallaUSUARIO();
+        }
     }
 
 
@@ -206,12 +367,12 @@ public class Main extends PApplet {
 
             case SIGNUP:
                 // Perfil NO está. Solo el botón de registro.
-                if (gui.bRegister.updateHandCursor(p5)) cursorHAND = true;
+                if (gui.bSignIn.updateHandCursor(p5)) cursorHAND = true;
                 break;
 
             case SIGNIN:
                 // Perfil NO está. Solo el botón de login.
-                if (gui.bSignIn.updateHandCursor(p5)) cursorHAND = true;
+                if (gui.bDontHaveAnAccount.updateHandCursor(p5)) cursorHAND = true;
                 break;
 
             case INICIAL:
