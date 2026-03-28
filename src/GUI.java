@@ -40,6 +40,9 @@ public class GUI {
     // --- RECURSOS VISUALES (IMÁGENES) ---
     PImage iconaPerfil, logo, logoLong, img, img1, img2;
 
+    // --- POPUP ---
+    PopUp puSignIn;
+
     // --- ESTILOS Y CONFIGURACIÓN ---
     Colors appColors;
     Fonts f;
@@ -100,6 +103,7 @@ public class GUI {
         creaRadioButton(p5);
         creaBotons(p5, appColors);
         setCards(p5);
+        creaPopUp(p5);
 
     }
 
@@ -218,6 +222,10 @@ public class GUI {
         rbPerfil= new RoundButton(p5, iconaPerfil,p5.width-Layout.marginW-70,100,50);
     }
 
+    public void creaPopUp(PApplet p5){
+        puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2, p5.height/2, 600, 340, appColors);
+    }
+
 
     //**************************************************** PANTALLAS  *************************************************************************************
 
@@ -248,9 +256,9 @@ public class GUI {
         zonaPrincipal(p5);
         logoSing(p5);
         p5.fill(0);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 +240);
+        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -220);
         tfPassword.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 +90);
+        p5.text("USER",p5.width/2 -255, p5.height/2 - 60);
         tfUsuari.display(p5);
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);

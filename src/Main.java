@@ -79,6 +79,7 @@ public class Main extends PApplet {
         updateCursor(this);
 
         if(loginWrong && gui.pantallaActual== GUI.PANTALLA.SIGNIN){
+            gui.puSignIn.display(this);
             text("YOU ARE NOT LOGGED IN!", 200, 100);
         }
 
@@ -134,6 +135,9 @@ public class Main extends PApplet {
     }
 
     public void mousePressedPantallaSINGUP(){
+        if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
+            gui.puSignIn.setVisible(false);
+        }
         if (gui.bDontHaveAnAccount.mouseOverButton(this)) {
             println("BREGISTER has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.SIGNIN;
@@ -156,6 +160,9 @@ public class Main extends PApplet {
 
     }
     public void mousePressedPantallaSINGIN(){
+        if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
+            gui.puSignIn.setVisible(false);
+        }
         if (gui.bSignIn.mouseOverButton(this)) {
             String nom = gui.tfUsuari.getText();
             String password = gui.tfPassword.getText();
@@ -372,33 +379,58 @@ public class Main extends PApplet {
 
             case SIGNIN:
                 // Perfil NO está. Solo el botón de login.
-                if (gui.bDontHaveAnAccount.updateHandCursor(p5)) cursorHAND = true;
+                if (gui.bDontHaveAnAccount.updateHandCursor(p5) || gui.bSignIn.updateHandCursor(p5) || (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled())) cursorHAND = true;
                 break;
 
             case INICIAL:
             case INICIALEXTENDIDA:
                 // Perfil SÍ está + Cartas de restaurante
                 if (gui.rbPerfil.updateHandCursor(p5) || gui.restaurantePC.checkMouseOver(p5) ||
-                        (gui.bNextRestaurantPC.isEnabled() && gui.bNextRestaurantPC.mouseOverButton(p5)) ||
-                        (gui.bPrevRestaurantPC.isEnabled() && gui.bPrevRestaurantPC.mouseOverButton(p5))) {
+                        (gui.bNextRestaurantPC.isEnabled() && gui.bNextRestaurantPC.updateHandCursor(p5)) ||
+                        (gui.bPrevRestaurantPC.isEnabled() && gui.bPrevRestaurantPC.updateHandCursor(p5)) ||
+                        gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)) {
                     cursorHAND = true;
                 }
                 break;
 
             case MISRESERVAS:
-                // Perfil SÍ está + Cartas de mis reservas
-                if (gui.rbPerfil.updateHandCursor(p5) || gui.misReservasPC.checkMouseOver(p5) ||
-                        (gui.bNextMisReservasPC.isEnabled() && gui.bNextMisReservasPC.mouseOverButton(p5)) ||
-                        (gui.bPrevMisReservasPC.isEnabled() && gui.bPrevMisReservasPC.mouseOverButton(p5))) {
+                /*if (gui.misReservasPC.checkMouseOver(this) ||
+                        (gui.bNextMisReservasPC.isEnabled() && gui.bNextMisReservasPC.updateHandCursor(p5)) ||
+                        (gui.bPrevMisReservasPC.isEnabled() && gui.bPrevMisReservasPC.updateHandCursor(p5)) ||
+                        gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)) {
                     cursorHAND = true;
                 }
                 break;
 
+                 */
+
             case ESPECIFICACIONRESERVA:
                 // Perfil SÍ está + RadioButtons y botón reservar
-                if (gui.rbPerfil.updateHandCursor(p5) || gui.radbDesayuno.onMouseOver(p5) ||
+                if (gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
+                        gui.rbPerfil.updateHandCursor(p5) || gui.radbDesayuno.onMouseOver(p5) ||
                         gui.radbComida.onMouseOver(p5) || gui.radbCena.onMouseOver(p5) ||
                         gui.bReservar.updateHandCursor(p5)) {
+                    cursorHAND = true;
+                }
+                break;
+
+            case DESCRIPCIONRESTAURANTE:
+                if((gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
+                        gui.bMisReservas.updateHandCursor(p5)|| gui.bReservar.updateHandCursor(p5))){
+                cursorHAND = true;
+                 }
+                break;
+
+            case USUARIO:
+                if(gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
+                        gui.bMisReservas.updateHandCursor(p5)|| gui.bModificarCorreo.updateHandCursor(p5) || gui.bCerrarSesion.updateHandCursor(p5)){
+                    cursorHAND = true;
+                }
+                break;
+
+            case STATS:
+                if(gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
+                        gui.bMisReservas.updateHandCursor(p5)){
                     cursorHAND = true;
                 }
                 break;
@@ -417,42 +449,5 @@ public class Main extends PApplet {
             p5.cursor(ARROW);
         }
         }
-
-        /*
-        if (gui.bRegister.updateHandCursor(p5) || gui.bSignIn.updateHandCursor(p5)
-                || gui.bReservar.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
-                gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bModificar.updateHandCursor(p5)|| gui.bEleminar.updateHandCursor(p5)) {
-            cursorHAND = true;
-        }
-        //Round Button
-        if (gui.rbPerfil.updateHandCursor(p5)) {
-            cursorHAND = true;
-        }
-
-        if(gui.radbDesayuno.onMouseOver(this)||gui.radbComida.onMouseOver(this)|| gui.radbCena.onMouseOver(this)){
-            cursorHAND = true;
-        }
-
-        //CARD MIS RESERVAS
-        if((gui.bPrevMisReservasPC.mouseOverButton(p5) && gui.bPrevMisReservasPC.isEnabled()) ||
-                (gui.bNextMisReservasPC.mouseOverButton(p5) && gui.bNextMisReservasPC.isEnabled() )|| gui.misReservasPC.checkMouseOver(this)){
-            cursorHAND = true;
-        }
-
-        if((gui.bPrevRestaurantPC.mouseOverButton(p5) && gui.bPrevRestaurantPC.isEnabled()) ||
-                (gui.bNextRestaurantPC.mouseOverButton(p5) && gui.bNextRestaurantPC.isEnabled() )|| gui.restaurantePC.checkMouseOver(this)){
-            cursorHAND = true;
-        }
-
-
-        if(cursorHAND){
-            cursor(HAND);
-        }
-        else {
-            cursor(ARROW);
-        }
-
-         */
-
     }
 
