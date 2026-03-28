@@ -262,6 +262,8 @@ public class GUI {
         tfUsuari.display(p5);
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);
+        puSignIn.display(p5);
+
         p5.popStyle();
 
     }

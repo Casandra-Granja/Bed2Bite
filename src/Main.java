@@ -11,7 +11,7 @@ public class Main extends PApplet {
     GUI gui;
     // Components de la GUI
     RoundButton rbPerfil;
-    boolean loginWrong = false;
+    //boolean loginWrong = false;
 
     // Imatges de la GUI
     PImage iconaPerfil, icona2; //vescotial Pshape i LoadShape
@@ -78,10 +78,12 @@ public class Main extends PApplet {
         // Actualitza forma del cursor
         updateCursor(this);
 
-        if(loginWrong && gui.pantallaActual== GUI.PANTALLA.SIGNIN){
+        /*if(loginWrong && gui.pantallaActual== GUI.PANTALLA.SIGNIN){
             gui.puSignIn.display(this);
             text("YOU ARE NOT LOGGED IN!", 200, 100);
         }
+
+         */
 
     }
 
@@ -135,24 +137,25 @@ public class Main extends PApplet {
     }
 
     public void mousePressedPantallaSINGUP(){
-        if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
-            gui.puSignIn.setVisible(false);
-        }
         if (gui.bDontHaveAnAccount.mouseOverButton(this)) {
             println("BREGISTER has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.SIGNIN;
         }
-        if (gui.bSignIn.mouseOverButton(this)) {
+        /*if (gui.bSignIn.mouseOverButton(this)) {
             String nom = gui.tfUsuari.getText();
             String password = gui.tfPassword.getText();
             if (db.loginCorrecte(nom, password)) {
+                gui.puSignIn.setVisible(false); // por si acaso
                 gui.pantallaActual = GUI.PANTALLA.INICIAL;
             } else {
-                //posar popup
-                loginWrong = true;
+                gui.puSignIn.setVisible(true); // 🔥 MOSTRAR POPUP
             }
+
+
             println("BSIGNIN has been pressed!!");
         }
+
+         */
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
         gui.tfNumHabitacion.isPressed(this);
@@ -169,8 +172,7 @@ public class Main extends PApplet {
             if (db.loginCorrecte(nom, password)) {
                 gui.pantallaActual = GUI.PANTALLA.INICIAL;
             } else {
-                //posar popup
-                loginWrong = true;
+                gui.puSignIn.setVisible(true); // 🔥 MOSTRAR POPUP
             }
             println("BSIGNIN has been pressed!!");
         }

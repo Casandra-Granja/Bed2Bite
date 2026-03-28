@@ -14,7 +14,7 @@ public class PopUp {
 
     public Button bAceptar;
     float buttonW = 200, buttonH = 80;
-    boolean visible = true;
+    boolean visible = false;
 
     // Constructor
 
