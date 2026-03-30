@@ -120,31 +120,36 @@ public class Main extends PApplet {
 
             */
             //AÑADIMOS TEXTFIELDS
+            gui.tfApellidos.keyPressed(keyCode);
             gui.tfUsuari.keyPressed(keyCode);
             gui.tfPassword.keyPressed(keyCode);
             gui.tfNumHabitacion.keyPressed(keyCode);
-            gui.tfNomiApellidos.keyPressed(keyCode);
+            gui.tfNom.keyPressed(keyCode);
             gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
     }
 
     public void keyTyped(){
+        gui.tfApellidos.keyTyped(key);
         gui.tfUsuari.keyTyped(key);
         gui.tfPassword.keyTyped(key);
         gui.tfNumHabitacion.keyTyped(key);
-        gui.tfNomiApellidos.keyTyped(key);
+        gui.tfNom.keyTyped(key);
         gui.tfNumPersonas.keyTyped(key);
 
     }
 
     public void mousePressedPantallaSINGUP(){
-        if (gui.bDontHaveAnAccount.mouseOverButton(this)) {
+        if (gui.bSignIn.mouseOverButton(this)) {
             println("BREGISTER has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.SIGNIN;
         }
-        /*if (gui.bSignIn.mouseOverButton(this)) {
-            String nom = gui.tfUsuari.getText();
+            if(gui.bSignIn.mouseOverButton(this)) {
+            String user = gui.tfUsuari.getText();
+            String ape = gui.tfApellidos.getText();
+            String nom = gui.tfNom.getText();
+            String numHab = gui.tfNumHabitacion.getText();
             String password = gui.tfPassword.getText();
-            if (db.loginCorrecte(nom, password)) {
+            if (db.signUpUsuari(nom, ape,user, numHab, password)) {
                 gui.puSignIn.setVisible(false); // por si acaso
                 gui.pantallaActual = GUI.PANTALLA.INICIAL;
             } else {
@@ -155,11 +160,11 @@ public class Main extends PApplet {
             println("BSIGNIN has been pressed!!");
         }
 
-         */
+        gui.tfApellidos.isPressed(this);
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
         gui.tfNumHabitacion.isPressed(this);
-        gui.tfNomiApellidos.isPressed(this);
+        gui.tfNom.isPressed(this);
 
     }
     public void mousePressedPantallaSINGIN(){

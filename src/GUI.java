@@ -30,7 +30,7 @@ public class GUI {
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
 
     // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
-    TextField tfUsuari, tfPassword, tfNomiApellidos, tfNumHabitacion, tfNumPersonas;
+    TextField tfUsuari, tfPassword, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
 
     // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
     PagedCard2DRestaurantCard restaurantePC;
@@ -137,7 +137,8 @@ public class GUI {
         // --- PANTALLA SING-IN ---
         tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, appColors);
         tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, appColors);
-        tfNomiApellidos= new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, appColors);
+        tfNom = new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, appColors);
+        tfApellidos = new TextField(p5, 0, 0 , 510, 80,40, appColors);
         // --- PANTALLA RESERVA ---
         tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, appColors);
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
@@ -241,11 +242,12 @@ public class GUI {
         tfPassword.display(p5);
         p5.text("USER",p5.width/2 -255, p5.height/2 +90);
         tfUsuari.display(p5);
-        bSignIn.display(p5);
-        p5.text("NAME AND SURNAMES",p5.width/2 -255, p5.height/2 -220 );
-        tfNomiApellidos.display(p5);
+        p5.text("NAME",p5.width/2 -255, p5.height/2 -220 );
+        tfNom.display(p5);
+        tfApellidos.display(p5);
         p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 - 60 );
         tfNumHabitacion.display(p5);
+        bSignIn.display(p5);
         p5.popStyle();
 
     }

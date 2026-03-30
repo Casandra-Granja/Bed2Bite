@@ -214,6 +214,7 @@ public class DataBase {
             return info;
 
         }
+
         public boolean loginCorrecte(String nom, String password){
 
         String q = "SELECT COUNT(*) AS N " +
@@ -231,5 +232,39 @@ public class DataBase {
         }
         return false;
         }
+
+    public boolean signUpCorrecte(String nom, String password){
+
+        String q = "SELECT COUNT(*) AS N " +
+                "FROM usuario" +
+                " WHERE User = '" + nom + "' AND Contraseña ='" + password + "'";
+        System.out.println(q);
+        try{
+            ResultSet rs = query.executeQuery(q);
+            rs.next();
+            int n= rs.getInt("N");
+            return (n==1);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean signUpUsuari(String nom, String ape, String user, String noHabitacion, String contrseña){
+        String q = "INSERT INTO `usuario` (`Nombre`, `Apellido`, `User`, `NºHabitación`, `Contraseña`)" +
+                "VALUES ('"+nom+"', '"+ape+"', '"+user+"', '"+noHabitacion+"', '"+contrseña+"')";
+        System.out.println(q);
+        try{
+            ResultSet rs = query.executeQuery(q);
+            rs.next();
+            int n= rs.getInt("N");
+            return (n==1);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return false;
+    }
 
     }
