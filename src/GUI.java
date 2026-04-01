@@ -17,9 +17,11 @@ public class GUI {
 
     public PANTALLA pantallaActual;
 
+    DataBase db;
+
     // --- COMPONENTES DE INTERFAZ (BOTONES) ---
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
-    Button bSignIn, bDontHaveAnAccount, bModificarCorreo;
+    Button bSignIn, bDontHaveAnAccount, bModificarCorreo, bSignUp;
     Button bReservar, bModificar, bEleminar;
     Button bPrevMisReservasPC, bNextMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
@@ -30,7 +32,7 @@ public class GUI {
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
 
     // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
-    TextField tfUsuari, tfPassword, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
+    TextField tfUsuari, tfUsuariSignUp, tfPassword, tfPasswordSignUp, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
 
     // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
     PagedCard2DRestaurantCard restaurantePC;
@@ -53,6 +55,7 @@ public class GUI {
     RadioButton[] radioHorasDesayno;
     RadioButton[] radioHorasComida;
     RadioButton[] radioHorasCena;
+
 
     // Dades de les cards Mis reservas
     String[][] infoMisReservasCards = {
@@ -85,10 +88,11 @@ public class GUI {
 
 
 
-    public GUI(PApplet p5, Colors appColors){
+    public GUI(PApplet p5, Colors appColors, DataBase db){
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
         this.pantallaActual = PANTALLA.SIGNIN;
+        this.db=db;
 
         // 2. Inicialización de Objetos y Fuentes
         f = new Fonts(p5);
@@ -111,6 +115,7 @@ public class GUI {
         // --- LOGIN Y REGISTRO ---
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
+        bSignUp = new Button(p5,"SIGN UP", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
 
         // --- NAVEGACIÓN PRINCIPAL (BANNER / MENÚ) ---
         bInicio         = new Button(p5, "INICIO", Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200, 60, c);
@@ -135,12 +140,14 @@ public class GUI {
 
     public void creaTextField(PApplet p5){
         // --- PANTALLA SING-IN ---
-        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +250 , 510, 80, 40, appColors);
-        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 +100 , 510, 80,40, appColors);
-        tfNom = new TextField(p5 ,p5.width/2 -255, p5.height/2 -200 , 510, 80,40, appColors);
-        tfApellidos = new TextField(p5, 0, 0 , 510, 80,40, appColors);
+        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 -180 , 510, 80, 40, appColors);
+        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 -310 , 510, 80,40, appColors);
+        tfUsuariSignUp = new TextField( p5, p5.width/2 -255, p5.height/2 -310 , 510, 80,40, appColors);
+        tfPasswordSignUp = new TextField(p5, p5.width/2 -255, p5.height/2 -180 , 510, 80, 40, appColors);
+        tfNom = new TextField(p5 ,p5.width/2 -255, p5.height/2 -45 , 510, 80,40, appColors);
+        tfApellidos = new TextField(p5, p5.width/2 -255, p5.height/2 +80  , 510, 80,40, appColors);
         // --- PANTALLA RESERVA ---
-        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 - 50, 510, 80,10, appColors);
+        tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 +220, 510, 80,10, appColors);
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
 
     }
@@ -212,9 +219,8 @@ public class GUI {
         //PagedCard2D Restaurant Card
         restaurantePC = new PagedCard2DRestaurantCard(2, 3, appColors);
         restaurantePC.setDimensions(marginInicialW+ 50, marginInicialH-50, restaurantCardsW +50, restaurantCardsH+50);
-        restaurantePC.setData(infoRestaurantCards);
-        restaurantePC.setCards();
-        restaurantePC.setImages(img1, img2);
+        restaurantePC.setData(db.infoRestaurants());
+        restaurantePC.setCards(p5);
 
 
     }
@@ -233,34 +239,37 @@ public class GUI {
     // 0
     public void dibuixaPantallaSingUp(PApplet p5) {
         p5.pushStyle();
-        p5.background(55);
+        p5.background(200);
         zonaPrincipal(p5);
         logoSing(p5);
         p5.textSize(25);
         p5.fill(0);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 +240);
-        tfPassword.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 +90);
-        tfUsuari.display(p5);
-        p5.text("NAME",p5.width/2 -255, p5.height/2 -220 );
+        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
+        tfPasswordSignUp.display(p5);
+        p5.text("USER",p5.width/2 -255, p5.height/2 -320);
+        tfUsuariSignUp.display(p5);
+        p5.text("NAME",p5.width/2 -255, p5.height/2-60);
         tfNom.display(p5);
+        p5.text("APELLIDOS",p5.width/2 -255, p5.height/2 +70  );
         tfApellidos.display(p5);
-        p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 - 60 );
+        p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 +265 - 60 );
         tfNumHabitacion.display(p5);
-        bSignIn.display(p5);
+        bSignUp.display(p5);
+        puSignIn.display(p5);
         p5.popStyle();
 
     }
     // 1
     public void dibuixaPantallaSingIn(PApplet p5) {
         p5.pushStyle();
-        p5.background(55);
+        p5.background(200);
         zonaPrincipal(p5);
         logoSing(p5);
         p5.fill(0);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -220);
+        p5.textSize(25);
+        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
         tfPassword.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 - 60);
+        p5.text("USER",p5.width/2 -255, p5.height/2 -320);
         tfUsuari.display(p5);
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);
@@ -272,7 +281,7 @@ public class GUI {
     //2
     public void dibuixaPantallaInicial(PApplet p5) {
         // Dibuixa el fons (gris)
-        p5.background(55);    // Color de fons
+        p5.background(200);    // Color de fons
         elementosEsenciales(p5);
         restaurantePC.display(p5);
         bPrevRestaurantPC.display(p5);
@@ -292,7 +301,7 @@ public class GUI {
     }
     //4
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
-        p5.background(55);
+        p5.background(200);
         elementosEsenciales(p5);
         restaurantDetalle(p5);
         restaurantInfo(p5);
@@ -302,7 +311,7 @@ public class GUI {
     }
     //5
     public void dibuixaPantallaStats(PApplet p5){
-        p5.background(55);
+        p5.background(200);
         p5.pushStyle();
         elementosEsenciales(p5);
         p5.pushStyle();
@@ -421,8 +430,11 @@ public class GUI {
     }
 
     public void zonaPrincipal(PApplet p5){
+        p5.pushStyle();
         p5.fill(200);
+        p5.noStroke();
         p5.rect(Layout.marginW, Layout.marginH, p5.width - Layout.marginW *2, p5.height - Layout.marginH *2);
+        p5.popStyle();
 
     }
 
@@ -435,7 +447,7 @@ public class GUI {
     }
 
     public void logoSing(PApplet p5){
-        p5.image(logoLong, p5.width/2-100, p5.height/2 -420, 200,200);
+        p5.image(logoLong, p5.width/2-150, p5.height/2 -570, 300,300);
     }
 
     public void restaurantsMain (PApplet p5){

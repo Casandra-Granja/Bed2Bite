@@ -29,11 +29,13 @@ public class Main extends PApplet {
     }
 
     public void setup(){
-        c1= new Colors(this);
-        f1= new Fonts(this);
-        gui= new GUI(this, c1);
         db= new DataBase("admin", "12345", "mydb");
         db.connect();
+        c1= new Colors(this);
+        f1= new Fonts(this);
+        gui= new GUI(this, c1, db);
+
+        db.printArray2D(db.infoRestaurants());
 
 
     }
@@ -90,7 +92,7 @@ public class Main extends PApplet {
     public void keyPressed(){
 
         //AÑADIMOS PANTALLAS
-           /* if(key== '0'){
+         /*  if(key== '0'){
                 gui.pantallaActual= GUI.PANTALLA.SIGNUP;
             }
             else if(key== '1'){
@@ -118,7 +120,9 @@ public class Main extends PApplet {
                 gui.pantallaActual= GUI.PANTALLA.USUARIO;
             }
 
-            */
+          */
+
+
             //AÑADIMOS TEXTFIELDS
             gui.tfApellidos.keyPressed(keyCode);
             gui.tfUsuari.keyPressed(keyCode);
@@ -126,6 +130,8 @@ public class Main extends PApplet {
             gui.tfNumHabitacion.keyPressed(keyCode);
             gui.tfNom.keyPressed(keyCode);
             gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
+            gui.tfUsuariSignUp.keyPressed(keyCode);
+            gui.tfPasswordSignUp.keyPressed(keyCode);
     }
 
     public void keyTyped(){
@@ -135,34 +141,36 @@ public class Main extends PApplet {
         gui.tfNumHabitacion.keyTyped(key);
         gui.tfNom.keyTyped(key);
         gui.tfNumPersonas.keyTyped(key);
+        gui.tfUsuariSignUp.keyTyped(key);
+        gui.tfPasswordSignUp.keyTyped(key);
+
 
     }
 
     public void mousePressedPantallaSINGUP(){
-        if (gui.bSignIn.mouseOverButton(this)) {
-            println("BREGISTER has been pressed!!");
-            gui.pantallaActual = GUI.PANTALLA.SIGNIN;
-        }
-            if(gui.bSignIn.mouseOverButton(this)) {
-            String user = gui.tfUsuari.getText();
+            if(gui.bSignUp.mouseOverButton(this)) {
+            String user = gui.tfUsuariSignUp.getText();
             String ape = gui.tfApellidos.getText();
             String nom = gui.tfNom.getText();
             String numHab = gui.tfNumHabitacion.getText();
-            String password = gui.tfPassword.getText();
-            if (db.signUpUsuari(nom, ape,user, numHab, password)) {
-                gui.puSignIn.setVisible(false); // por si acaso
-                gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            String password = gui.tfPasswordSignUp.getText();
+            if(!db.hiHaUsuari(user)) {
+                db.signUpUsuari(nom, ape, user, numHab, password);
+                    gui.puSignIn.setVisible(false); // por si acaso
+                    gui.pantallaActual = GUI.PANTALLA.SIGNIN;
             } else {
-                gui.puSignIn.setVisible(true); // 🔥 MOSTRAR POPUP
+                System.out.println("NOOOO");
+                gui.puSignIn.setVisible(true);
+            }
+            println("BSIGNIN has been pressed!!");
+            }
+            if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
+            gui.puSignIn.setVisible(false);
             }
 
-
-            println("BSIGNIN has been pressed!!");
-        }
-
         gui.tfApellidos.isPressed(this);
-        gui.tfUsuari.isPressed(this);
-        gui.tfPassword.isPressed(this);
+        gui.tfUsuariSignUp.isPressed(this);
+        gui.tfPasswordSignUp.isPressed(this);
         gui.tfNumHabitacion.isPressed(this);
         gui.tfNom.isPressed(this);
 
@@ -207,6 +215,10 @@ public class Main extends PApplet {
             gui.restaurantePC.prevPage();
         } else {
             gui.restaurantePC.checkCardSelection(this);
+            if(gui.restaurantePC.selectedCard!=-1){
+                println("SELECTED CARD: "+gui.restaurantePC.cards[gui.restaurantePC.selectedCard].titol);
+            }
+
         }
         //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
@@ -290,8 +302,8 @@ public class Main extends PApplet {
 
         } else if (gui.radbCena.isChecked()) {
             gui.radbgHorarioReservaCena.updateOnClick(this);
-
         }
+        gui.calendari.checkButtons(this);
         // Text Field
         gui.tfNumPersonas.isPressed(this);
         //Round Button

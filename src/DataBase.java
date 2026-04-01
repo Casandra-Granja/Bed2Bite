@@ -251,9 +251,10 @@ public class DataBase {
         return false;
     }
 
-    public boolean signUpUsuari(String nom, String ape, String user, String noHabitacion, String contrseña){
-        String q = "INSERT INTO `usuario` (`Nombre`, `Apellido`, `User`, `NºHabitación`, `Contraseña`)" +
-                "VALUES ('"+nom+"', '"+ape+"', '"+user+"', '"+noHabitacion+"', '"+contrseña+"')";
+    public boolean hiHaUsuari(String user){
+        String q = "SELECT COUNT(*) AS N " +
+                "FROM usuario" +
+                " WHERE User = '" + user + "'";
         System.out.println(q);
         try{
             ResultSet rs = query.executeQuery(q);
@@ -267,4 +268,43 @@ public class DataBase {
         return false;
     }
 
+    public void signUpUsuari(String nom, String ape, String user, String noHabitacion, String contrseña){
+        String q = "INSERT INTO `usuario` (`Nombre`, `Apellido`, `User`, `NºHabitación`, `Contraseña`)" +
+                " VALUES ('"+nom+"', '"+ape+"', '"+user+"', '"+noHabitacion+"', '"+contrseña+"')";
+        System.out.println(q);
+
+        try{
+            query.execute(q);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
+
+    public String[][] infoRestaurants(){
+
+        int nf = getNumFilesTaula("restaurante");
+        String[][] info = new String[nf][3];
+        String q = "SELECT res.idRestaurante AS nombre, res.Descripcion AS descripcion, img.Nombre AS foto " +
+                "FROM restaurante res, imagen img WHERE res.idRestaurante = img.Restaurante_idRestaurante";
+        System.out.println(q);
+        try{
+            ResultSet rs = query.executeQuery(q);
+            int f=0;
+            while(rs.next()){
+                info[f][0] = rs.getString("nombre");
+                info[f][1] = rs.getString("descripcion");
+                info[f][2] = rs.getString("foto");
+
+                f++;
+            }
+            return info;
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
+        return info;
+
+
+    }
+
+}

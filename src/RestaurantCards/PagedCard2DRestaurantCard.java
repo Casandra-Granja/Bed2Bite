@@ -8,7 +8,7 @@ import processing.core.PImage;
 
 
         String[][] cardsData;    // Dades de les Cards
-        RestaurantCard[] cards;            // Cards
+        public RestaurantCard[] cards;            // Cards
         int numCards;            // Número total de Cards
         int numRowsPage;
         int numCardsRow;
@@ -19,7 +19,7 @@ import processing.core.PImage;
 
         float x, y, w, h;
         float wc, hc;
-        int selectedCard = -1;
+        public int selectedCard = -1;
 
         Colors appColors;
 
@@ -59,7 +59,7 @@ import processing.core.PImage;
             this.numTotalPages = (int) Math.ceil((double)d.length / this.numCardsPage) - 1;
         }
 
-        public void setCards() {
+        public void setCards(PApplet p5) {
             cards = new RestaurantCard[numCards];
 
             for(int i = 0; i < cardsData.length; i++){
@@ -73,6 +73,7 @@ import processing.core.PImage;
 
                 // Creamos la carta con su texto (cardsData[i][0] es el nombre)
                 cards[i] = new RestaurantCard(cardsData[i][0], cardsData[i][1]);
+                cards[i].setImage(p5.loadImage(cardsData[i][2]));
                 cards[i].appColors = appColors;
                 cards[i].setDimensions(xCard, yCard, wc, hc);
             }

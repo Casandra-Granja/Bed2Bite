@@ -9,7 +9,7 @@ import processing.core.PImage;
 public class RestaurantCard {
     PImage img;
     float x, y, w, h;
-    String titol;
+    public String titol;
     Button bAcceder;
     Colors appColors;
     String info;

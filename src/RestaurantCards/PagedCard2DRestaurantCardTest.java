@@ -65,7 +65,7 @@ import processing.core.PImage;
             pc = new PagedCard2DRestaurantCard(3, 3, appColors);
             pc.setDimensions(50, 50, cardsW, cardsH);
             pc.setData(info);
-            pc.setCards();
+            pc.setCards(this);
             pc.setImages(img1, img2);
 
             // Creació dels botons
