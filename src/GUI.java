@@ -32,9 +32,15 @@ public class GUI {
     RadioButton radbDesayuno, radbComida, radbCena;
     RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
 
+    RadioButton radbmas5min, radbmenos5min;
+    RadioButtonGroup radbgProximidad;
+
+    RadioButton radb1015, radb1520, radb2025, radb2530;
+    RadioButtonGroup radbgPrecioMPP;
+
     // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
     TextField tfUsuari, tfUsuariSignUp, tfPassword, tfPasswordSignUp, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
-    TextField tfNombreRestaurante, tfDescripcion;
+    TextField tfNombreRestaurante, tfDescripcion, tfEspecialidad;
 
     // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
     PagedCard2DRestaurantCard restaurantePC;
@@ -47,6 +53,9 @@ public class GUI {
     // --- POPUP ---
     PopUp puSignIn;
 
+    // --- SELECT ---
+    CheckBox cbDesayuno, cbComida, cbCena;
+
     // --- ESTILOS Y CONFIGURACIÓN ---
     Colors appColors;
     Fonts f;
@@ -57,6 +66,8 @@ public class GUI {
     RadioButton[] radioHorasDesayno;
     RadioButton[] radioHorasComida;
     RadioButton[] radioHorasCena;
+
+    CarrouselRestaurant cr;
 
 
     // Dades de les cards Mis reservas
@@ -93,7 +104,7 @@ public class GUI {
     public GUI(PApplet p5, Colors appColors, DataBase db){
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
-        this.pantallaActual = PANTALLA.SIGNIN;
+        this.pantallaActual = PANTALLA.CREARRESTAURANTE;
         this.db=db;
 
         // 2. Inicialización de Objetos y Fuentes
@@ -110,6 +121,7 @@ public class GUI {
         creaBotons(p5, appColors);
         setCards(p5);
         creaPopUp(p5);
+        creaCheckBox(p5);
 
     }
 
@@ -140,7 +152,11 @@ public class GUI {
         bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH, appColors);
 
         // --- ADMIN ---
-       // bCrear = new Button(p5,"CREAR", Layout.logoWidth+500, Layout.bannerHeight/2 -5, 200, 60, c);
+       bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
+
+       // --- CARRUSEL---
+
+        cr= new CarrouselRestaurant(100, 100, 500, 500, 1,"data", appColors);
     }
 
     public void creaTextField(PApplet p5){
@@ -155,8 +171,9 @@ public class GUI {
         tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 +220, 510, 80,10, appColors);
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
         // --- PANTALLA CREAR RESTAURANTE ---
-        tfNombreRestaurante = new TextField(p5, p5.width/2+ 120, 250, 510, 80, 40, appColors);
-        tfDescripcion = new TextField(p5, p5.width/2+ 120, 750, 510, 160, 300, appColors);
+        tfNombreRestaurante = new TextField(p5, p5.width/2+ 120, 250, 550, 80, 40, appColors);
+        tfDescripcion = new TextField(p5, p5.width/2+ 120, 750, 550, 160, 300, appColors);
+        tfEspecialidad = new TextField(p5, p5.width/2+ 120, 650, 200, 40, 16, appColors);
     }
 
     public void creaRadioButton(PApplet p5){
@@ -204,6 +221,24 @@ public class GUI {
             radbgHorarioReservaCena= new RadioButtonGroup(9);
             radbgHorarioReservaCena.setRadioButtons(radioHorasCena);
 
+            //PANTALLA CREAR RESTAURANTE
+
+            //PROXIMIDAD
+            radbmas5min = new RadioButton(p5, p5.width/2 +135, 410,10);
+            radbmenos5min = new RadioButton( p5, p5.width/2 + 410, 410, 10);
+            radbgProximidad = new RadioButtonGroup(2);
+            radbgProximidad.setRadioButtons(radbmas5min, radbmenos5min);
+            radbgProximidad.setSelected(0);
+
+            //PRECIO MEDIO POR PERSONA
+            radb1015= new RadioButton(p5, p5.width/2 +135, 500, 10);
+            radb1520= new RadioButton(p5, p5.width/2 +280, 500, 10);
+            radb2025= new RadioButton(p5, p5.width/2 +410, 500, 10);
+            radb2530= new RadioButton(p5, p5.width/2 +550, 500, 10);
+            radbgPrecioMPP = new RadioButtonGroup(4);
+            radbgPrecioMPP.setRadioButtons(radb1015, radb1520, radb2025, radb2530);
+            radbgPrecioMPP.setSelected(0);
+
     }
 
     public void setMedia(PApplet p5){
@@ -240,6 +275,12 @@ public class GUI {
 
     public void creaPopUp(PApplet p5){
         puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2, p5.height/2, 600, 340, appColors);
+    }
+
+    public void creaCheckBox(PApplet p5){
+        cbDesayuno = new CheckBox(p5,p5.width/2 +125, 580, 15);
+        cbComida =   new CheckBox(p5,p5.width/2 +370, 580, 15);
+        cbCena =     new CheckBox(p5,p5.width/2 +570, 580, 15);
     }
 
 
@@ -423,6 +464,30 @@ public class GUI {
         tfNombreRestaurante.display(p5);
         p5.text("DESCRIPCIÓN",p5.width/2+ 120, 745 );
         tfDescripcion.display(p5);
+        p5.text("PROXIMIDAD", p5.width/2 +120, 380);
+        radbgProximidad.display(p5);
+        p5.textSize(22);
+        p5.text("A más de 5 minutos a pie", p5.width/2 +150, 420);
+        p5.text("A menos de 5 minutos a pie", p5.width/2 +425, 420);
+        p5.text("PRECIO MEDIO POR PERSONA", p5.width/2 +120, 470);
+        radbgPrecioMPP.display(p5);
+        p5.text("10-15$", p5.width/2 +150, 508);
+        p5.text("15-20$", p5.width/2 +295, 508);
+        p5.text("20-25$", p5.width/2 +430, 508);
+        p5.text("25-30$", p5.width/2 +565, 508);
+        p5.text("TIPO DE SERVICIO", p5.width/2+ 120, 550);
+        cbDesayuno.display(p5);
+        p5.text("Desayuno", p5.width/2 +150,595);
+        cbComida.display(p5);
+        p5.text("Comida", p5.width/2 +390,595);
+        cbCena.display(p5);
+        p5.text("Cena", p5.width/2 +590,595);
+        p5.text("TIPO DE ESPECIALIDAD (Comida italiana, sin especialidad...)", p5.width/2+ 120, 640);
+        tfEspecialidad.display(p5);
+        bCrear.display(p5);
+        cr.initButtons(p5);
+        cr.carregarDesDeMySQL(p5, db.c);
+        cr.display(p5);
         p5.popStyle();
 
     }

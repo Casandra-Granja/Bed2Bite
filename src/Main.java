@@ -138,6 +138,7 @@ public class Main extends PApplet {
             gui.tfPasswordSignUp.keyPressed(keyCode);
             gui.tfNombreRestaurante.keyPressed(keyCode);
             gui.tfDescripcion.keyPressed(keyCode);
+            gui.tfEspecialidad.keyPressed(keyCode);
     }
 
     public void keyTyped(){
@@ -151,6 +152,7 @@ public class Main extends PApplet {
         gui.tfPasswordSignUp.keyTyped(key);
         gui.tfNombreRestaurante.keyTyped(key);
         gui.tfDescripcion.keyTyped(key);
+        gui.tfEspecialidad.keyTyped(key);
 
 
     }
@@ -380,8 +382,21 @@ public class Main extends PApplet {
     }
     public void mousePressedPantallaCREARRESTAURANTE(){
 
+        gui.radbgProximidad.updateOnClick(this);
+        gui.radbgPrecioMPP.updateOnClick(this);
         gui.tfNombreRestaurante.isPressed(this);
         gui.tfDescripcion.isPressed(this);
+        gui.tfEspecialidad.isPressed(this);
+        if(gui.cbDesayuno.onMouseOver(this)){
+            gui.cbDesayuno.toggle();
+        }
+        else if(gui.cbComida.onMouseOver(this)){
+            gui.cbComida.toggle();
+        }
+        else if(gui.cbCena.onMouseOver(this)){
+            gui.cbCena.toggle();
+        }
+        gui.cr.checkButtons(this, db.c);
 
     }
 
@@ -496,7 +511,11 @@ public class Main extends PApplet {
 
                 break;
             case CREARRESTAURANTE:
-                if (gui.rbCrear.updateHandCursor(p5) || gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)){
+                if (gui.rbCrear.updateHandCursor(p5) || gui.bStats.updateHandCursor(p5) ||
+                        gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
+                        gui.radbmas5min.onMouseOver(p5) || gui.radbmenos5min.onMouseOver(p5) ||
+                        gui.radb1015.onMouseOver(p5) || gui.radb1520.onMouseOver(p5) ||
+                        gui.radb2025.onMouseOver(p5) ||  gui.radb2530.onMouseOver(p5) || gui.cbDesayuno.onMouseOver(p5)|| gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5)){
                     cursorHAND = true;
                 }
 
