@@ -13,7 +13,7 @@ import static B2B_Medidas.Layout.*;
 public class GUI {
 
 
-    public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO};
+    public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO, CREARRESTAURANTE};
 
     public PANTALLA pantallaActual;
 
@@ -23,9 +23,10 @@ public class GUI {
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
     Button bSignIn, bDontHaveAnAccount, bModificarCorreo, bSignUp;
     Button bReservar, bModificar, bEleminar;
+    Button bCrear;
     Button bPrevMisReservasPC, bNextMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
-    RoundButton rbPerfil;
+    RoundButton rbPerfil, rbCrear;
 
     // --- ELEMENTOS DE SELECCIÓN (RADIO BUTTONS) ---
     RadioButton radbDesayuno, radbComida, radbCena;
@@ -33,6 +34,7 @@ public class GUI {
 
     // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
     TextField tfUsuari, tfUsuariSignUp, tfPassword, tfPasswordSignUp, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
+    TextField tfNombreRestaurante, tfDescripcion;
 
     // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
     PagedCard2DRestaurantCard restaurantePC;
@@ -40,7 +42,7 @@ public class GUI {
     Calendari calendari;
 
     // --- RECURSOS VISUALES (IMÁGENES) ---
-    PImage iconaPerfil, logo, logoLong, img, img1, img2;
+    PImage iconaPerfil, logo, logoLong, img, img1, img2, crearRestaurante;
 
     // --- POPUP ---
     PopUp puSignIn;
@@ -136,12 +138,15 @@ public class GUI {
         // --- NAVEGACIÓN DE CARTAS (MIS RESERVAS) ---
         bPrevMisReservasPC = new Button(p5, "NEXT", 100 + misReservasCardsW, 80, misReservasButtonW, misReservasButtonH, appColors);
         bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH, appColors);
+
+        // --- ADMIN ---
+       // bCrear = new Button(p5,"CREAR", Layout.logoWidth+500, Layout.bannerHeight/2 -5, 200, 60, c);
     }
 
     public void creaTextField(PApplet p5){
         // --- PANTALLA SING-IN ---
-        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 -180 , 510, 80, 40, appColors);
-        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 -310 , 510, 80,40, appColors);
+        tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +50 , 510, 80, 40, appColors);
+        tfUsuari= new TextField( p5, p5.width/2 -255, p5.height/2 -100 , 510, 80,40, appColors);
         tfUsuariSignUp = new TextField( p5, p5.width/2 -255, p5.height/2 -310 , 510, 80,40, appColors);
         tfPasswordSignUp = new TextField(p5, p5.width/2 -255, p5.height/2 -180 , 510, 80, 40, appColors);
         tfNom = new TextField(p5 ,p5.width/2 -255, p5.height/2 -45 , 510, 80,40, appColors);
@@ -149,7 +154,9 @@ public class GUI {
         // --- PANTALLA RESERVA ---
         tfNumHabitacion= new TextField(p5, p5.width/2 -255, p5.height/2 +220, 510, 80,10, appColors);
         tfNumPersonas= new TextField(p5, (int)(marginInicialW+Layout.restaurantDetalleWidth+Layout.marginWBR+Layout.infoDetalleWidth-130),(int)Layout.marginInicialH+60,80,40, 4, appColors);
-
+        // --- PANTALLA CREAR RESTAURANTE ---
+        tfNombreRestaurante = new TextField(p5, p5.width/2+ 120, 250, 510, 80, 40, appColors);
+        tfDescripcion = new TextField(p5, p5.width/2+ 120, 750, 510, 160, 300, appColors);
     }
 
     public void creaRadioButton(PApplet p5){
@@ -206,6 +213,7 @@ public class GUI {
         //img = p5.loadImage("data/ImagenRestaurnateTest.png");
         img1 = p5.loadImage("categoria1.png");
         img2 = p5.loadImage("categoria2.png");
+        crearRestaurante = p5.loadImage("crearRestaurante.png");
     }
 
     public void setCards(PApplet p5){
@@ -227,6 +235,7 @@ public class GUI {
 
     public void creaRoundButton(PApplet p5){
         rbPerfil= new RoundButton(p5, iconaPerfil,p5.width-Layout.marginW-70,100,50);
+        rbCrear = new RoundButton(p5,crearRestaurante, p5.width-Layout.marginW-200,100,40);
     }
 
     public void creaPopUp(PApplet p5){
@@ -241,7 +250,7 @@ public class GUI {
         p5.pushStyle();
         p5.background(200);
         zonaPrincipal(p5);
-        logoSing(p5);
+        logoSingUp(p5);
         p5.textSize(25);
         p5.fill(0);
         p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
@@ -264,12 +273,12 @@ public class GUI {
         p5.pushStyle();
         p5.background(200);
         zonaPrincipal(p5);
-        logoSing(p5);
+        logoSingIn(p5);
         p5.fill(0);
         p5.textSize(25);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
+        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 +40);
         tfPassword.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 -320);
+        p5.text("USER",p5.width/2 -255, p5.height/2 -110);
         tfUsuari.display(p5);
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);
@@ -286,6 +295,9 @@ public class GUI {
         restaurantePC.display(p5);
         bPrevRestaurantPC.display(p5);
         bNextRestaurantPC.display(p5);
+        if(Main.isAdmin){
+            rbCrear.display(p5);
+        }
     }
     //3
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
@@ -402,7 +414,18 @@ public class GUI {
 
     //**************************************************** PANTALLAS  ESPECÍFICAS CLIENTE *************************************************************************************
 
+    public void dibuixaPantallaCrearRestaurante(PApplet p5){
+        p5.pushStyle();
+        elementosEsenciales(p5);
+        rbCrear.display(p5);
+        p5.fill(0);
+        p5.text("NOMBRE DEL RESTAURANTE",p5.width/2+ 120, 240 );
+        tfNombreRestaurante.display(p5);
+        p5.text("DESCRIPCIÓN",p5.width/2+ 120, 745 );
+        tfDescripcion.display(p5);
+        p5.popStyle();
 
+    }
 
     //**************************************************** ELEMENTOS DE LAS PANTALLAS *************************************************************************************
 
@@ -446,8 +469,12 @@ public class GUI {
         p5.image(logoLong, Layout.marginW, Layout.marginH -20, w,  h);
     }
 
-    public void logoSing(PApplet p5){
+    public void logoSingUp(PApplet p5){
         p5.image(logoLong, p5.width/2-150, p5.height/2 -570, 300,300);
+    }
+
+    public void logoSingIn(PApplet p5){
+        p5.image(logoLong, p5.width/2-210, p5.height/2 -500, 400,400);
     }
 
     public void restaurantsMain (PApplet p5){

@@ -11,6 +11,8 @@ public class DataBase {
     //exacutar instruccions
     public Statement query;
 
+    public GUI gui;
+
     //info conectarse
     String user, password, databaseName;
 
@@ -214,6 +216,7 @@ public class DataBase {
             return info;
 
         }
+
 
         public boolean loginCorrecte(String nom, String password){
 

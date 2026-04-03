@@ -18,6 +18,8 @@ public class Main extends PApplet {
 
     public static DataBase db;
 
+    public static boolean isAdmin = false;
+
     public static void main(String[] args) {
         PApplet.main("Main");
 
@@ -73,6 +75,8 @@ public class Main extends PApplet {
             case USUARIO:
                 gui.dibuixaPantallaUsuario(this);
                 break;
+            case CREARRESTAURANTE:
+                gui.dibuixaPantallaCrearRestaurante(this);
         }
         updateCursor(this);
 
@@ -132,6 +136,8 @@ public class Main extends PApplet {
             gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
             gui.tfUsuariSignUp.keyPressed(keyCode);
             gui.tfPasswordSignUp.keyPressed(keyCode);
+            gui.tfNombreRestaurante.keyPressed(keyCode);
+            gui.tfDescripcion.keyPressed(keyCode);
     }
 
     public void keyTyped(){
@@ -143,6 +149,8 @@ public class Main extends PApplet {
         gui.tfNumPersonas.keyTyped(key);
         gui.tfUsuariSignUp.keyTyped(key);
         gui.tfPasswordSignUp.keyTyped(key);
+        gui.tfNombreRestaurante.keyTyped(key);
+        gui.tfDescripcion.keyTyped(key);
 
 
     }
@@ -182,6 +190,10 @@ public class Main extends PApplet {
         if (gui.bSignIn.mouseOverButton(this)) {
             String nom = gui.tfUsuari.getText();
             String password = gui.tfPassword.getText();
+            isAdmin = false;
+            if(nom.equals("admin") && password.equals("12345")){
+                isAdmin = true;
+            }
             if (db.loginCorrecte(nom, password)) {
                 gui.pantallaActual = GUI.PANTALLA.INICIAL;
             } else {
@@ -224,6 +236,12 @@ public class Main extends PApplet {
         if (gui.rbPerfil.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
+        }
+        if(isAdmin){
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
         }
     }
     public void mousePressedPantallaINICIALEXTENDIDA() {
@@ -360,6 +378,12 @@ public class Main extends PApplet {
             println("RBPERFIL has been pressed!!");
         }
     }
+    public void mousePressedPantallaCREARRESTAURANTE(){
+
+        gui.tfNombreRestaurante.isPressed(this);
+        gui.tfDescripcion.isPressed(this);
+
+    }
 
     public void mousePressed() {
         if(gui.pantallaActual == GUI.PANTALLA.SIGNUP) {
@@ -380,6 +404,8 @@ public class Main extends PApplet {
             mousePressedPantallaMISRESERVAS();
         }else if(gui.pantallaActual == GUI.PANTALLA.USUARIO){
             mousePressedPantallaUSUARIO();
+        }else if(gui.pantallaActual == GUI.PANTALLA.CREARRESTAURANTE){
+            mousePressedPantallaCREARRESTAURANTE();
         }
     }
 
@@ -408,6 +434,9 @@ public class Main extends PApplet {
                         (gui.bNextRestaurantPC.isEnabled() && gui.bNextRestaurantPC.updateHandCursor(p5)) ||
                         (gui.bPrevRestaurantPC.isEnabled() && gui.bPrevRestaurantPC.updateHandCursor(p5)) ||
                         gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)) {
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
                     cursorHAND = true;
                 }
                 break;
@@ -429,6 +458,9 @@ public class Main extends PApplet {
                         gui.rbPerfil.updateHandCursor(p5) || gui.radbDesayuno.onMouseOver(p5) ||
                         gui.radbComida.onMouseOver(p5) || gui.radbCena.onMouseOver(p5) ||
                         gui.bReservar.updateHandCursor(p5)) {
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
                     cursorHAND = true;
                 }
                 break;
@@ -436,13 +468,19 @@ public class Main extends PApplet {
             case DESCRIPCIONRESTAURANTE:
                 if((gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
                         gui.bMisReservas.updateHandCursor(p5)|| gui.bReservar.updateHandCursor(p5))){
-                cursorHAND = true;
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
+                    cursorHAND = true;
                  }
                 break;
 
             case USUARIO:
                 if(gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
                         gui.bMisReservas.updateHandCursor(p5)|| gui.bModificarCorreo.updateHandCursor(p5) || gui.bCerrarSesion.updateHandCursor(p5)){
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
                     cursorHAND = true;
                 }
                 break;
@@ -450,9 +488,17 @@ public class Main extends PApplet {
             case STATS:
                 if(gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
                         gui.bMisReservas.updateHandCursor(p5)){
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
                     cursorHAND = true;
                 }
+
                 break;
+            case CREARRESTAURANTE:
+                if (gui.rbCrear.updateHandCursor(p5) || gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)){
+                    cursorHAND = true;
+                }
 
             default:
                 // Para cualquier otra pantalla (USUARIO, STATS, etc.)

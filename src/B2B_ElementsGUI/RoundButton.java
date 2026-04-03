@@ -19,9 +19,9 @@ public class RoundButton {
             this.y = y;
             this.r = r;
             this.enabled = true;
-            this.fillColor = p5.color(155, 55, 155);
-            this.fillColorOver = p5.color(255, 55, 155);
-            this.fillColorDisabled = p5.color(150);
+            this.fillColor = p5.color(255);
+            this.fillColorOver = p5.color(255);
+            this.fillColorDisabled = p5.color(255);
             this.strokeColor = p5.color(0);
         }
 
@@ -43,6 +43,7 @@ public class RoundButton {
         // Dibuixa el botó
         public void display(PApplet p5){
             p5.pushStyle();
+
             if(!enabled){
                 p5.fill(fillColorDisabled);  // Color desabilitat
             }
@@ -52,7 +53,8 @@ public class RoundButton {
             else{
                 p5.fill(fillColor);          // Color actiu però ratolí fora
             }
-            p5.stroke(strokeColor); p5.strokeWeight(2);              //Color i gruixa del contorn
+            p5.noStroke();
+            //p5.stroke(strokeColor); p5.strokeWeight(2);              //Color i gruixa del contorn
             p5.circle(this.x, this.y, 2*this.r);    // Cercle del botó
 
             // Imatge del boto
