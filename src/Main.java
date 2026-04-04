@@ -1,4 +1,5 @@
 import B2B_Color.Colors;
+import B2B_ElementsGUI.Carrousel;
 import B2B_ElementsGUI.RoundButton;
 import B2B_Fonts.Fonts;
 import processing.core.PApplet;
@@ -81,6 +82,8 @@ public class Main extends PApplet {
         updateCursor(this);
 
 
+
+
         // Actualitza forma del cursor
         updateCursor(this);
 
@@ -94,9 +97,9 @@ public class Main extends PApplet {
     }
 
     public void keyPressed(){
-
+        /*
         //AÑADIMOS PANTALLAS
-         /*  if(key== '0'){
+           if(key== '0'){
                 gui.pantallaActual= GUI.PANTALLA.SIGNUP;
             }
             else if(key== '1'){
@@ -124,7 +127,9 @@ public class Main extends PApplet {
                 gui.pantallaActual= GUI.PANTALLA.USUARIO;
             }
 
-          */
+         */
+
+
 
 
             //AÑADIMOS TEXTFIELDS
@@ -245,6 +250,18 @@ public class Main extends PApplet {
                 println("RBCREAR has been pressed!!");
             }
         }
+        gui.restaurantePC.checkCardSelection(this);
+        if(gui.restaurantePC.selectedCard != -1){
+            int i = gui.restaurantePC.selectedCard;
+            String nom = gui.restaurantePC.cards[i].titol;
+            gui.carregarRestaurant(this, nom);
+            gui.pantallaActual = GUI.PANTALLA.DESCRIPCIONRESTAURANTE;
+            println("RESTAURANTE SELECCIONADO: " + nom);
+        }
+
+            // Carga las imágenes del restaurante en el carrusel
+            gui.recarregarCarrousel(this, gui.restauranteSeleccionado);
+
     }
     public void mousePressedPantallaINICIALEXTENDIDA() {
         if (gui.bMisReservas.mouseOverButton(this)) {
@@ -275,11 +292,15 @@ public class Main extends PApplet {
             println("BINICIO has been pressed!!");
         }else if (gui.bReservar.mouseOverButton(this)) {
             println("BRESERVAR has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.ESPECIFICACIONRESERVA;
         }
         //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
+        }
+        if(gui.crDetalle != null){
+            gui.crDetalle.checkButtons(this);
         }
     }
     public void mousePressedPantallaSTATS(){
@@ -368,11 +389,12 @@ public class Main extends PApplet {
         } else if (gui.bInicio.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.INICIAL;
             println("BINICIO has been pressed!!");
-        }else if (gui.bModificarCorreo.mouseOverButton(this)) {
+        }else if (gui.bModificarUsuario.mouseOverButton(this)) {
             println("BMODIFICARCORREO has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.SIGNUP;
         } else if (gui.bCerrarSesion.mouseOverButton(this)) {
             println("BCERRARSESION has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.SIGNIN;
         }
         //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
@@ -489,6 +511,15 @@ public class Main extends PApplet {
                 println("AVISO: no hay imagenes seleccionadas");
             }
         }
+
+        if(gui.bEliminarImatges.mouseOverButton(this)){
+            gui.fitxersSeleccionats.clear();
+            gui.titolsImatges.clear();
+            gui.cr = new  Carrousel(100, 250, 700, 600, 1);
+            gui.cr.setButtons(this, "bPrev.png", "bNext.png");
+            println("Imatges eliminades");
+
+        }
     }
 
 
@@ -597,7 +628,7 @@ public class Main extends PApplet {
 
             case USUARIO:
                 if(gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) ||
-                        gui.bMisReservas.updateHandCursor(p5)|| gui.bModificarCorreo.updateHandCursor(p5) || gui.bCerrarSesion.updateHandCursor(p5)){
+                        gui.bMisReservas.updateHandCursor(p5)|| gui.bModificarUsuario.updateHandCursor(p5) || gui.bCerrarSesion.updateHandCursor(p5)){
                     if(isAdmin){
                         gui.rbCrear.updateHandCursor(p5);
                     }
@@ -621,7 +652,7 @@ public class Main extends PApplet {
                         gui.radbmas5min.onMouseOver(p5) || gui.radbmenos5min.onMouseOver(p5) ||
                         gui.radb1015.onMouseOver(p5) || gui.radb1520.onMouseOver(p5) ||
                         gui.radb2025.onMouseOver(p5) ||  gui.radb2530.onMouseOver(p5) || gui.cbDesayuno.onMouseOver(p5)||
-                        gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5) || gui.cr.checkCursor(p5)){
+                        gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5) || gui.cr.checkCursor(p5) || gui.bEliminarImatges.updateHandCursor(p5) ){
                     cursorHAND = true;
                 }
                 break;

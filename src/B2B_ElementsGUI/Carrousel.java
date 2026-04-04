@@ -104,14 +104,10 @@ public class Carrousel {
             p5.image(img, xPos, y, this.imgW, h);
 
             // Titol de la imatge
-            p5.fill(0); p5.textAlign(p5.CENTER); p5.textSize(24);
-            p5.text(noms[index], xPos + this.imgW/2, y + h + 50);
+            p5.fill(80); p5.textAlign(p5.RIGHT); p5.textSize(8);
+            p5.text(noms[index], xPos + this.imgW - 5, y + h + 20);
 
-            // Número de la imatge
-            p5.fill(200, 100, 100); p5.noStroke();
-            p5.ellipse(xPos + 30, y + 30, 50, 50);
-            p5.fill(0);
-            p5.text(index, xPos + 30, y + 40);
+
         }
 
         if(bNext!=null){

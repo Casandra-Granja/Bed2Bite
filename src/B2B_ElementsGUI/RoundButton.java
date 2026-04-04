@@ -55,11 +55,11 @@ public class RoundButton {
             }
             p5.noStroke();
             //p5.stroke(strokeColor); p5.strokeWeight(2);              //Color i gruixa del contorn
-            p5.circle(this.x, this.y, 2*this.r);    // Cercle del botó
+            //p5.circle(this.x, this.y, 2*this.r);    // Cercle del botó
 
             // Imatge del boto
             p5.imageMode(p5.CENTER);
-           p5.image(this.icona, this.x, this.y, 2f*this.r, 2f*this.r);
+            p5.image(this.icona, this.x, this.y, 2f*this.r, 2f*this.r);
             p5.popStyle();
         }
 

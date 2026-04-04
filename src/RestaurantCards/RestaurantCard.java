@@ -12,7 +12,7 @@ public class RestaurantCard {
     public String titol;
     Button bAcceder;
     Colors appColors;
-    String info;
+    public String info;
 
     //Constructor utilizado para provar la card sola, sin la paged Card
     public RestaurantCard(PApplet p5, PImage img, int x, int y, String titulo, Colors appColors) {

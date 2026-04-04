@@ -7,8 +7,6 @@ import RestaurantCards.PagedCard2DRestaurantCard;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import java.io.File;
-
 import static B2B_Medidas.Layout.*;
 
 
@@ -25,8 +23,8 @@ public class GUI {
 
     // --- COMPONENTES DE INTERFAZ (BOTONES) ---
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
-    Button bSignIn, bDontHaveAnAccount, bModificarCorreo, bSignUp;
-    Button bReservar, bModificar, bEleminar;
+    Button bSignIn, bDontHaveAnAccount, bModificarUsuario, bSignUp;
+    Button bReservar, bEliminarImatges;
     Button bCrear;
     Button bPrevMisReservasPC, bNextMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
@@ -71,11 +69,15 @@ public class GUI {
     RadioButton[] radioHorasComida;
     RadioButton[] radioHorasCena;
 
-    Carrousel cr;
+    Carrousel cr, crDetalle;
 
     Button bCarregarImatge;
     java.util.List<java.io.File> fitxersSeleccionats = new java.util.ArrayList<>();
     java.util.List<String> titolsImatges = new java.util.ArrayList<>();
+
+    String restauranteSeleccionado = "";
+    String[] infoRestaurantSeleccionat = new String[]{"","","","",""};
+
 
 
 
@@ -114,7 +116,7 @@ public class GUI {
         this.p5ref = p5;
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
-        this.pantallaActual = PANTALLA.CREARRESTAURANTE;
+        this.pantallaActual = PANTALLA.DESCRIPCIONRESTAURANTE;
         this.db=db;
 
         // 2. Inicialización de Objetos y Fuentes
@@ -136,6 +138,7 @@ public class GUI {
     }
 
     public void creaBotons(PApplet p5, Colors c){
+
         // --- LOGIN Y REGISTRO ---
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
@@ -147,8 +150,8 @@ public class GUI {
         bMisReservas    = new Button(p5, "MIS RESERVAS", Layout.bannerWidth-250, Layout.bannerHeight/2 -5, 200, 60, c);
 
         // --- PERFIL Y GESTIÓN DE USUARIO ---
-        bModificarCorreo = new Button(p5, "MODIFICAR CORREO", p5.width/2 -255, p5.height/2 +100 , 510, 80, c);
-        bCerrarSesion    = new Button(p5, "CERRAR SESION", p5.width/2 -255, p5.height/2 +250 , 510, 80, c);
+        bModificarUsuario = new Button(p5, "MODIFICAR USUARIO", p5.width/2 -255, p5.height/2 +100 , 510, 80, c);
+        bCerrarSesion    = new Button(p5, "CERRAR SESIÓN", p5.width/2 -255, p5.height/2 +250 , 510, 80, c);
 
         // --- ACCIONES DE RESERVA ---
         bReservar       = new Button(p5, "RESERVAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +75, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
@@ -162,7 +165,8 @@ public class GUI {
         bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH, appColors);
 
         // --- ADMIN ---
-       bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
+        bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
+        bEliminarImatges = new Button(p5, "ELIMINAR IMÁGENES", 600, 870, 250, 60, c);
 
 
         cr = new Carrousel(100, 250, 700, 600, 1);
@@ -368,11 +372,87 @@ public class GUI {
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
         p5.background(200);
         elementosEsenciales(p5);
-        restaurantDetalle(p5);
-        restaurantInfo(p5);
-        nombreRestaurante(p5);
-        bReservar.display(p5);
+        p5.pushStyle();
 
+        // Carrusel de imágenes
+        if(crDetalle != null){
+            crDetalle.display(p5);
+        }
+
+        p5.pushStyle();
+
+        float panelX = 900;
+        float panelY = 250;
+        float panelW = 600;
+        float panelH = 650;
+
+        // Sombra
+        p5.noStroke();
+        p5.fill(0, 40);
+        p5.rect(panelX + 6, panelY + 6, panelW, panelH, 20);
+
+        // Fondo blanco
+        p5.fill(255);
+        p5.rect(panelX, panelY, panelW, panelH, 20);
+
+        // --- CABECERA AZUL ---
+        p5.fill(appColors.getBlueColor());
+        p5.rect(panelX, panelY, panelW, 90, 20, 20, 0, 0);
+
+        // Nombre del restaurante
+        p5.fill(255);
+        p5.textSize(32);
+        p5.textAlign(p5.CENTER, p5.CENTER);
+        p5.text(infoRestaurantSeleccionat[0], panelX + panelW/2, panelY + 45);
+
+        // --- DESCRIPCIÓN ---
+        p5.fill(60);
+        p5.textSize(18);
+        p5.textAlign(p5.CENTER, p5.TOP);
+        p5.text(infoRestaurantSeleccionat[1], panelX + 30, panelY + 110, panelW - 60, 120);
+
+        // --- LÍNEA DIVISORIA ---
+        p5.stroke(220);
+        p5.strokeWeight(2);
+        p5.line(panelX + 30, panelY + 250, panelX + panelW - 30, panelY + 250);
+
+        p5.noStroke();
+
+        // --- ETIQUETA ESPECIALIDAD ---
+        p5.fill(70, 130, 200);
+        p5.rect(panelX + 30, panelY + 275, panelW - 60, 70, 12);
+        p5.fill(255);
+        p5.textSize(18);
+        p5.textAlign(p5.LEFT, p5.CENTER);
+        p5.text("Especialidad:", panelX + 50, panelY + 275 + 20);
+        p5.textSize(20);
+        p5.text(infoRestaurantSeleccionat[2], panelX + 50, panelY + 275 + 45);
+
+        // --- ETIQUETA PROXIMIDAD ---
+        p5.fill(60, 170, 100);
+        p5.rect(panelX + 30, panelY + 365, panelW - 60, 70, 12);
+        p5.fill(255);
+        p5.textSize(18);
+        p5.textAlign(p5.LEFT, p5.CENTER);
+        p5.text("Proximidad:", panelX + 50, panelY + 365 + 20);
+        p5.textSize(20);
+        p5.text(infoRestaurantSeleccionat[3], panelX + 50, panelY + 365 + 45);
+
+        // --- ETIQUETA PRECIO ---
+        p5.fill(220, 160, 40);
+        p5.rect(panelX + 30, panelY + 455, panelW - 60, 70, 12);
+        p5.fill(255);
+        p5.textSize(18);
+        p5.textAlign(p5.LEFT, p5.CENTER);
+        p5.text("Precio medio:", panelX + 50, panelY + 455 + 20);
+        p5.textSize(20);
+        p5.text(infoRestaurantSeleccionat[4], panelX + 50, panelY + 455 + 45);
+
+        p5.popStyle();
+
+        p5.popStyle();
+
+        bReservar.display(p5);
     }
     //5
     public void dibuixaPantallaStats(PApplet p5){
@@ -392,12 +472,20 @@ public class GUI {
     //6
     public void dibuixaPantallaEspecificacionReserva(PApplet p5){
         elementosEsenciales(p5);
+        p5.pushStyle();
+
+
+
+        // Sombra info
+        p5.noStroke();
+        p5.fill(0, 40);
+        p5.rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR +2 , Layout.marginInicialH + 56, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight, 20);
+        // Rectangulo info
+        p5.fill(255);
+        p5.rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR-8, Layout.marginInicialH + 50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight, 20);
         //Calendario
-        p5. rect(marginInicialW , Layout.marginInicialH +50, Layout.restaurantDetalleWidth, Layout.restaurantDetalleHeight);
 
         //Info
-        p5. rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR, Layout.marginInicialH +50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight);
-        p5.pushStyle();
         p5.fill(0);
         p5.text("CALENDARIO", marginInicialW -50 + Layout.restaurantDetalleWidth /2, Layout.marginInicialH  + Layout.restaurantDetalleHeight /2);
         tfNumPersonas.display(p5);
@@ -458,9 +546,11 @@ public class GUI {
 
     public void dibuixaPantallaUsuario(PApplet p5){
         elementosEsenciales(p5);
+        p5.pushStyle();
         p5.circle(p5.width/2, p5.height/2 -100, 300);
         bCerrarSesion.display(p5);
-        bModificarCorreo.display(p5);
+        bModificarUsuario.display(p5);
+        p5.popStyle();
 
     }
 
@@ -498,6 +588,7 @@ public class GUI {
         tfEspecialidad.display(p5);
         bCrear.display(p5);
         bCarregarImatge.display(p5);
+        bEliminarImatges.display(p5);
         cr.display(p5);
         p5.popStyle();
 
@@ -598,9 +689,9 @@ public class GUI {
         p5.pushStyle();
         p5.fill(0);
         p5.strokeWeight(5);
-        p5.line(marginInicialW,Layout.marginInicialH +20,Layout.restaurantDetalleWidth-50, Layout.marginInicialH +20);
+        p5.line(100,Layout.marginInicialH -50 ,Layout.restaurantDetalleWidth-50, Layout.marginInicialH-50);
         p5.textSize(34);
-        p5.text("NOMBRE DEL RESTAURANTE", marginInicialW,Layout.marginInicialH+15);
+        p5.text("nombreRstaurante", 100,Layout.marginInicialH-55);
         p5.popStyle();
     }
 
@@ -615,6 +706,9 @@ public class GUI {
         p5.popStyle();
 
     }
+
+
+
 
     public void recarregarCarrousel(PApplet p5, String idRestaurant) {
         String[] nomsDB = db.getRutesImatgesRestaurant(idRestaurant);
@@ -655,6 +749,21 @@ public class GUI {
     public void recarregarRestaurantePC(PApplet p5){
         restaurantePC.setData(db.infoRestaurants());
         restaurantePC.setCards(p5);
+    }
+    public void carregarRestaurant(PApplet p5, String idRestaurant){
+        // Carga la info
+        infoRestaurantSeleccionat = db.getInfoRestaurant(idRestaurant);
+
+        // Carga el carrusel de detalle con las imágenes del restaurante
+        String[] nomsDB = db.getRutesImatgesRestaurant(idRestaurant);
+        crDetalle = new Carrousel(100, 250, 750, 650, 1 );
+        crDetalle.setButtons(p5, "data/bPrev.png", "data/bNext.png");
+        if(nomsDB.length > 0){
+            for(int i = 0; i < nomsDB.length; i++){
+                nomsDB[i] = "data/" + nomsDB[i];
+            }
+            crDetalle.setImages(p5, nomsDB);
+        }
     }
 
 }

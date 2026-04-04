@@ -282,7 +282,6 @@ public class DataBase {
             System.out.println(e);
         }
     }
-
     public String[][] infoRestaurants(){
         // Usamos LEFT JOIN para que aparezcan restaurantes sin imagen también
         String q = "SELECT res.idRestaurante AS nombre, res.Descripcion AS descripcion, " +
@@ -308,8 +307,7 @@ public class DataBase {
         }
         return new String[0][0];
     }
-    public void insertarRestaurant(String nom, String descripcion, String especialidad,
-                                   String proximidad, String precioMPP, String servicio){
+    public void insertarRestaurant(String nom, String descripcion, String especialidad, String proximidad, String precioMPP, String servicio){
         String q = "INSERT INTO restaurante (idRestaurante, Descripcion, Especialidad_idEspecialidad, " +
                 "Proximidad_idProximidad, PrecioMPP_idPrecioMPP, ServicioDisponible_idServicioDisponible) " +
                 "VALUES ('" + nom + "', '" + descripcion + "', '" + especialidad + "', " +
@@ -333,7 +331,6 @@ public class DataBase {
             System.out.println(e);
         }
     }
-
     public String[] getRutesImatgesRestaurant(String idRestaurant) {
         String q = "SELECT Nombre FROM imagen " +
                 "WHERE Restaurante_idRestaurante = '" + idRestaurant + "' " +
@@ -350,5 +347,28 @@ public class DataBase {
         }
         return new String[0];
     }
+
+    public String[] getInfoRestaurant(String idRestaurant){
+        String q = "SELECT idRestaurante, Descripcion, Especialidad_idEspecialidad, " +
+                "Proximidad_idProximidad, PrecioMPP_idPrecioMPP " +
+                "FROM restaurante WHERE idRestaurante = '" + idRestaurant + "'";
+        System.out.println(q);
+        try{
+            ResultSet rs = query.executeQuery(q);
+            if(rs.next()){
+                String[] info = new String[5];
+                info[0] = rs.getString("idRestaurante");
+                info[1] = rs.getString("Descripcion");
+                info[2] = rs.getString("Especialidad_idEspecialidad");
+                info[3] = rs.getString("Proximidad_idProximidad");
+                info[4] = rs.getString("PrecioMPP_idPrecioMPP");
+                return info;
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+        return new String[]{"","","","",""};
+    }
+
 
 }
