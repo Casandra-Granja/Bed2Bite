@@ -76,6 +76,12 @@ public class RestaurantCard {
         p5.textSize(16);
         p5.textAlign(PApplet.CENTER, PApplet.TOP);
 
+        // 5. Dibujar la Descripción
+        p5.fill(80);
+        p5.textSize(12);
+        p5.textAlign(PApplet.CENTER, PApplet.TOP);
+        p5.text(info, x + 5, y + imageHeight + 50, w - 10, h - imageHeight - 55);
+
         // Dibujamos el texto debajo de la imagen, centrado en la carta
         // El área de texto empieza en y + imageHeight + 20
         p5.text(titol, x + 5, y + imageHeight + 20, w - 10, h - imageHeight - 25);

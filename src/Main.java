@@ -382,21 +382,126 @@ public class Main extends PApplet {
     }
     public void mousePressedPantallaCREARRESTAURANTE(){
 
+        if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+        } else if (gui.bStats.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
+        } else if (gui.bInicio.mouseOverButton(this)) {
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
+        }
+
         gui.radbgProximidad.updateOnClick(this);
         gui.radbgPrecioMPP.updateOnClick(this);
         gui.tfNombreRestaurante.isPressed(this);
         gui.tfDescripcion.isPressed(this);
         gui.tfEspecialidad.isPressed(this);
-        if(gui.cbDesayuno.onMouseOver(this)){
-            gui.cbDesayuno.toggle();
+
+        if(gui.cbDesayuno.onMouseOver(this)) gui.cbDesayuno.toggle();
+        else if(gui.cbComida.onMouseOver(this)) gui.cbComida.toggle();
+        else if(gui.cbCena.onMouseOver(this)) gui.cbCena.toggle();
+
+        gui.cr.checkButtons(this);
+
+        // BOTON AÑADIR IMAGEN
+        if(gui.bCarregarImatge.mouseOverButton(this)){
+            println("BOTON CARGAR IMAGEN PULSADO");
+            selectInput("Selecciona una imatge...", "fileSelected", null, gui);
         }
-        else if(gui.cbComida.onMouseOver(this)){
-            gui.cbComida.toggle();
+
+        // BOTON CREAR
+        if(gui.bCrear.mouseOverButton(this)){
+            println("BOTON CREAR PULSADO");
+            String nom = gui.tfNombreRestaurante.getText();
+            println("NOMBRE: " + nom);
+            println("NUMERO IMAGENES SELECCIONADAS: " + gui.fitxersSeleccionats.size());
+
+            if(nom.equals("")){
+                println("ERROR: nombre vacio");
+                return;
+            }
+
+            // Proximidad
+            String proximidad;
+            if(gui.radbmas5min.isChecked()){
+                proximidad = "A más de 5 minutos a pie";
+            } else {
+                proximidad = "A menos de 5 minutos a pie";
+            }
+            println("PROXIMIDAD: " + proximidad);
+
+            // Precio
+            String precioMPP;
+            if(gui.radb1015.isChecked()){
+                precioMPP = "10€-15€";
+            } else if(gui.radb1520.isChecked()){
+                precioMPP = "15€-20€";
+            } else if(gui.radb2025.isChecked()){
+                precioMPP = "20€-25€";
+            } else {
+                precioMPP = "25€-30€";
+            }
+            println("PRECIO: " + precioMPP);
+
+            // Servicio
+            String servicio = "";
+            if(gui.cbDesayuno.isChecked())      servicio = "Desayuno";
+            else if(gui.cbComida.isChecked())   servicio = "Comida";
+            else if(gui.cbCena.isChecked())     servicio = "Cena";
+            println("SERVICIO: " + servicio);
+
+            String descripcion  = gui.tfDescripcion.getText();
+            String especialidad = gui.tfEspecialidad.getText();
+            println("DESCRIPCION: " + descripcion);
+            println("ESPECIALIDAD: " + especialidad);
+
+            // 1. Inserta el restaurante
+            println("Insertando restaurante...");
+            db.insertarRestaurant(nom, descripcion, especialidad, proximidad, precioMPP, servicio);
+
+            // 2. Inserta todas las imágenes
+            println("Insertando imagenes...");
+            if(gui.fitxersSeleccionats.size() > 0){
+                String rutaCarpeta = sketchPath("data/");
+                for(int i = 0; i < gui.fitxersSeleccionats.size(); i++){
+                    java.io.File fitxer = gui.fitxersSeleccionats.get(i);
+                    String titol = gui.titolsImatges.get(i);
+                    println("Copiando imagen: " + titol);
+                    copiarFitxer(fitxer, rutaCarpeta, titol);
+                    println("Insertando en BD: " + titol + " -> " + nom);
+                    db.insertarImatge(titol, nom);
+                }
+                println("Recargando carrousel...");
+                gui.recarregarCarrousel(this, nom);
+                gui.fitxersSeleccionats.clear();
+                gui.titolsImatges.clear();
+
+                // Recarga las cards de restaurantes en la pantalla inicial
+                gui.recarregarRestaurantePC(this);
+
+                // Vuelve a la pantalla inicial para ver la nueva card
+                gui.pantallaActual = GUI.PANTALLA.INICIAL;
+                println("OK: volviendo a pantalla inicial");
+                println("OK: todo completado");
+            } else {
+                println("AVISO: no hay imagenes seleccionadas");
+            }
         }
-        else if(gui.cbCena.onMouseOver(this)){
-            gui.cbCena.toggle();
+    }
+
+
+    void copiarFitxer(java.io.File file, String rutaCarpeta, String titol){
+        java.nio.file.Path original = java.nio.file.Paths.get(file.getAbsolutePath());
+        java.nio.file.Path copia    = java.nio.file.Paths.get(rutaCarpeta + titol);
+        try {
+            java.nio.file.Files.copy(original, copia,
+                    java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            println("Fitxer copiat correctament a: " + rutaCarpeta);
+        } catch (java.io.IOException e) {
+            println("ERROR copiant fitxer: " + e.getMessage());
         }
-        gui.cr.checkButtons(this, db.c);
 
     }
 
@@ -515,9 +620,11 @@ public class Main extends PApplet {
                         gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
                         gui.radbmas5min.onMouseOver(p5) || gui.radbmenos5min.onMouseOver(p5) ||
                         gui.radb1015.onMouseOver(p5) || gui.radb1520.onMouseOver(p5) ||
-                        gui.radb2025.onMouseOver(p5) ||  gui.radb2530.onMouseOver(p5) || gui.cbDesayuno.onMouseOver(p5)|| gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5)){
+                        gui.radb2025.onMouseOver(p5) ||  gui.radb2530.onMouseOver(p5) || gui.cbDesayuno.onMouseOver(p5)||
+                        gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5) || gui.cr.checkCursor(p5)){
                     cursorHAND = true;
                 }
+                break;
 
             default:
                 // Para cualquier otra pantalla (USUARIO, STATS, etc.)

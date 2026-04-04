@@ -284,30 +284,71 @@ public class DataBase {
     }
 
     public String[][] infoRestaurants(){
-
-        int nf = getNumFilesTaula("restaurante");
-        String[][] info = new String[nf][3];
-        String q = "SELECT res.idRestaurante AS nombre, res.Descripcion AS descripcion, img.Nombre AS foto " +
-                "FROM restaurante res, imagen img WHERE res.idRestaurante = img.Restaurante_idRestaurante";
+        // Usamos LEFT JOIN para que aparezcan restaurantes sin imagen también
+        String q = "SELECT res.idRestaurante AS nombre, res.Descripcion AS descripcion, " +
+                "COALESCE(img.Nombre, 'sin_imagen') AS foto " +
+                "FROM restaurante res " +
+                "LEFT JOIN imagen img ON res.idRestaurante = img.Restaurante_idRestaurante " +
+                "GROUP BY res.idRestaurante";
         System.out.println(q);
         try{
             ResultSet rs = query.executeQuery(q);
-            int f=0;
+            java.util.List<String[]> llista = new java.util.ArrayList<>();
             while(rs.next()){
-                info[f][0] = rs.getString("nombre");
-                info[f][1] = rs.getString("descripcion");
-                info[f][2] = rs.getString("foto");
-
-                f++;
+                String[] fila = new String[3];
+                fila[0] = rs.getString("nombre");
+                fila[1] = rs.getString("descripcion");
+                fila[2] = rs.getString("foto");
+                llista.add(fila);
             }
-            return info;
+            return llista.toArray(new String[0][]);
         }
         catch(Exception e){
             System.out.println(e);
         }
-        return info;
+        return new String[0][0];
+    }
+    public void insertarRestaurant(String nom, String descripcion, String especialidad,
+                                   String proximidad, String precioMPP, String servicio){
+        String q = "INSERT INTO restaurante (idRestaurante, Descripcion, Especialidad_idEspecialidad, " +
+                "Proximidad_idProximidad, PrecioMPP_idPrecioMPP, ServicioDisponible_idServicioDisponible) " +
+                "VALUES ('" + nom + "', '" + descripcion + "', '" + especialidad + "', " +
+                "'" + proximidad + "', '" + precioMPP + "', '" + servicio + "')";
+        System.out.println(q);
+        try {
+            query.execute(q);
+            System.out.println("Restaurante creado: " + nom);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public void insertarImatge(String nomFitxer, String idRestaurant) {
+        String q = "INSERT INTO imagen (Nombre, Restaurante_idRestaurante) " +
+                "VALUES ('" + nomFitxer + "', '" + idRestaurant + "')";
+        System.out.println(q);
+        try {
+            query.execute(q);
+            System.out.println("Imatge guardada: " + nomFitxer);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
-
+    public String[] getRutesImatgesRestaurant(String idRestaurant) {
+        String q = "SELECT Nombre FROM imagen " +
+                "WHERE Restaurante_idRestaurante = '" + idRestaurant + "' " +
+                "ORDER BY Nombre ASC";
+        try {
+            ResultSet rs = query.executeQuery(q);
+            java.util.List<String> llista = new java.util.ArrayList<>();
+            while (rs.next()) {
+                llista.add(rs.getString("Nombre"));
+            }
+            return llista.toArray(new String[0]);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new String[0];
     }
 
 }

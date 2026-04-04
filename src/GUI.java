@@ -7,6 +7,8 @@ import RestaurantCards.PagedCard2DRestaurantCard;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.io.File;
+
 import static B2B_Medidas.Layout.*;
 
 
@@ -18,6 +20,8 @@ public class GUI {
     public PANTALLA pantallaActual;
 
     DataBase db;
+
+    PApplet p5ref;
 
     // --- COMPONENTES DE INTERFAZ (BOTONES) ---
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
@@ -67,7 +71,12 @@ public class GUI {
     RadioButton[] radioHorasComida;
     RadioButton[] radioHorasCena;
 
-    CarrouselRestaurant cr;
+    Carrousel cr;
+
+    Button bCarregarImatge;
+    java.util.List<java.io.File> fitxersSeleccionats = new java.util.ArrayList<>();
+    java.util.List<String> titolsImatges = new java.util.ArrayList<>();
+
 
 
     // Dades de les cards Mis reservas
@@ -102,6 +111,7 @@ public class GUI {
 
 
     public GUI(PApplet p5, Colors appColors, DataBase db){
+        this.p5ref = p5;
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
         this.pantallaActual = PANTALLA.CREARRESTAURANTE;
@@ -154,9 +164,10 @@ public class GUI {
         // --- ADMIN ---
        bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
 
-       // --- CARRUSEL---
 
-        cr= new CarrouselRestaurant(100, 100, 500, 500, 1,"data", appColors);
+        cr = new Carrousel(100, 250, 700, 600, 1);
+        cr.setButtons(p5, "bPrev.png", "bNext.png");
+        bCarregarImatge = new Button(p5, "AÑADIR IMAGENES", 100, 870, 200, 60, c);
     }
 
     public void creaTextField(PApplet p5){
@@ -249,6 +260,7 @@ public class GUI {
         img1 = p5.loadImage("categoria1.png");
         img2 = p5.loadImage("categoria2.png");
         crearRestaurante = p5.loadImage("crearRestaurante.png");
+
     }
 
     public void setCards(PApplet p5){
@@ -485,8 +497,7 @@ public class GUI {
         p5.text("TIPO DE ESPECIALIDAD (Comida italiana, sin especialidad...)", p5.width/2+ 120, 640);
         tfEspecialidad.display(p5);
         bCrear.display(p5);
-        cr.initButtons(p5);
-        cr.carregarDesDeMySQL(p5, db.c);
+        bCarregarImatge.display(p5);
         cr.display(p5);
         p5.popStyle();
 
@@ -604,5 +615,47 @@ public class GUI {
         p5.popStyle();
 
     }
+
+    public void recarregarCarrousel(PApplet p5, String idRestaurant) {
+        String[] nomsDB = db.getRutesImatgesRestaurant(idRestaurant);
+        if (nomsDB.length > 0) {
+            // Añade el prefijo "data/" a cada nombre
+            for(int i = 0; i < nomsDB.length; i++){
+                nomsDB[i] = "data/" + nomsDB[i];
+            }
+            cr.setImages(p5, nomsDB);
+        }
+    }
+    public void fileSelected(java.io.File selection) {
+        if (selection == null) {
+            System.out.println("No s'ha seleccionat cap fitxer.");
+        } else {
+            fitxersSeleccionats.add(selection);
+            titolsImatges.add(selection.getName());
+            System.out.println("Fitxer afegit: " + selection.getName());
+            System.out.println("Total imatges seleccionades: " + fitxersSeleccionats.size());
+
+            // Carrousel sempre amb 1 imatge visible, navegues amb les fletxes
+            cr = new Carrousel(100, 250, 700, 600, 1);
+            cr.setButtons(p5ref, "data/B2B-Logo.png", "crearRestaurante.png");
+
+            // Carrega totes les imatges seleccionades fins ara
+            PImage[] imgsTemp = new PImage[fitxersSeleccionats.size()];
+            String[] nomsTemp  = new String[fitxersSeleccionats.size()];
+            for(int i = 0; i < fitxersSeleccionats.size(); i++){
+                imgsTemp[i] = p5ref.loadImage(fitxersSeleccionats.get(i).getAbsolutePath());
+                nomsTemp[i]  = titolsImatges.get(i);
+            }
+            cr.imgs            = imgsTemp;
+            cr.noms            = nomsTemp;
+            cr.numTotalImatges = imgsTemp.length;
+            cr.currentImage    = imgsTemp.length - 1; // salta a la última imagen añadida
+        }
+    }
+    public void recarregarRestaurantePC(PApplet p5){
+        restaurantePC.setData(db.infoRestaurants());
+        restaurantePC.setCards(p5);
+    }
+
 }
 
