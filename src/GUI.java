@@ -26,7 +26,7 @@ public class GUI {
     Button bSignIn, bDontHaveAnAccount, bModificarUsuario, bSignUp;
     Button bReservar, bEliminarImatges;
     Button bCrear;
-    Button bPrevMisReservasPC, bNextMisReservasPC;
+    Button bNextMisReservasPC, bPrevMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
     RoundButton rbPerfil, rbCrear;
 
@@ -161,8 +161,9 @@ public class GUI {
         bPrevRestaurantPC = new Button(p5, "PREV", 170 + restaurantCardsW, 843 + restaurantButtonH, restaurantButtonW, restaurantButtonH, appColors);
 
         // --- NAVEGACIÓN DE CARTAS (MIS RESERVAS) ---
-        bPrevMisReservasPC = new Button(p5, "NEXT", 100 + misReservasCardsW, 80, misReservasButtonW, misReservasButtonH, appColors);
-        bNextMisReservasPC = new Button(p5, "PREV", 100 + misReservasCardsW, 100 + misReservasButtonH, misReservasButtonW, misReservasButtonH, appColors);
+        bNextMisReservasPC = new Button(p5, "NEXT", 240 + restaurantCardsW, 843 + restaurantButtonW, restaurantButtonH,restaurantButtonH, appColors);
+        bPrevMisReservasPC = new Button(p5, "PREV", 170 + restaurantCardsW, 843 + restaurantButtonH, restaurantButtonW, restaurantButtonH, appColors);
+
 
         // --- ADMIN ---
         bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
@@ -270,10 +271,8 @@ public class GUI {
     public void setCards(PApplet p5){
         //PagedCatrd Mis reservas
         misReservasPC = new PagedCardMisReservas(4,appColors);
-        misReservasPC.setDimensions(marginInicialW , marginInicialH-100, misReservasCardsW, misReservasCardsH); //crear a medidas
-        misReservasPC.setData(infoMisReservasCards);
-        misReservasPC.setCards(p5, appColors);
-        misReservasPC.setImages(img1, img2);
+        misReservasPC.setDimensions(50+marginInicialW , marginInicialH-80, misReservasCardsW +400, misReservasCardsH+80); //crear a medidas
+
 
         //PagedCard2D Restaurant Card
         restaurantePC = new PagedCard2DRestaurantCard(2, 3, appColors);
@@ -536,8 +535,8 @@ public class GUI {
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
         misReservasPC.display(p5);
-        bPrevMisReservasPC.display(p5);
         bNextMisReservasPC.display(p5);
+        bPrevMisReservasPC.display(p5);
 
 
     }

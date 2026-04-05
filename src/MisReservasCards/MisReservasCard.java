@@ -71,7 +71,7 @@ public class MisReservasCard {
         bModificar.setMidaTexte(15);
 
         // Estrellas posicionadas abajo a la izquierda del área de texto
-        cbl = new CheckBoxStarList(p5, 5, imgs, (int)(x + w - 220), (int)(y + h - 50), 25, 25);
+        cbl = new CheckBoxStarList(p5, 5, imgs, (int)x + 550, (int) (y + 140), 40, 40);
         cbl.setCheckBoxStars(0);
     }
 
@@ -83,12 +83,7 @@ public class MisReservasCard {
         p5.fill(0, 40);
         p5.rect(x + 5, y + 5, w, h, 15);
 
-        // Fondo
-        if(selected){
-            p5.fill(appColors.getBotonOverColor());
-        } else {
             p5.fill(255);
-        }
         p5.rect(x, y, w, h, 15);
 
         // Imagen o placeholder
@@ -123,7 +118,7 @@ public class MisReservasCard {
 
         // Info dividida
         String[] parts = info.split("\\|");
-        p5.textSize(17);
+        p5.textSize(18);
         p5.fill(80);
         if(parts.length >= 4){
             p5.text("Fecha:      " + parts[0].trim(), x + 245, y + 65);
@@ -136,25 +131,17 @@ public class MisReservasCard {
 
         // Etiqueta estrellas
         p5.fill(120);
-        p5.textSize(14);
-        p5.text("Valoración:", x + 245, y + h - 60);
+        p5.textSize(18);
+        p5.text("Valoración:", x + 450, y + 155 );
 
         // Botones y estrellas
         bModificar.display(p5);
         bEliminar.display(p5);
         cbl.display(p5);
-
-        updateCursor(p5);
         p5.popStyle();
     }
     // Modifica el cursor
-    void updateCursor(PApplet p5){
-        if (cbl.checkCursor(p5)) {
-            p5.cursor(p5.HAND);
-        } else {
-            p5.cursor(p5.ARROW);
-        }
-    }
+
     public void clickMouseOnCardItems(PApplet p5){
         if(bModificar.mouseOverButton(p5)){
             System.out.println("MODIFICAR clicked");

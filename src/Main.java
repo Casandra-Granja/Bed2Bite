@@ -459,10 +459,11 @@ public class Main extends PApplet {
                 println("BINICIO has been pressed!!");
             }
             //CARD MIS RESERVAS
-            if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
+            if (gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()) {
                 gui.misReservasPC.nextPage();
-            } else if (gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()) {
+            } else if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
                 gui.misReservasPC.prevPage();
+
             } else {
                 gui.misReservasPC.checkCardSelection(this);
             }
