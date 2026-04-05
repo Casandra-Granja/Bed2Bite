@@ -20,32 +20,33 @@ public class Main extends PApplet {
     public static DataBase db;
 
     public static boolean isAdmin = false;
+    public static String usuariActual = "";
 
     public static void main(String[] args) {
         PApplet.main("Main");
 
     }
 
-    public void settings(){
+    public void settings() {
         fullScreen();
 
     }
 
-    public void setup(){
-        db= new DataBase("admin", "12345", "mydb");
+    public void setup() {
+        db = new DataBase("admin", "12345", "mydb");
         db.connect();
-        c1= new Colors(this);
-        f1= new Fonts(this);
-        gui= new GUI(this, c1, db);
+        c1 = new Colors(this);
+        f1 = new Fonts(this);
+        gui = new GUI(this, c1, db);
 
         db.printArray2D(db.infoRestaurants());
 
 
     }
 
-    public void draw(){
+    public void draw() {
 
-       // AÑADIMOS PANTALLAS
+        // AÑADIMOS PANTALLAS
 
         switch (gui.pantallaActual) {
 
@@ -82,8 +83,6 @@ public class Main extends PApplet {
         updateCursor(this);
 
 
-
-
         // Actualitza forma del cursor
         updateCursor(this);
 
@@ -96,7 +95,7 @@ public class Main extends PApplet {
 
     }
 
-    public void keyPressed(){
+    public void keyPressed() {
         /*
         //AÑADIMOS PANTALLAS
            if(key== '0'){
@@ -130,23 +129,21 @@ public class Main extends PApplet {
          */
 
 
-
-
-            //AÑADIMOS TEXTFIELDS
-            gui.tfApellidos.keyPressed(keyCode);
-            gui.tfUsuari.keyPressed(keyCode);
-            gui.tfPassword.keyPressed(keyCode);
-            gui.tfNumHabitacion.keyPressed(keyCode);
-            gui.tfNom.keyPressed(keyCode);
-            gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
-            gui.tfUsuariSignUp.keyPressed(keyCode);
-            gui.tfPasswordSignUp.keyPressed(keyCode);
-            gui.tfNombreRestaurante.keyPressed(keyCode);
-            gui.tfDescripcion.keyPressed(keyCode);
-            gui.tfEspecialidad.keyPressed(keyCode);
+        //AÑADIMOS TEXTFIELDS
+        gui.tfApellidos.keyPressed(keyCode);
+        gui.tfUsuari.keyPressed(keyCode);
+        gui.tfPassword.keyPressed(keyCode);
+        gui.tfNumHabitacion.keyPressed(keyCode);
+        gui.tfNom.keyPressed(keyCode);
+        gui.tfNumPersonas.keyPressed(keyCode); //comom hacer que este solo deje numeros i un espacio reducido
+        gui.tfUsuariSignUp.keyPressed(keyCode);
+        gui.tfPasswordSignUp.keyPressed(keyCode);
+        gui.tfNombreRestaurante.keyPressed(keyCode);
+        gui.tfDescripcion.keyPressed(keyCode);
+        gui.tfEspecialidad.keyPressed(keyCode);
     }
 
-    public void keyTyped(){
+    public void keyTyped() {
         gui.tfApellidos.keyTyped(key);
         gui.tfUsuari.keyTyped(key);
         gui.tfPassword.keyTyped(key);
@@ -162,26 +159,26 @@ public class Main extends PApplet {
 
     }
 
-    public void mousePressedPantallaSINGUP(){
-            if(gui.bSignUp.mouseOverButton(this)) {
+    public void mousePressedPantallaSINGUP() {
+        if (gui.bSignUp.mouseOverButton(this)) {
             String user = gui.tfUsuariSignUp.getText();
             String ape = gui.tfApellidos.getText();
             String nom = gui.tfNom.getText();
             String numHab = gui.tfNumHabitacion.getText();
             String password = gui.tfPasswordSignUp.getText();
-            if(!db.hiHaUsuari(user)) {
+            if (!db.hiHaUsuari(user)) {
                 db.signUpUsuari(nom, ape, user, numHab, password);
-                    gui.puSignIn.setVisible(false); // por si acaso
-                    gui.pantallaActual = GUI.PANTALLA.SIGNIN;
+                gui.puSignIn.setVisible(false); // por si acaso
+                gui.pantallaActual = GUI.PANTALLA.SIGNIN;
             } else {
                 System.out.println("NOOOO");
                 gui.puSignIn.setVisible(true);
             }
             println("BSIGNIN has been pressed!!");
-            }
-            if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
+        }
+        if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
             gui.puSignIn.setVisible(false);
-            }
+        }
 
         gui.tfApellidos.isPressed(this);
         gui.tfUsuariSignUp.isPressed(this);
@@ -190,7 +187,8 @@ public class Main extends PApplet {
         gui.tfNom.isPressed(this);
 
     }
-    public void mousePressedPantallaSINGIN(){
+
+    public void mousePressedPantallaSINGIN() {
         if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
             gui.puSignIn.setVisible(false);
         }
@@ -198,10 +196,11 @@ public class Main extends PApplet {
             String nom = gui.tfUsuari.getText();
             String password = gui.tfPassword.getText();
             isAdmin = false;
-            if(nom.equals("admin") && password.equals("12345")){
+            if (nom.equals("admin") && password.equals("12345")) {
                 isAdmin = true;
             }
             if (db.loginCorrecte(nom, password)) {
+                usuariActual = nom; // ✅ guarda el usuario
                 gui.pantallaActual = GUI.PANTALLA.INICIAL;
             } else {
                 gui.puSignIn.setVisible(true); // 🔥 MOSTRAR POPUP
@@ -215,16 +214,18 @@ public class Main extends PApplet {
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
     }
-    public void mousePressedPantallaINICIAL(){
+
+    public void mousePressedPantallaINICIAL() {
         if (gui.bMisReservas.mouseOverButton(this)) {
-        gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
-        println("BMISRESERVAS has been pressed!!");
+            gui.recarregarMisReservas(this);
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
-        gui.pantallaActual = GUI.PANTALLA.STATS;
-        println("BSTATS has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.STATS;
+            println("BSTATS has been pressed!!");
         } else if (gui.bInicio.mouseOverButton(this)) {
-        gui.pantallaActual = GUI.PANTALLA.INICIAL;
-        println("BINICIO has been pressed!!");
+            gui.pantallaActual = GUI.PANTALLA.INICIAL;
+            println("BINICIO has been pressed!!");
         }
         //CARD RESTAURANT
 
@@ -234,8 +235,8 @@ public class Main extends PApplet {
             gui.restaurantePC.prevPage();
         } else {
             gui.restaurantePC.checkCardSelection(this);
-            if(gui.restaurantePC.selectedCard!=-1){
-                println("SELECTED CARD: "+gui.restaurantePC.cards[gui.restaurantePC.selectedCard].titol);
+            if (gui.restaurantePC.selectedCard != -1) {
+                println("SELECTED CARD: " + gui.restaurantePC.cards[gui.restaurantePC.selectedCard].titol);
             }
 
         }
@@ -244,14 +245,14 @@ public class Main extends PApplet {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
-        if(isAdmin){
+        if (isAdmin) {
             if (gui.rbCrear.mouseOverButton(this)) {
                 gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
                 println("RBCREAR has been pressed!!");
             }
         }
         gui.restaurantePC.checkCardSelection(this);
-        if(gui.restaurantePC.selectedCard != -1){
+        if (gui.restaurantePC.selectedCard != -1) {
             int i = gui.restaurantePC.selectedCard;
             String nom = gui.restaurantePC.cards[i].titol;
             gui.carregarRestaurant(this, nom);
@@ -259,10 +260,11 @@ public class Main extends PApplet {
             println("RESTAURANTE SELECCIONADO: " + nom);
         }
 
-            // Carga las imágenes del restaurante en el carrusel
-            gui.recarregarCarrousel(this, gui.restauranteSeleccionado);
+        // Carga las imágenes del restaurante en el carrusel
+        gui.recarregarCarrousel(this, gui.restauranteSeleccionado);
 
     }
+
     public void mousePressedPantallaINICIALEXTENDIDA() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -280,8 +282,10 @@ public class Main extends PApplet {
             println("RBPERFIL has been pressed!!");
         }
     }
+
     public void mousePressedPantallaDESCRIPCIONESRESTAURANTE() {
         if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
@@ -290,7 +294,7 @@ public class Main extends PApplet {
         } else if (gui.bInicio.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.INICIAL;
             println("BINICIO has been pressed!!");
-        }else if (gui.bReservar.mouseOverButton(this)) {
+        } else if (gui.bReservar.mouseOverButton(this)) {
             println("BRESERVAR has been pressed!!");
             gui.pantallaActual = GUI.PANTALLA.ESPECIFICACIONRESERVA;
         }
@@ -299,12 +303,14 @@ public class Main extends PApplet {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
-        if(gui.crDetalle != null){
+        if (gui.crDetalle != null) {
             gui.crDetalle.checkButtons(this);
         }
     }
-    public void mousePressedPantallaSTATS(){
+
+    public void mousePressedPantallaSTATS() {
         if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
@@ -320,42 +326,26 @@ public class Main extends PApplet {
             println("RBPERFIL has been pressed!!");
         }
     }
+
     public void mousePressedPantallaESPECIFICACIONESRESERVA(){
-        if (gui.bMisReservas.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
-            println("BMISRESERVAS has been pressed!!");
-        } else if (gui.bStats.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.STATS;
-            println("BSTATS has been pressed!!");
-        } else if (gui.bInicio.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.INICIAL;
-            println("BINICIO has been pressed!!");
-        }
-        else if (gui.bReservar.mouseOverButton(this)) {
-            println("BRESERVAR has been pressed!!");
-        }// Si pitjam sobre el radiobuttongroup
+
+        // ✅ SIEMPRE SE EJECUTA PRIMERO
+        gui.calendari.checkButtons(this);
         gui.radbgTipoReserva.updateOnClick(this);
-        if (gui.radbDesayuno.isChecked()) {
+
+        if(gui.radbDesayuno.isChecked()){
             gui.radbgHorarioReservaDesayuno.updateOnClick(this);
-
-        } else if (gui.radbComida.isChecked()) {
+        } else if(gui.radbComida.isChecked()){
             gui.radbgHorarioReservaComida.updateOnClick(this);
-
-        } else if (gui.radbCena.isChecked()) {
+        } else if(gui.radbCena.isChecked()){
             gui.radbgHorarioReservaCena.updateOnClick(this);
         }
-        gui.calendari.checkButtons(this);
-        // Text Field
-        gui.tfNumPersonas.isPressed(this);
-        //Round Button
-        if (gui.rbPerfil.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.USUARIO;
-            println("RBPERFIL has been pressed!!");
-        }
 
-    }
-    public void mousePressedPantallaMISRESERVAS(){
+        gui.tfNumPersonas.isPressed(this);
+
+        // NAVEGACIÓN
         if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
@@ -364,23 +354,128 @@ public class Main extends PApplet {
         } else if (gui.bInicio.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.INICIAL;
             println("BINICIO has been pressed!!");
-        }
-        //CARD MIS RESERVAS
-        if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
-            gui.misReservasPC.nextPage();
-        } else if (gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()) {
-            gui.misReservasPC.prevPage();
-        } else {
-            gui.misReservasPC.checkCardSelection(this);
-        }
-        //Round Button
-        if (gui.rbPerfil.mouseOverButton(this)) {
+        } else if (gui.rbPerfil.mouseOverButton(this)){
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
+
+            // BOTON RESERVAR
+        } else if (gui.bReservar.mouseOverButton(this)) {
+            println("BRESERVAR has been pressed!!");
+            println("RESTAURANTE SELECCIONADO: " + gui.infoRestaurantSeleccionat[0]);
+            gui.restauranteSeleccionado = gui.infoRestaurantSeleccionat[0];
+            gui.pantallaActual = GUI.PANTALLA.ESPECIFICACIONRESERVA;
+
+            // Tipo reserva
+            String tipoReserva = "";
+            if(gui.radbDesayuno.isChecked())      tipoReserva = "Desayuno";
+            else if(gui.radbComida.isChecked())   tipoReserva = "Comida";
+            else if(gui.radbCena.isChecked())     tipoReserva = "Cena";
+            println("TIPO RESERVA: " + tipoReserva);
+
+            // Hora
+            String hora = "";
+            if(gui.radbDesayuno.isChecked()){
+                int sel = gui.radbgHorarioReservaDesayuno.getSelected();
+                println("SEL DESAYUNO INDEX: " + sel);
+                if(sel >= 0 && sel < gui.horasDesayuno.length){
+                    hora = gui.horasDesayuno[sel];
+                }
+            } else if(gui.radbComida.isChecked()){
+                int sel = gui.radbgHorarioReservaComida.getSelected();
+                println("SEL COMIDA INDEX: " + sel);
+                if(sel >= 0 && sel < gui.horasComida.length){
+                    hora = gui.horasComida[sel];
+                }
+            } else if(gui.radbCena.isChecked()){
+                int sel = gui.radbgHorarioReservaCena.getSelected();
+                println("SEL CENA INDEX: " + sel);
+                if(sel >= 0 && sel < gui.horasCena.length){
+                    hora = gui.horasCena[sel];
+                }
+            }
+            println("HORA: " + hora);
+
+            // Fecha
+            String fecha = "";
+            println("DATE SELECTED: " + gui.calendari.isDateSelected());
+            if(gui.calendari.isDateSelected()){
+                fecha = gui.calendari.selectedYear + "-" +
+                        gui.calendari.selectedMonth + "-" +
+                        gui.calendari.selectedDay;
+            }
+            println("FECHA: " + fecha);
+
+            // Num personas
+            String numPersonasStr = gui.tfNumPersonas.getText();
+            println("NUM PERSONAS STR: '" + numPersonasStr + "'");
+            int numPersonas = 1;
+            if(!numPersonasStr.equals("")){
+                try{
+                    numPersonas = Integer.parseInt(numPersonasStr);
+                } catch(Exception e){
+                    println("ERROR num personas: " + e.getMessage());
+                }
+            }
+            println("NUM PERSONAS: " + numPersonas);
+
+            // Validaciones
+            if(tipoReserva.equals("")){
+                println("ERROR: falta tipo de reserva");
+            } else if(hora.equals("")){
+                println("ERROR: falta hora");
+            } else if(fecha.equals("")){
+                println("ERROR: falta fecha");
+            } else if(usuariActual.equals("")){
+                println("ERROR: usuario no logueado");
+            } else if(gui.restauranteSeleccionado.equals("")){
+                println("ERROR: no hay restaurante seleccionado");
+            } else {
+                println("Insertando reserva en BD...");
+                db.insertarReserva(
+                        usuariActual,
+                        gui.restauranteSeleccionado,
+                        fecha,
+                        hora,
+                        numPersonas,
+                        tipoReserva
+                );
+                println("Recargando mis reservas...");
+                gui.recarregarMisReservas(this);
+                gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+                println("=== RESERVA CREADA CORRECTAMENTE ===");
+            }
         }
     }
+    public void mousePressedPantallaMISRESERVAS () {
+            if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
+            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
+            println("BMISRESERVAS has been pressed!!");
+            } else if (gui.bStats.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.STATS;
+                println("BSTATS has been pressed!!");
+            } else if (gui.bInicio.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.INICIAL;
+                println("BINICIO has been pressed!!");
+            }
+            //CARD MIS RESERVAS
+            if (gui.bPrevMisReservasPC.mouseOverButton(this) && gui.bPrevMisReservasPC.isEnabled()) {
+                gui.misReservasPC.nextPage();
+            } else if (gui.bNextMisReservasPC.mouseOverButton(this) && gui.bNextMisReservasPC.isEnabled()) {
+                gui.misReservasPC.prevPage();
+            } else {
+                gui.misReservasPC.checkCardSelection(this);
+            }
+            //Round Button
+            if (gui.rbPerfil.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.USUARIO;
+                println("RBPERFIL has been pressed!!");
+            }
+        }
+
     public void mousePressedPantallaUSUARIO(){
         if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {
@@ -405,6 +500,7 @@ public class Main extends PApplet {
     public void mousePressedPantallaCREARRESTAURANTE(){
 
         if (gui.bMisReservas.mouseOverButton(this)) {
+            gui.recarregarMisReservas(this);
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             println("BMISRESERVAS has been pressed!!");
         } else if (gui.bStats.mouseOverButton(this)) {

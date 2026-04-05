@@ -8,7 +8,7 @@ public class PagedCardMisReservas {
 
 
     String[][] cardsData;    // Dades de les Cards
-    MisReservasCard[] cards;            // Cards
+    public MisReservasCard[] cards;            // Cards
     int numCards;            // Número total de Cards
     int numCardsPage;        // Número de Cards en 1 Pàgina
 

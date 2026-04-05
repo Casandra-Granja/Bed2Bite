@@ -370,5 +370,53 @@ public class DataBase {
         return new String[]{"","","","",""};
     }
 
+    public void insertarReserva(String user, String idRestaurant, String fecha, String hora, int numPersonas, String tipoReserva){
+        // ID simple con timestamp para que sea único
+        String id = String.valueOf(System.currentTimeMillis());
+
+        String q = "INSERT INTO reserva (Id, Fecha, Hora, NºPersonas, Valoraciones, " +
+                "Usuario_User, Restaurante_idRestaurante, TipoReserva_idTipoReserva) " +
+                "VALUES ('" + id + "', '" + fecha + "', '" + hora + "', " +
+                numPersonas + ", 0, '" + user + "', '" + idRestaurant + "', '" + tipoReserva + "')";
+        System.out.println(q);
+        try {
+            query.execute(q);
+            System.out.println("Reserva creada: " + id);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+    public String[][] getReservesUsuari(String user){
+        String q = "SELECT r.Id, r.Fecha, r.Hora, r.NºPersonas, " +
+                "r.Restaurante_idRestaurante, r.TipoReserva_idTipoReserva, " +
+                "img.Nombre AS foto " +
+                "FROM reserva r " +
+                "LEFT JOIN imagen img ON r.Restaurante_idRestaurante = img.Restaurante_idRestaurante " +
+                "WHERE r.Usuario_User = '" + user + "' " +
+                "GROUP BY r.Id " +
+                "ORDER BY r.Fecha ASC, r.Hora ASC";
+        System.out.println(q);
+        try {
+            ResultSet rs = query.executeQuery(q);
+            java.util.List<String[]> llista = new java.util.ArrayList<>();
+            while(rs.next()){
+                String[] fila = new String[6];
+                fila[0] = rs.getString("Restaurante_idRestaurante");
+                fila[1] = rs.getString("Fecha") + " | " +
+                        rs.getString("Hora") + " | " +
+                        rs.getString("NºPersonas") + " personas | " +
+                        rs.getString("TipoReserva_idTipoReserva");
+                fila[2] = rs.getString("foto");
+                fila[3] = rs.getString("Fecha");
+                fila[4] = rs.getString("Hora");
+                fila[5] = rs.getString("Id");
+                llista.add(fila);
+            }
+            return llista.toArray(new String[0][]);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new String[0][0];
+    }
 
 }

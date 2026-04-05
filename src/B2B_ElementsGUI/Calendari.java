@@ -17,7 +17,9 @@ public class Calendari {
 
     // Data seleccionada
     boolean dateSelected = false;
-    int selectedDay = 0, selectedMonth = 0, selectedYear = 0;
+    public int selectedDay = 0;
+    public int selectedMonth = 0;
+    public int selectedYear = 0;
 
     // Calendari actual, i del mes anterior
     Calendar cal, cPrev;

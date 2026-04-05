@@ -116,7 +116,7 @@ public class GUI {
         this.p5ref = p5;
         // 1. Configuración de olores y estado inicial
         this.appColors = appColors;
-        this.pantallaActual = PANTALLA.DESCRIPCIONRESTAURANTE;
+        this.pantallaActual = PANTALLA.SIGNIN;
         this.db=db;
 
         // 2. Inicialización de Objetos y Fuentes
@@ -474,8 +474,6 @@ public class GUI {
         elementosEsenciales(p5);
         p5.pushStyle();
 
-
-
         // Sombra info
         p5.noStroke();
         p5.fill(0, 40);
@@ -763,6 +761,19 @@ public class GUI {
                 nomsDB[i] = "data/" + nomsDB[i];
             }
             crDetalle.setImages(p5, nomsDB);
+        }
+    }
+    public void recarregarMisReservas(PApplet p5){
+        String[][] reserves = db.getReservesUsuari(Main.usuariActual);
+        if(reserves != null && reserves.length > 0){
+            misReservasPC.setData(reserves);
+            misReservasPC.setCards(p5, appColors);
+            // Carga la imagen de cada reserva
+            for(int i = 0; i < misReservasPC.cards.length; i++){
+                if(reserves[i][2] != null && !reserves[i][2].equals("null")){
+                    misReservasPC.cards[i].setImage(p5.loadImage("data/" + reserves[i][2]));
+                }
+            }
         }
     }
 

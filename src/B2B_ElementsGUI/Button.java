@@ -84,5 +84,9 @@ public class Button {
     public boolean updateHandCursor(PApplet p5){
         return mouseOverButton(p5) && enabled;
     }
+    public void setPosition(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
 }

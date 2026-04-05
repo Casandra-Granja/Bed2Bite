@@ -23,6 +23,19 @@ public class RadioButtonGroup {
             this.rbuttons[n].setChecked(true);
         }
 
+         public int getSelected(){
+             return this.selectedOption;
+
+        }
+            public boolean haySeleccionado(){
+                for(int i = 0; i < rbuttons.length; i++){
+                    if(rbuttons[i] != null && rbuttons[i].isChecked()){
+                    return true;
+            }
+        }
+        return false;
+    }
+
         public void display(PApplet p5){
             for(int i=0; i<rbuttons.length; i++){
                 if(rbuttons[i]!=null){
