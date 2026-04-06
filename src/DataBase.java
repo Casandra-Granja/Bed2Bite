@@ -419,4 +419,139 @@ public class DataBase {
         return new String[0][0];
     }
 
+    public void eliminarReserva(String idReserva){
+        String q = "DELETE FROM reserva WHERE Id = '" + idReserva + "'";
+        System.out.println(q);
+        try {
+            query.execute(q);
+            System.out.println("Reserva eliminada: " + idReserva);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public String[] getInfoReserva(String idReserva){
+        String q = "SELECT * FROM reserva WHERE Id = '" + idReserva + "'";
+        System.out.println(q);
+        try {
+            ResultSet rs = query.executeQuery(q);
+            if(rs.next()){
+                String[] info = new String[7];
+                info[0] = rs.getString("Id");
+                info[1] = rs.getString("Fecha");
+                info[2] = rs.getString("Hora");
+                info[3] = rs.getString("NºPersonas");
+                info[4] = rs.getString("Valoraciones");
+                info[5] = rs.getString("Restaurante_idRestaurante");
+                info[6] = rs.getString("TipoReserva_idTipoReserva");
+                return info;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new String[]{"","","","","","",""};
+    }
+
+    public void modificarReserva(String idReserva, String fecha, String hora,
+                                 int numPersonas, String tipoReserva){
+        String q = "UPDATE reserva SET " +
+                "Fecha = '" + fecha + "', " +
+                "Hora = '" + hora + "', " +
+                "NºPersonas = " + numPersonas + ", " +
+                "TipoReserva_idTipoReserva = '" + tipoReserva + "' " +
+                "WHERE Id = '" + idReserva + "'";
+        System.out.println(q);
+        try {
+            query.execute(q);
+            System.out.println("Reserva modificada: " + idReserva);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void eliminarRestaurante(String idRestaurant){
+
+        try{
+            // 1. BORRAR RESERVAS
+            String q1 = "DELETE FROM reserva WHERE Restaurante_idRestaurante = '" + idRestaurant + "'";
+            System.out.println(q1);
+            query.execute(q1);
+
+            // 2. BORRAR IMÁGENES
+            String q2 = "DELETE FROM imagen WHERE Restaurante_idRestaurante = '" + idRestaurant + "'";
+            System.out.println(q2);
+            query.execute(q2);
+
+            // 3. BORRAR RESTAURANTE
+            String q3 = "DELETE FROM restaurante WHERE idRestaurante = '" + idRestaurant + "'";
+            System.out.println(q3);
+            query.execute(q3);
+
+            System.out.println("RESTAURANTE ELIMINADO: " + idRestaurant);
+
+        } catch (Exception e){
+            System.out.println("ERROR eliminando restaurante");
+            System.out.println(e);
+        }
+    }
+    public void guardarValoracion(String idReserva, int valor){
+        String q = "UPDATE reserva SET Valoraciones = " + valor +
+                " WHERE Id = '" + idReserva + "'";
+        System.out.println(q);
+        try{
+            query.execute(q);
+            System.out.println("Valoración guardada");
+        }catch(Exception e){
+            System.out.println(e);
+        }
+    }
+    public String[][] rankingRestaurantes(){
+        String q = "SELECT Restaurante_idRestaurante, AVG(Valoraciones) AS media " +
+                "FROM reserva " +
+                "WHERE Valoraciones > 0 " +
+                "GROUP BY Restaurante_idRestaurante " +
+                "ORDER BY media DESC";
+
+        try{
+            ResultSet rs = query.executeQuery(q);
+            java.util.List<String[]> llista = new java.util.ArrayList<>();
+
+            while(rs.next()){
+                String[] fila = new String[2];
+                fila[0] = rs.getString("Restaurante_idRestaurante");
+                fila[1] = rs.getString("media");
+                llista.add(fila);
+            }
+            return llista.toArray(new String[0][]);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return new String[0][0];
+    }
+    public String[][] rankingUsuarios(){
+        String q = "SELECT Usuario_User, COUNT(*) AS total " +
+                "FROM reserva " +
+                "GROUP BY Usuario_User " +
+                "ORDER BY total DESC";
+
+        try{
+            ResultSet rs = query.executeQuery(q);
+            java.util.List<String[]> llista = new java.util.ArrayList<>();
+
+            while(rs.next()){
+                String[] fila = new String[2];
+                fila[0] = rs.getString("Usuario_User");
+                fila[1] = rs.getString("total");
+                llista.add(fila);
+            }
+            return llista.toArray(new String[0][]);
+        }catch(Exception e){
+            System.out.println(e);
+        }
+        return new String[0][0];
+    }
+
+
+
+
 }

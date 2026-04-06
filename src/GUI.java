@@ -29,6 +29,7 @@ public class GUI {
     Button bNextMisReservasPC, bPrevMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
     RoundButton rbPerfil, rbCrear;
+    Button bEliminarRestaurante;
 
     // --- ELEMENTOS DE SELECCIÓN (RADIO BUTTONS) ---
     RadioButton radbDesayuno, radbComida, radbCena;
@@ -78,37 +79,12 @@ public class GUI {
     String restauranteSeleccionado = "";
     String[] infoRestaurantSeleccionat = new String[]{"","","","",""};
 
+    String idReservaSeleccionada = "";
+    boolean modificandoReserva = false;
 
-
-
-    // Dades de les cards Mis reservas
-    String[][] infoMisReservasCards = {
-            {"Títol 1", "Lloc 1", "Data 1", "Secció 1", "Descripció 1"},
-            {"Títol 2", "Lloc 2", "Data 2", "Secció 2", "Descripció 2"},
-            {"Títol 3", "Lloc 3", "Data 3", "Secció 1", "Descripció 3"},
-            {"Títol 4", "Lloc 4", "Data 4", "Secció 1", "Descripció 4"},
-            {"Títol 5", "Lloc 5", "Data 5", "Secció 2", "Descripció 5"},
-            {"Títol 6", "Lloc 6", "Data 6", "Secció 2", "Descripció 6"},
-            {"Títol 7", "Lloc 7", "Data 7", "Secció 1", "Descripció 7"},
-            {"Títol 8", "Lloc 8", "Data 8", "Secció 8", "Descripció 8"},
-            {"Títol 9", "Lloc 9", "Data 9", "Secció 9", "Descripció 9"},
-            {"Títol 0", "Lloc 0", "Data 0", "Secció 0", "Descripció 0"},
-    };
-
-    // Dades de les cards Restaurant Cards
-    String[][] infoRestaurantCards = {
-            {"Títol 0", "Lloc 0", "Data 0", "Secció 0", "Descripció 0"},
-            {"Títol 1", "Lloc 1", "Data 1", "Secció 1", "Descripció 1"},
-            {"Títol 2", "Lloc 2", "Data 2", "Secció 2", "Descripció 2"},
-            {"Títol 3", "Lloc 3", "Data 3", "Secció 1", "Descripció 3"},
-            {"Títol 4", "Lloc 4", "Data 4", "Secció 1", "Descripció 4"},
-            {"Títol 5", "Lloc 5", "Data 5", "Secció 2", "Descripció 5"},
-            {"Títol 6", "Lloc 6", "Data 6", "Secció 2", "Descripció 6"},
-            {"Títol 7", "Lloc 7", "Data 7", "Secció 1", "Descripció 7"},
-            {"Títol 8", "Lloc 8", "Data 8", "Secció 8", "Descripció 8"},
-            {"Títol 9", "Lloc 9", "Data 9", "Secció 9", "Descripció 9"},
-            {"Títol 10", "Lloc 10", "Data 10", "Secció 10", "Descripció 10"},
-    };
+    String[] carouselImgs;
+    int imgIndex = 0;
+    int frameCounter = 0;
 
 
 
@@ -167,7 +143,8 @@ public class GUI {
 
         // --- ADMIN ---
         bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
-        bEliminarImatges = new Button(p5, "ELIMINAR IMÁGENES", 600, 870, 250, 60, c);
+        bEliminarImatges = new Button(p5, "ELIMINAR IMÁGENES", 550, 870, 250, 60, c);
+        bEliminarRestaurante = new Button(p5, "ELIMINAR", 80, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
 
 
         cr = new Carrousel(100, 250, 700, 600, 1);
@@ -346,14 +323,20 @@ public class GUI {
     //2
     public void dibuixaPantallaInicial(PApplet p5) {
         // Dibuixa el fons (gris)
-        p5.background(200);    // Color de fons
+        p5.background(200);
+        p5.pushStyle();// Color de fons
         elementosEsenciales(p5);
+        //TEXTO TASKBAR
+        p5.fill(0);
+        p5.textSize(22);
+        p5.text("¿DÓNDE TE APETECE COMER HOY?", 705, 112);
         restaurantePC.display(p5);
         bPrevRestaurantPC.display(p5);
         bNextRestaurantPC.display(p5);
         if(Main.isAdmin){
             rbCrear.display(p5);
         }
+        p5.popStyle();
     }
     //3
     public void dibuixaPantallaInicialExtendida(PApplet p5) {
@@ -372,6 +355,11 @@ public class GUI {
         p5.background(200);
         elementosEsenciales(p5);
         p5.pushStyle();
+
+        //TEXTO TASKBAR
+        p5.fill(30);
+        p5.textSize(22);
+        p5.text("TODO LO QUE NECESITAS SABER", 705, 112);
 
         // Carrusel de imágenes
         if(crDetalle != null){
@@ -452,19 +440,164 @@ public class GUI {
         p5.popStyle();
 
         bReservar.display(p5);
+        if(Main.isAdmin){
+            bEliminarRestaurante.display(p5);
+        }
     }
     //5
     public void dibuixaPantallaStats(PApplet p5){
         p5.background(200);
         p5.pushStyle();
+
         elementosEsenciales(p5);
         p5.pushStyle();
-        p5.fill(appColors.getYellowColor());
-        dibuixaRanking(p5, 70, 50,  "#1");
-        p5.popStyle();
-        dibuixaRanking(p5, 70, 250, "#2");
-        dibuixaRanking(p5, 70, 450,   "#3");
-        p5.circle(p5.width/2+370, p5.height/2+70, 500);
+
+        // =====================
+        // 🔥 TÍTULO
+        // =====================
+
+
+        p5.fill(30);
+        p5.textSize(45);
+        p5.text("ESTADÍSTICAS", 80, 230);
+        //TEXTO TASKBAR
+        p5.textSize(22);
+        p5.text("RANKING DE LO QUE MÁS GUSTA", 705, 112);
+        p5.strokeWeight(3);
+        p5.line(80, 233, 350, 233);
+
+        // =====================
+        // 📊 DATOS
+        // =====================
+        String[][] r1 = db.rankingRestaurantes();
+
+        // =====================
+        // 🏆 TOP 1
+        // =====================
+        String nombreTop1 = null;
+
+        if(r1.length > 0){
+            nombreTop1 = r1[0][0];
+        }
+
+        if(!Main.isAdmin) {
+            // =====================
+            // 🖼️ CARGAR IMÁGENES DEL TOP 1
+            // =====================
+            if (carouselImgs == null && nombreTop1 != null) {
+                carouselImgs = db.getRutesImatgesRestaurant(nombreTop1);
+            }
+
+            // =====================
+            // 🎞️ CARRUSEL
+            // =====================
+            if (carouselImgs != null && carouselImgs.length > 0) {
+
+                frameCounter++;
+
+                if (frameCounter % 120 == 0) { // cambia cada ~2 segundos
+                    imgIndex = (imgIndex + 1) % carouselImgs.length;
+                }
+
+                PImage img = p5.loadImage(carouselImgs[imgIndex]);
+
+                if (img != null) {
+
+                    float imgW = 700;
+                    float imgH = 600;
+
+                    float imgX = p5.width - imgW - 140;
+                    float imgY = (p5.height - imgH) / 2;
+
+                    p5.imageMode(PApplet.CORNER);
+                    p5.image(img, imgX, imgY, imgW, imgH);
+
+                    // borde bonito
+                    p5.noFill();
+                    p5.stroke(200);
+                    p5.strokeWeight(2);
+                    p5.rect(imgX, imgY, imgW, imgH, 25);
+                    p5.noStroke();
+                }
+            }
+        }
+
+        // =====================
+        // 🟦 CARD RESTAURANTES
+        // =====================
+        float cardW = 450;
+        float cardH = 320;
+        float yy = 220;
+
+        p5.fill(255);
+        p5.stroke(230);
+        p5.rect(80, 120 + yy, cardW, cardH, 20);
+
+        p5.fill(40, 120, 255);
+        p5.textSize(30);
+        p5.text("TOP RESTAURANTES", 110, 160 + yy);
+
+        p5.textSize(25);
+
+        for(int i = 0; i < r1.length && i < 5; i++){
+
+            float y = 200 + i * 45 + yy;
+
+            p5.fill(40, 120, 255);
+            p5.circle(110, y - 5, 27);
+
+            p5.fill(255);
+            p5.textAlign(PApplet.CENTER, PApplet.CENTER);
+            p5.text(i + 1, 110, y - 5);
+
+            p5.fill(60);
+            p5.textAlign(PApplet.LEFT);
+            p5.text(r1[i][0], 140, y);
+
+            p5.fill(120);
+            p5.text(r1[i][1], 430, y);
+        }
+        if(Main.isAdmin){
+
+        // =====================
+        // CARD USUARIOS
+        // =====================
+        p5.fill(255);
+        p5.stroke(230);
+        p5.rect(550 +400, 120+yy, cardW, cardH, 20);
+
+        // Título card
+        p5.fill(0, 180, 120);
+        p5.textSize(30);
+        p5.text("TOP USUARIOS", 580+400, 160 +yy);
+
+        String[][] r2 = db.rankingUsuarios();
+
+        for(int i = 0; i < r2.length && i < 5; i++){
+
+            float y = 200 + i * 45+yy;
+
+            // círculo ranking
+            p5.fill(0, 180, 120);
+            p5.circle(580+400, y - 5, 22+5);
+
+            // número ranking
+            p5.fill(255);
+            p5.textAlign(p5.CENTER, p5.CENTER);
+            p5.text(i + 1, 580+400, y - 5 );
+
+            // nombre usuario
+            p5.fill(60);
+            p5.textAlign(p5.LEFT);
+            p5.text(r2[i][0], 610+400, y);
+
+            // valor
+            p5.fill(120);
+            p5.text(r2[i][1], 900+400, y);
+        }
+        }
+
+
         p5.popStyle();
 
     }
@@ -472,6 +605,10 @@ public class GUI {
     public void dibuixaPantallaEspecificacionReserva(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
+        //TEXTO TASKBAR
+        p5.fill(30);
+        p5.textSize(20);
+        p5.text("AJUSTA LOS DETALLES DE TU RESERVA", 705, 112);
 
         // Sombra info
         p5.noStroke();
@@ -534,9 +671,15 @@ public class GUI {
     // 8
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
+        p5.pushStyle();
+        //TEXTO TASKBAR
+        p5.fill(30);
+        p5.textSize(26);
+        p5.text("TU AGENDA DE SABORES", 705, 112);
         misReservasPC.display(p5);
         bNextMisReservasPC.display(p5);
         bPrevMisReservasPC.display(p5);
+        p5.popStyle();
 
 
     }
@@ -764,16 +907,26 @@ public class GUI {
     }
     public void recarregarMisReservas(PApplet p5){
         String[][] reserves = db.getReservesUsuari(Main.usuariActual);
-        if(reserves != null && reserves.length > 0){
+
+        if(reserves != null){
             misReservasPC.setData(reserves);
             misReservasPC.setCards(p5, appColors);
-            // Carga la imagen de cada reserva
-            for(int i = 0; i < misReservasPC.cards.length; i++){
+
+            for(int i = 0; i < reserves.length; i++){
                 if(reserves[i][2] != null && !reserves[i][2].equals("null")){
                     misReservasPC.cards[i].setImage(p5.loadImage("data/" + reserves[i][2]));
                 }
             }
         }
+    }
+
+    public void carregarReservaAModificar(PApplet p5, String idReserva){
+        idReservaSeleccionada = idReserva;
+        modificandoReserva = true;
+        String[] info = db.getInfoReserva(idReserva);
+        // info[5] = restaurante, info[6] = tipoReserva
+        restauranteSeleccionado = info[5];
+        System.out.println("Cargando reserva a modificar: " + idReserva);
     }
 
 }

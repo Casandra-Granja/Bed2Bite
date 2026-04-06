@@ -11,11 +11,14 @@ public class MisReservasCard {
         PImage img;
         String titol;
         String info;
-        Button bModificar, bEliminar;
+        public Button bModificar;
+    public Button bEliminar;
         float x, y, w, h;
         Colors appColors;
         CheckBoxStarList cbl;
         String[] imgs = {"starON.png", "starOFF.png"};
+        public String idReserva = "";
+        public int estrellasSeleccionadas = 0;
 
         public MisReservasCard(PApplet p5, String titol, String info, Colors appColors){
             this.titol= titol;
@@ -73,6 +76,7 @@ public class MisReservasCard {
         // Estrellas posicionadas abajo a la izquierda del área de texto
         cbl = new CheckBoxStarList(p5, 5, imgs, (int)x + 550, (int) (y + 140), 40, 40);
         cbl.setCheckBoxStars(0);
+        estrellasSeleccionadas = 0;
     }
 
     public void display(PApplet p5, boolean selected){
@@ -144,11 +148,13 @@ public class MisReservasCard {
 
     public void clickMouseOnCardItems(PApplet p5){
         if(bModificar.mouseOverButton(p5)){
-            System.out.println("MODIFICAR clicked");
+            System.out.println("MODIFICAR clicked: " + idReserva);
         } else if(bEliminar.mouseOverButton(p5)){
-            System.out.println("ELIMINAR clicked");
+            System.out.println("ELIMINAR clicked: " + idReserva);
         } else if(cbl.checkCursor(p5)){
             cbl.checkMouse(p5);
+            estrellasSeleccionadas = cbl.getNumSelected();
+
         }
     }
 

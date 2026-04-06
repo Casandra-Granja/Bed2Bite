@@ -16,7 +16,7 @@ public class PagedCardMisReservas {
     int numTotalPages;
 
     float x, y, w, h;
-    int selectedCard = -1;
+    public int selectedCard = -1;
 
     Colors appColors;
 
@@ -38,7 +38,7 @@ public class PagedCardMisReservas {
 
     public void setData(String[][] d) {
         this.cardsData = d;
-        this.numTotalPages = d.length / this.numCardsPage;
+        this.numTotalPages = (int) Math.ceil((float)d.length / this.numCardsPage);
     }
 
     public void setCards(PApplet p5, Colors appColors) {
@@ -56,6 +56,7 @@ public class PagedCardMisReservas {
             for (int i = firstCardPage; i <= lastCardPage; i++) {
                 if (i<cards.length) {
                     cards[i] = new MisReservasCard(p5, cardsData[i][0], cardsData[i][1], appColors);
+                    cards[i].idReserva = cardsData[i][5];
                     cards[i].setDimensions(x, yCard, w, hCard);
                     cards[i].CrearBotons(p5);
                     yCard += hCard + b;
@@ -91,6 +92,17 @@ public class PagedCardMisReservas {
     // Dibuixa taula
     public void display(PApplet p5) {
 
+        // FIX: si no hay cards todavía, muestra mensaje y sale
+        if (cards == null || cards.length == 0) {
+            p5.pushStyle();
+            p5.fill(80);
+            p5.textSize(28);
+            p5.textAlign(p5.CENTER, p5.CENTER);
+            p5.text("No tienes reservas todavía.", x + w / 2, y + h / 2);
+            p5.popStyle();
+            return;
+        }
+
         p5.pushStyle();
 
         // Dibuixa Cards corresponent a la Pàgina
@@ -111,6 +123,9 @@ public class PagedCardMisReservas {
 
     public void checkCardSelection(PApplet p5){
 
+        // FIX: si no hay cards, nada que seleccionar
+        if (cards == null) { selectedCard = -1; return; }
+
         boolean selected = false;
         int firstCardPage = numCardsPage*numPage;
         int lastCardPage  = numCardsPage*(numPage+1) - 1;
@@ -128,6 +143,9 @@ public class PagedCardMisReservas {
     }
 
     public boolean checkMouseOver(PApplet p5){
+
+        // FIX: si no hay cards, no hay hover posible
+        if (cards == null || cards.length == 0) return false;
 
         int firstCardPage = numCardsPage*numPage;
         int lastCardPage  = numCardsPage*(numPage+1) - 1;
