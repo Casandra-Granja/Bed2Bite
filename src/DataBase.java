@@ -184,38 +184,6 @@ public class DataBase {
             return 0;
         }
 
-        public String[][] getInfoTotsResturantLincontro(){
-            String qf= "SELECT COUNT(*) AS n " +
-                    "FROM restaurante " +
-                    "WHERE idRestaurante = 'Bakery' AND Especialidad_idEspecialidad = 'Sin Especialidad'";
-            System.out.println(qf);
-
-            int nf = getNumFilesQuery(qf);
-            String [][] info = new String[nf][2];
-            String q= "SELECT idRestaurante, idEspecialidad " +
-                    "FROM restaurante" +
-                    " WHERE idRestaurante = Especialidad_idEspecialidad AND Especialidad_idEspecialidad = 'Italiana'" +
-                    " ORDER BY idRestaurante ASC";
-            System.out.println(q);
-            //int nf = this.getNumFilesTaula() no es pot usar abans de crear l'array s'ha de saber el numero de files exactes
-            try{
-                ResultSet rs = query.executeQuery(q);
-                int f=0;
-                while(rs.next()){
-                    info[f][0] = rs.getString("idRestaurante");
-                    info[f][1]= rs.getString("Especialidad_idEspecialidad");
-
-                    f++;
-                }
-
-            }
-            catch(Exception e){
-
-                System.out.println(e);
-            }
-            return info;
-
-        }
 
 
         public boolean loginCorrecte(String nom, String password){
@@ -550,6 +518,8 @@ public class DataBase {
         }
         return new String[0][0];
     }
+
+
 
 
 

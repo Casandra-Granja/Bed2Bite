@@ -234,10 +234,12 @@ public class Main extends PApplet {
         } else if (gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()) {
             gui.restaurantePC.prevPage();
         } else {
-            gui.restaurantePC.checkCardSelection(this);
+            /*gui.restaurantePC.checkCardSelection(this);
             if (gui.restaurantePC.selectedCard != -1) {
                 println("SELECTED CARD: " + gui.restaurantePC.cards[gui.restaurantePC.selectedCard].titol);
             }
+
+             */
 
         }
         //Round Button
@@ -410,7 +412,6 @@ public class Main extends PApplet {
             } else if(fecha.equals("")){
                 println("ERROR: falta fecha");
             } else {
-                // ✅ Distingue entre CREAR y MODIFICAR
                 if(gui.modificandoReserva){
                     db.modificarReserva(gui.idReservaSeleccionada, fecha, hora,
                             numPersonas, tipoReserva);
@@ -610,6 +611,7 @@ public class Main extends PApplet {
             } else {
                 println("AVISO: no hay imagenes seleccionadas");
             }
+
         }
 
         if(gui.bEliminarImatges.mouseOverButton(this)){

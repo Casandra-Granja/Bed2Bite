@@ -32,26 +32,6 @@ public class DatabaseClasseConnectionTest {
         String nomUsari= db.getNomUsuariAmbNºHabitacio("777");
         System.out.println(nomUsari);
 
-        String[][] infoRestaurante = db.getInfoTotsResturantLincontro();
-        db.printArray2D(infoRestaurante);
-
-
-        /*
-
-
-
-        //Noms de tots els clients ordenats alfabeticament
-
-        String[] noms = db.getNomTotsClients();
-        db.printArray1D(noms);
-
-        //Tota la informació de la taula clients
-
-        String[][] infoClients = db.getInfoTotsClients();
-        db.printArray2D(infoClients);
-
-         */
-
     }
 
 }
