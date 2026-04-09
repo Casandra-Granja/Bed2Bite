@@ -22,6 +22,8 @@ public class GUI {
 
     PApplet p5ref;
 
+    Fonts f;
+
     // --- COMPONENTES DE INTERFAZ (BOTONES) ---
     Button bInicio, bStats, bMisReservas, bCerrarSesion;
     Button bSignIn, bDontHaveAnAccount, bModificarUsuario, bSignUp;
@@ -114,6 +116,8 @@ public class GUI {
 
     public void creaBotons(PApplet p5, Colors c){
 
+        f= new Fonts(p5);
+        p5.textFont(f.getFirstFont());
         // --- LOGIN Y REGISTRO ---
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
@@ -280,6 +284,8 @@ public class GUI {
         p5.background(200);
         zonaPrincipal(p5);
         logoSingUp(p5);
+        p5.pushStyle();
+        p5.textFont(f.getFirstFont());
         p5.textSize(25);
         p5.fill(0);
         p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
@@ -291,6 +297,8 @@ public class GUI {
         p5.text("APELLIDOS",p5.width/2 -255, p5.height/2 +70  );
         tfApellidos.display(p5);
         p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 +265 - 60 );
+        p5.popStyle();
+        p5.textFont(f.getFirstFont());
         tfNumHabitacion.display(p5);
         bSignUp.display(p5);
         puSignUp.display(p5);
@@ -313,7 +321,6 @@ public class GUI {
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);
         puSignIn.display(p5);
-
         p5.popStyle();
 
     }
@@ -323,11 +330,16 @@ public class GUI {
         p5.background(200);
         p5.pushStyle();// Color de fons
         elementosEsenciales(p5);
+        p5.textFont(f.getFirstFont());
         //TEXTO TASKBAR
         p5.fill(0);
         p5.textSize(22);
         p5.text("¿DÓNDE TE APETECE COMER HOY?", 705, 112);
+        p5.textFont(f.getFourthFont());
+        p5.textSize(35);
+        p5.textFont(f.getFourthFifth());
         restaurantePC.display(p5);
+        p5.textFont(f.getFirstFont());
         bPrevRestaurantPC.display(p5);
         bNextRestaurantPC.display(p5);
         if(Main.isAdmin){
@@ -419,30 +431,30 @@ public class GUI {
         p5.textSize(20);
         p5.text(infoRestaurantSeleccionat[4], panelX + 50, panelY + 455 + 45);
 
-        p5.popStyle();
+
 
         bReservar.display(p5);
         if(Main.isAdmin){
             bEliminarRestaurante.display(p5);
             rbCrear.display(p5);
         }
+        p5.popStyle();
     }
     //5
     public void dibuixaPantallaStats(PApplet p5){
         p5.background(200);
         p5.pushStyle();
-
         elementosEsenciales(p5);
         // =====================
         // 🔥 TÍTULO
         // =====================
 
-
+        p5.textFont(f.getFirstFont());
         p5.fill(30);
         p5.textSize(45);
         p5.text("ESTADÍSTICAS", 80, 230);
         //TEXTO TASKBAR
-        p5.textSize(22);
+        p5.textSize(25);
         p5.text("RANKING DE LO QUE MÁS GUSTA", 705, 112);
         p5.strokeWeight(3);
         p5.line(80, 233, 350, 233);
@@ -588,6 +600,7 @@ public class GUI {
     public void dibuixaPantallaEspecificacionReserva(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
+        p5.textFont(f.getFirstFont());
         //TEXTO TASKBAR
         p5.fill(30);
         p5.textSize(20);
@@ -658,8 +671,11 @@ public class GUI {
         //TEXTO TASKBAR
         p5.fill(30);
         p5.textSize(26);
+        p5.textFont(f.getFirstFont());
         p5.text("TU AGENDA DE SABORES", 705, 112);
+        p5.textFont(f.getFourthFont());
         misReservasPC.display(p5);
+        p5.textFont(f.getFirstFont());
         bNextMisReservasPC.display(p5);
         bPrevMisReservasPC.display(p5);
         p5.popStyle();
