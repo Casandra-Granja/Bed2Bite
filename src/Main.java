@@ -10,12 +10,6 @@ public class Main extends PApplet {
     Colors c1;
     Fonts f1;
     GUI gui;
-    // Components de la GUI
-    RoundButton rbPerfil;
-    //boolean loginWrong = false;
-
-    // Imatges de la GUI
-    PImage iconaPerfil, icona2; //vescotial Pshape i LoadShape
 
     public static DataBase db;
 
@@ -46,15 +40,10 @@ public class Main extends PApplet {
 
     public void draw() {
 
-        // AÑADIMOS PANTALLAS
-
         switch (gui.pantallaActual) {
 
             case INICIAL:
                 gui.dibuixaPantallaInicial(this);
-                break;
-            case INICIALEXTENDIDA:
-                gui.dibuixaPantallaInicialExtendida(this);
                 break;
             case SIGNUP:
                 gui.dibuixaPantallaSingUp(this);
@@ -82,16 +71,8 @@ public class Main extends PApplet {
         }
         updateCursor(this);
 
-
         // Actualitza forma del cursor
         updateCursor(this);
-
-        /*if(loginWrong && gui.pantallaActual== GUI.PANTALLA.SIGNIN){
-            gui.puSignIn.display(this);
-            text("YOU ARE NOT LOGGED IN!", 200, 100);
-        }
-
-         */
 
     }
 
@@ -172,12 +153,15 @@ public class Main extends PApplet {
                 gui.pantallaActual = GUI.PANTALLA.SIGNIN;
             } else {
                 System.out.println("NOOOO");
-                gui.puSignIn.setVisible(true);
+                gui.puSignUp.setVisible(true);
             }
             println("BSIGNIN has been pressed!!");
         }
-        if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
-            gui.puSignIn.setVisible(false);
+        if(gui.bBack.mouseOverButton(this)){
+            gui.pantallaActual = GUI.PANTALLA.SIGNIN;
+        }
+        if (gui.puSignUp.bAceptar.mouseOverButton(this) && gui.puSignUp.bAceptar.isEnabled()) {
+            gui.puSignUp.setVisible(false);
         }
 
         gui.tfApellidos.isPressed(this);
@@ -187,7 +171,6 @@ public class Main extends PApplet {
         gui.tfNom.isPressed(this);
 
     }
-
     public void mousePressedPantallaSINGIN() {
         if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
             gui.puSignIn.setVisible(false);
@@ -214,7 +197,6 @@ public class Main extends PApplet {
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
     }
-
     public void mousePressedPantallaINICIAL() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -233,14 +215,6 @@ public class Main extends PApplet {
             gui.restaurantePC.nextPage();
         } else if (gui.bPrevRestaurantPC.mouseOverButton(this) && gui.bPrevRestaurantPC.isEnabled()) {
             gui.restaurantePC.prevPage();
-        } else {
-            /*gui.restaurantePC.checkCardSelection(this);
-            if (gui.restaurantePC.selectedCard != -1) {
-                println("SELECTED CARD: " + gui.restaurantePC.cards[gui.restaurantePC.selectedCard].titol);
-            }
-
-             */
-
         }
         //Round Button
         if (gui.rbPerfil.mouseOverButton(this)) {
@@ -266,25 +240,6 @@ public class Main extends PApplet {
         gui.recarregarCarrousel(this, gui.restauranteSeleccionado);
 
     }
-
-    public void mousePressedPantallaINICIALEXTENDIDA() {
-        if (gui.bMisReservas.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
-            println("BMISRESERVAS has been pressed!!");
-        } else if (gui.bStats.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.STATS;
-            println("BSTATS has been pressed!!");
-        } else if (gui.bInicio.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.INICIAL;
-            println("BINICIO has been pressed!!");
-        }
-        //Round Button
-        if (gui.rbPerfil.mouseOverButton(this)) {
-            gui.pantallaActual = GUI.PANTALLA.USUARIO;
-            println("RBPERFIL has been pressed!!");
-        }
-    }
-
     public void mousePressedPantallaDESCRIPCIONESRESTAURANTE() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -319,8 +274,13 @@ public class Main extends PApplet {
         if (gui.crDetalle != null) {
             gui.crDetalle.checkButtons(this);
         }
+        if (isAdmin) {
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
+        }
     }
-
     public void mousePressedPantallaSTATS() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -338,11 +298,15 @@ public class Main extends PApplet {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
+        if (isAdmin) {
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
+        }
     }
-
     public void mousePressedPantallaESPECIFICACIONESRESERVA(){
 
-        // ✅ SIEMPRE SE EJECUTA PRIMERO
         gui.calendari.checkButtons(this);
         gui.radbgTipoReserva.updateOnClick(this);
 
@@ -428,6 +392,12 @@ public class Main extends PApplet {
                 gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
             }
         }
+        if (isAdmin) {
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
+        }
     }
     public void mousePressedPantallaMISRESERVAS () {
         if (gui.bMisReservas.mouseOverButton(this)) {
@@ -476,8 +446,13 @@ public class Main extends PApplet {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
         }
+        if (isAdmin) {
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
+        }
     }
-
     public void mousePressedPantallaUSUARIO(){
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -500,6 +475,12 @@ public class Main extends PApplet {
         if (gui.rbPerfil.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.USUARIO;
             println("RBPERFIL has been pressed!!");
+        }
+        if (isAdmin) {
+            if (gui.rbCrear.mouseOverButton(this)) {
+                gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                println("RBCREAR has been pressed!!");
+            }
         }
     }
     public void mousePressedPantallaCREARRESTAURANTE(){
@@ -611,6 +592,15 @@ public class Main extends PApplet {
             } else {
                 println("AVISO: no hay imagenes seleccionadas");
             }
+            if(gui.rbPerfil.mouseOverButton(this)){
+                gui.pantallaActual = GUI.PANTALLA.USUARIO;
+            }
+            if (isAdmin) {
+                if (gui.rbCrear.mouseOverButton(this)) {
+                    gui.pantallaActual = GUI.PANTALLA.CREARRESTAURANTE;
+                    println("RBCREAR has been pressed!!");
+                }
+            }
 
         }
 
@@ -645,8 +635,6 @@ public class Main extends PApplet {
             mousePressedPantallaSINGIN();
         }else if(gui.pantallaActual == GUI.PANTALLA.INICIAL){
             mousePressedPantallaINICIAL();
-        }else if(gui.pantallaActual == GUI.PANTALLA.INICIALEXTENDIDA){
-            mousePressedPantallaINICIALEXTENDIDA();
         }else if(gui.pantallaActual == GUI.PANTALLA.DESCRIPCIONRESTAURANTE){
             mousePressedPantallaDESCRIPCIONESRESTAURANTE();
         }else if(gui.pantallaActual == GUI.PANTALLA.STATS){
@@ -672,7 +660,7 @@ public class Main extends PApplet {
 
             case SIGNUP:
                 // Perfil NO está. Solo el botón de registro.
-                if (gui.bSignIn.updateHandCursor(p5)) cursorHAND = true;
+                if (gui.bSignIn.updateHandCursor(p5) || gui.bBack.updateHandCursor(p5)) cursorHAND = true;
                 break;
 
             case SIGNIN:
@@ -681,7 +669,6 @@ public class Main extends PApplet {
                 break;
 
             case INICIAL:
-            case INICIALEXTENDIDA:
                 // Perfil SÍ está + Cartas de restaurante
                 if (gui.rbPerfil.updateHandCursor(p5) || gui.restaurantePC.checkMouseOver(p5) ||
                         (gui.bNextRestaurantPC.isEnabled() && gui.bNextRestaurantPC.updateHandCursor(p5)) ||
@@ -695,18 +682,20 @@ public class Main extends PApplet {
                 break;
 
             case MISRESERVAS:
-                /*if (gui.misReservasPC.checkMouseOver(this) ||
+                if (gui.misReservasPC.checkMouseOver(this) ||
                         (gui.bNextMisReservasPC.isEnabled() && gui.bNextMisReservasPC.updateHandCursor(p5)) ||
                         (gui.bPrevMisReservasPC.isEnabled() && gui.bPrevMisReservasPC.updateHandCursor(p5)) ||
                         gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5)) {
+                    if(isAdmin){
+                        gui.rbCrear.updateHandCursor(p5);
+                    }
                     cursorHAND = true;
                 }
                 break;
 
-                 */
+
 
             case ESPECIFICACIONRESERVA:
-                // Perfil SÍ está + RadioButtons y botón reservar
                 if (gui.bStats.updateHandCursor(p5) || gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
                         gui.rbPerfil.updateHandCursor(p5) || gui.radbDesayuno.onMouseOver(p5) ||
                         gui.radbComida.onMouseOver(p5) || gui.radbCena.onMouseOver(p5) ||
@@ -749,12 +738,13 @@ public class Main extends PApplet {
 
                 break;
             case CREARRESTAURANTE:
-                if (gui.rbCrear.updateHandCursor(p5) || gui.bStats.updateHandCursor(p5) ||
+                if (gui.rbCrear.updateHandCursor(p5) || gui.rbPerfil.updateHandCursor(p5) || gui.bStats.updateHandCursor(p5) ||
                         gui.bInicio.updateHandCursor(p5) || gui.bMisReservas.updateHandCursor(p5) ||
                         gui.radbmas5min.onMouseOver(p5) || gui.radbmenos5min.onMouseOver(p5) ||
                         gui.radb1015.onMouseOver(p5) || gui.radb1520.onMouseOver(p5) ||
                         gui.radb2025.onMouseOver(p5) ||  gui.radb2530.onMouseOver(p5) || gui.cbDesayuno.onMouseOver(p5)||
                         gui.cbComida.onMouseOver(p5) || gui.cbCena.onMouseOver(p5) || gui.cr.checkCursor(p5) || gui.bEliminarImatges.updateHandCursor(p5) ){
+
                     cursorHAND = true;
                 }
                 break;

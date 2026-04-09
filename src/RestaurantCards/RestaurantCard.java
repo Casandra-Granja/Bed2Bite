@@ -2,9 +2,11 @@ package RestaurantCards;
 
 import B2B_Color.Colors;
 import B2B_ElementsGUI.Button;
+import B2B_Fonts.Fonts;
 import B2B_Medidas.Layout;
 import processing.core.PApplet;
 import processing.core.PImage;
+
 
 public class RestaurantCard {
     PImage img;
@@ -25,6 +27,7 @@ public class RestaurantCard {
         this.titol = titulo;
         bAcceder = new Button(p5, "VER", this.x + this.w - 70, this.y + this.h - 70, 60, 60, appColors);
         bAcceder.setMidaTexte(18);
+
     }
 
     //Constructor utilizadp para crear la paged Card
@@ -53,7 +56,7 @@ public class RestaurantCard {
         } else {
             p5.fill(appColors.getBotonColor());
         }
-        p5.stroke(0, 50); // Un pequeño borde para que se distingan
+        p5.stroke(0, 30); // Un pequeño borde para que se distingan
         p5.rect(x, y, w, h, 15);
 
         // 2. Dibujar la Imagen o el placeholder
@@ -73,12 +76,12 @@ public class RestaurantCard {
 
         // 4. Dibujar el Título
         p5.fill(0);
-        p5.textSize(16);
+        p5.textSize(22);
         p5.textAlign(PApplet.CENTER, PApplet.TOP);
 
         // 5. Dibujar la Descripción
-        p5.fill(80);
-        p5.textSize(12);
+        p5.fill(0);
+        p5.textSize(16);
         p5.textAlign(PApplet.CENTER, PApplet.TOP);
         p5.text(info, x + 5, y + imageHeight + 50, w - 10, h - imageHeight - 55);
 

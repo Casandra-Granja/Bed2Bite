@@ -4,6 +4,7 @@ import B2B_Fonts.Fonts;
 import B2B_Medidas.Layout;
 import MisReservasCards.PagedCardMisReservas;
 import RestaurantCards.PagedCard2DRestaurantCard;
+import com.mysql.cj.jdbc.admin.MiniAdmin;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -13,7 +14,7 @@ import static B2B_Medidas.Layout.*;
 public class GUI {
 
 
-    public enum PANTALLA{INICIAL, INICIALEXTENDIDA, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO, CREARRESTAURANTE};
+    public enum PANTALLA{INICIAL, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO, CREARRESTAURANTE};
 
     public PANTALLA pantallaActual;
 
@@ -28,8 +29,8 @@ public class GUI {
     Button bCrear;
     Button bNextMisReservasPC, bPrevMisReservasPC;
     Button bPrevRestaurantPC, bNextRestaurantPC;
+    Button bEliminarRestaurante, bBack;
     RoundButton rbPerfil, rbCrear;
-    Button bEliminarRestaurante;
 
     // --- ELEMENTOS DE SELECCIÓN (RADIO BUTTONS) ---
     RadioButton radbDesayuno, radbComida, radbCena;
@@ -51,17 +52,16 @@ public class GUI {
     Calendari calendari;
 
     // --- RECURSOS VISUALES (IMÁGENES) ---
-    PImage iconaPerfil, logo, logoLong, img, img1, img2, crearRestaurante;
+    PImage iconaPerfil, logo, logoLong, crearRestaurante;
 
     // --- POPUP ---
-    PopUp puSignIn;
+    PopUp puSignIn, puSignUp;
 
     // --- SELECT ---
     CheckBox cbDesayuno, cbComida, cbCena;
 
     // --- ESTILOS Y CONFIGURACIÓN ---
     Colors appColors;
-    Fonts f;
 
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
@@ -96,7 +96,6 @@ public class GUI {
         this.db=db;
 
         // 2. Inicialización de Objetos y Fuentes
-        f = new Fonts(p5);
         calendari = new Calendari((int)marginInicialW, (int)marginInicialH+100, (int)restaurantDetalleWidth, (int)restaurantDetalleHeight);
 
         // 3. Carga de Multimedia (Imágenes y recursos externos)
@@ -119,6 +118,7 @@ public class GUI {
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
         bSignUp = new Button(p5,"SIGN UP", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
+        bBack = new Button(p5, "ATRÁS", 50,50, 200, 40, c);
 
         // --- NAVEGACIÓN PRINCIPAL (BANNER / MENÚ) ---
         bInicio         = new Button(p5, "INICIO", Layout.logoWidth+50, Layout.bannerHeight/2 -5, 200, 60, c);
@@ -145,8 +145,6 @@ public class GUI {
         bCrear = new Button(p5,"CREAR", marginInicialW + Layout.marginWBR + Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2 +47, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
         bEliminarImatges = new Button(p5, "ELIMINAR IMÁGENES", 550, 870, 250, 60, c);
         bEliminarRestaurante = new Button(p5, "ELIMINAR", 80, Layout.marginInicialH+ 50 + Layout.restaurantDetalleHeight + 10, 200, 70, c);
-
-
         cr = new Carrousel(100, 250, 700, 600, 1);
         cr.setButtons(p5, "bPrev.png", "bNext.png");
         bCarregarImatge = new Button(p5, "AÑADIR IMAGENES", 100, 870, 200, 60, c);
@@ -238,9 +236,6 @@ public class GUI {
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         logo= p5.loadImage("data/B2B-Logo.png");
         logoLong= p5.loadImage("data/B2B-LogoLong.png");
-        //img = p5.loadImage("data/ImagenRestaurnateTest.png");
-        img1 = p5.loadImage("categoria1.png");
-        img2 = p5.loadImage("categoria2.png");
         crearRestaurante = p5.loadImage("crearRestaurante.png");
 
     }
@@ -266,7 +261,8 @@ public class GUI {
     }
 
     public void creaPopUp(PApplet p5){
-        puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2, p5.height/2, 600, 340, appColors);
+        puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2-300, p5.height/2-200, 600, 340, appColors);
+        puSignUp = new PopUp(p5,"EROR!", "EL USUARIO YA ESTÁ COGIDO", p5.width/2, p5.height/2, 600, 340, appColors);
     }
 
     public void creaCheckBox(PApplet p5){
@@ -297,7 +293,8 @@ public class GUI {
         p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 +265 - 60 );
         tfNumHabitacion.display(p5);
         bSignUp.display(p5);
-        puSignIn.display(p5);
+        puSignUp.display(p5);
+        bBack.display(p5);
         p5.popStyle();
 
     }
@@ -338,18 +335,6 @@ public class GUI {
         }
         p5.popStyle();
     }
-    //3
-    public void dibuixaPantallaInicialExtendida(PApplet p5) {
-        p5.background(55);
-        elementosEsenciales(p5);
-        restaurant(p5,0,0, "RESTAURANT 3");
-        restaurant(p5,Layout.restaurantWidth+ Layout.marginWBR, 0, "RESTAURANT 4");
-        restaurant(p5, 2*(Layout.restaurantWidth + Layout.marginWBR),0, "RESTAURANT 5");
-        restaurant(p5,0, Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 6");
-        restaurant(p5,Layout.restaurantWidth+ Layout.marginWBR,Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 7" );
-        restaurant(p5, 2*(Layout.restaurantWidth + Layout.marginWBR), Layout.marginHBR + Layout.resturantHeight, "RESTAURANT 8");
-
-    }
     //4
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
         p5.background(200);
@@ -359,14 +344,13 @@ public class GUI {
         //TEXTO TASKBAR
         p5.fill(30);
         p5.textSize(22);
-        p5.text("TODO LO QUE NECESITAS SABER", 705, 112);
+        p5.text("TODO LO QUE NECESITAS SABER", 720, 112);
 
         // Carrusel de imágenes
         if(crDetalle != null){
             crDetalle.display(p5);
         }
 
-        p5.pushStyle();
 
         float panelX = 900;
         float panelY = 250;
@@ -387,8 +371,8 @@ public class GUI {
         p5.rect(panelX, panelY, panelW, 90, 20, 20, 0, 0);
 
         // Nombre del restaurante
-        p5.fill(255);
-        p5.textSize(32);
+        p5.fill(0);
+        p5.textSize(40);
         p5.textAlign(p5.CENTER, p5.CENTER);
         p5.text(infoRestaurantSeleccionat[0], panelX + panelW/2, panelY + 45);
 
@@ -437,11 +421,10 @@ public class GUI {
 
         p5.popStyle();
 
-        p5.popStyle();
-
         bReservar.display(p5);
         if(Main.isAdmin){
             bEliminarRestaurante.display(p5);
+            rbCrear.display(p5);
         }
     }
     //5
@@ -450,8 +433,6 @@ public class GUI {
         p5.pushStyle();
 
         elementosEsenciales(p5);
-        p5.pushStyle();
-
         // =====================
         // 🔥 TÍTULO
         // =====================
@@ -481,6 +462,7 @@ public class GUI {
         }
 
         if(!Main.isAdmin) {
+
             // =====================
             // 🖼️ CARGAR IMÁGENES DEL TOP 1
             // =====================
@@ -559,7 +541,8 @@ public class GUI {
         }
         if(Main.isAdmin){
 
-        // =====================
+            rbCrear.display(p5);
+            // =====================
         // CARD USUARIOS
         // =====================
         p5.fill(255);
@@ -680,6 +663,10 @@ public class GUI {
         bNextMisReservasPC.display(p5);
         bPrevMisReservasPC.display(p5);
         p5.popStyle();
+        if(Main.isAdmin){
+            rbCrear.display(p5);
+
+        }
 
 
     }
@@ -687,10 +674,18 @@ public class GUI {
     public void dibuixaPantallaUsuario(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
+        p5.fill(80);
         p5.circle(p5.width/2, p5.height/2 -100, 300);
         bCerrarSesion.display(p5);
         bModificarUsuario.display(p5);
         p5.popStyle();
+        if(Main.isAdmin){
+            rbCrear.display(p5);
+
+        }
+
+
+
 
     }
 
@@ -739,23 +734,11 @@ public class GUI {
 
     public void elementosEsenciales(PApplet p5){
         zonaPrincipal(p5);
-        //taskBar(p5);
         logo(p5);
         bMisReservas.display(p5);
         bStats.display(p5);
         bInicio.display(p5);
         rbPerfil.display(p5);
-
-    }
-
-    public void taskBar(PApplet p5){
-        p5.pushStyle();
-        p5.fill(240, 100, 50);
-        p5.rect( Layout.marginW + Layout.logoWidth, Layout.marginH, Layout.bannerWidth, Layout.bannerHeight);
-        p5.fill(0);
-        p5.textAlign(p5.CENTER);
-        p5.text("TASK BAR", Layout.marginW + Layout.logoWidth + Layout.bannerWidth/2, Layout.marginH + Layout.bannerHeight/2);
-        p5.popStyle();
 
     }
 
@@ -772,9 +755,6 @@ public class GUI {
         p5.image(logo, Layout.marginW, Layout.marginH -20, Layout.logoWidth, Layout.logoHeight);
     }
 
-    public void logoLong(PApplet p5 , float w, float h){
-        p5.image(logoLong, Layout.marginW, Layout.marginH -20, w,  h);
-    }
 
     public void logoSingUp(PApplet p5){
         p5.image(logoLong, p5.width/2-150, p5.height/2 -570, 300,300);
@@ -784,68 +764,7 @@ public class GUI {
         p5.image(logoLong, p5.width/2-210, p5.height/2 -500, 400,400);
     }
 
-    public void restaurantsMain (PApplet p5){
-        p5.pushStyle();
-        p5. fill(100,50,100);
-        p5. rect(marginInicialW, Layout.marginInicialH, Layout.restaurantWidthMain, Layout.resturantHeightMain);
-        p5.textAlign(p5.CENTER);
-        p5.fill(0);
-        p5.text("RESTAURANT MAIN", marginInicialW + Layout.restaurantWidthMain /2, Layout.marginInicialH + Layout.resturantHeightMain /2);
-        p5.popStyle();
-    }
 
-    public void restaurant (PApplet p5,float x, float y, String título){ //pasar parametre x, y
-        p5.pushStyle();
-        p5. fill(300,50,100);
-        p5. rect(x + marginInicialW, y+ Layout.marginInicialH, Layout.restaurantWidth, Layout.resturantHeight);
-        p5.fill(0);
-        p5.textAlign(p5.CENTER);
-        p5.text( título, x +Layout.restaurantWidth/2 + marginInicialW, y+ Layout.marginInicialH +Layout.resturantHeight /2);
-        p5.popStyle();
-
-    }
-
-    public void restaurantDetalle (PApplet p5){
-        p5.pushStyle();
-        p5. fill(100,50,100);
-        p5. rect(marginInicialW , Layout.marginInicialH +50, Layout.restaurantDetalleWidth, Layout.restaurantDetalleHeight);
-        p5.textAlign(p5.CENTER);
-        p5.fill(0);
-        p5.text("FOTOS DEL RESTAURANTE / MAPA/  MENÚ", marginInicialW -50 + Layout.restaurantDetalleWidth /2, Layout.marginInicialH  + Layout.restaurantDetalleHeight /2);
-        p5.popStyle();
-    }
-
-    public void restaurantInfo (PApplet p5){
-        p5.pushStyle();
-        p5. fill(appColors.getGreenColor());
-        p5. rect(marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR, Layout.marginInicialH +50, Layout.infoDetalleWidth, Layout.restaurantDetalleHeight);
-        p5.textAlign(p5.CENTER);
-        p5.fill(0);
-        p5.text("DESCRIPCIÓN EXTENDIDA DEL RESTAURANTE", marginInicialW -50 + Layout.marginWBR+ Layout.restaurantDetalleWidth + Layout.infoDetalleWidth/2, Layout.marginInicialH  + Layout.restaurantDetalleHeight /2);
-        p5.popStyle();
-    }
-
-    public void nombreRestaurante (PApplet p5){
-        p5.pushStyle();
-        p5.fill(0);
-        p5.strokeWeight(5);
-        p5.line(100,Layout.marginInicialH -50 ,Layout.restaurantDetalleWidth-50, Layout.marginInicialH-50);
-        p5.textSize(34);
-        p5.text("nombreRstaurante", 100,Layout.marginInicialH-55);
-        p5.popStyle();
-    }
-
-    public void dibuixaRanking(PApplet p5, float h, float y, String titulo){
-        p5.pushStyle();
-        p5.rect( marginInicialW + 50, Layout.marginInicialH+y, Layout.topW, Layout.topH + h);
-        p5.pushStyle();
-        p5.fill(appColors.getBlackColor()); p5.textSize(50); p5.textAlign(p5.CENTER);
-        p5.popStyle();
-        p5.line(Layout.topW+ marginInicialW+70, Layout.marginInicialH+y+ Layout.topH+h/2, Layout.topW+ marginInicialW+ 450, Layout.marginInicialH+y+ Layout.topH+h/2);
-        p5.text( titulo, +marginInicialW + Layout.topW/2 + marginInicialW, y+ Layout.marginInicialH +Layout.topH /2);
-        p5.popStyle();
-
-    }
 
 
 
@@ -871,7 +790,7 @@ public class GUI {
 
             // Carrousel sempre amb 1 imatge visible, navegues amb les fletxes
             cr = new Carrousel(100, 250, 700, 600, 1);
-            cr.setButtons(p5ref, "data/B2B-Logo.png", "crearRestaurante.png");
+            cr.setButtons(p5ref, "bPrev.png", "bNext.png");
 
             // Carrega totes les imatges seleccionades fins ara
             PImage[] imgsTemp = new PImage[fitxersSeleccionats.size()];
