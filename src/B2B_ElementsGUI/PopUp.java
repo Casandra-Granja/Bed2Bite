@@ -3,21 +3,54 @@ package B2B_ElementsGUI;
 import B2B_Color.Colors;
 import processing.core.PApplet;
 
+/**
+ * Componente de ventana emergente (popup) modal para mostrar mensajes al usuario.
+ * Muestra un rectángulo con título, mensaje y un botón de "Aceptar".
+ * Solo es visible cuando se activa explícitamente con {@link #setVisible(boolean)}.
+ */
 public class PopUp {
 
-    // Dimensions
-    float x, y, w, h;
+    /** Coordenada X de la esquina superior izquierda del popup. */
+    float x;
 
-    // Propietats
-    String title, message;
+    /** Coordenada Y de la esquina superior izquierda del popup. */
+    float y;
+
+    /** Anchura del popup en píxeles. */
+    float w;
+
+    /** Altura del popup en píxeles. */
+    float h;
+
+    /** Título que se muestra en la parte superior del popup. */
+    String title;
+
+    /** Mensaje informativo que se muestra en el cuerpo del popup. */
+    String message;
+
+    /** Paleta de colores de la aplicación. */
     Colors appColors;
 
+    /** Botón de aceptar para cerrar el popup. */
     public Button bAceptar;
+    /** Anchura y altura del botón de aceptar en píxeles. */
     float buttonW = 200, buttonH = 80;
+    /** Indica si el popup es visible ({@code true}) o está oculto ({@code false}). */
     boolean visible = false;
 
-    // Constructor
-
+    /**
+     * Constructor que inicializa el popup con posición, dimensiones, textos y colores.
+     * Crea automáticamente el botón de aceptar centrado en la parte inferior.
+     *
+     * @param p5        Referencia al objeto PApplet de Processing.
+     * @param title     Título del popup.
+     * @param message   Mensaje informativo del popup.
+     * @param x         Coordenada X de la esquina superior izquierda.
+     * @param y         Coordenada Y de la esquina superior izquierda.
+     * @param w         Anchura del popup.
+     * @param h         Altura del popup.
+     * @param appColors Paleta de colores de la aplicación.
+     */
     public PopUp(PApplet p5, String title, String message, float x, float y, float w, float h, Colors appColors){
         this.title = title;
         this.message = message;
@@ -27,13 +60,24 @@ public class PopUp {
         this.bAceptar = new Button(p5, "Acceptar", x + w/2 - buttonW/2,y + h - buttonH*1.5f, buttonW, buttonH, appColors);
     }
 
-    //Setters
-
+    /**
+     * Actualiza el título y el mensaje del popup.
+     *
+     * @param title   Nuevo título.
+     * @param message Nuevo mensaje.
+     */
     public void setTexts(String title, String message){
         this.title = title;
         this.message = message;
     }
 
+    /**
+     * Muestra u oculta el popup. Al ocultarlo, deshabilita el botón de aceptar
+     * para que no sea clicable mientras el popup está oculto. Al mostrarlo,
+     * lo vuelve a habilitar.
+     *
+     * @param b {@code true} para mostrar el popup, {@code false} para ocultarlo.
+     */
     public void setVisible(boolean b){
         this.visible = b;
         if(!this.visible){
@@ -44,8 +88,14 @@ public class PopUp {
         }
     }
 
-    // Dibuixa el PopUp
-
+    /**
+     * Dibuja el popup en pantalla si está visible.
+     * Muestra el rectángulo con fondo amarillo, línea divisoria entre el título
+     * y el mensaje, el título alineado a la izquierda, el mensaje centrado
+     * y el botón de aceptar en la parte inferior.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void display(PApplet p5){
 
         if(this.visible){

@@ -5,27 +5,60 @@ import B2B_Fonts.Fonts;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * Clase principal de la aplicación. Extiende {@link PApplet} de Processing
+ * y actúa como punto de entrada y controlador de eventos de la aplicación.
+ * Gestiona el ciclo de vida del sketch (setup, draw), los eventos de teclado
+ * y ratón delegando en métodos específicos por pantalla, y el cambio del cursor.
+ * Mantiene el estado global de sesión (usuario actual y si es administrador).
+ */
 public class Main extends PApplet {
 
+    /** Paleta de colores de la aplicación. */
     Colors c1;
+
+    /** Gestor de fuentes de la aplicación. */
     Fonts f1;
+
+    /** Controlador de la interfaz gráfica. */
     GUI gui;
 
+    /** Referencia estática a la base de datos, accesible desde cualquier parte. */
     public static DataBase db;
 
+    /**
+     * Indica si el usuario actual tiene permisos de administrador.
+     * Se activa cuando el usuario inicia sesión con las credenciales de admin.
+     */
     public static boolean isAdmin = false;
+    /**
+     * Nombre de usuario de la sesión activa.
+     * Se asigna al completar correctamente el inicio de sesión.
+     */
     public static String usuariActual = "";
 
+    /**
+     * Punto de entrada de la aplicación Java.
+     * Lanza el sketch de Processing en modo de pantalla completa.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         PApplet.main("Main");
 
     }
-
+    /**
+     * Configura el sketch antes de {@code setup()}.
+     * Establece el modo de pantalla completa.
+     */
     public void settings() {
         fullScreen();
 
     }
-
+    /**
+     * Inicializa la base de datos, la paleta de colores, las fuentes
+     * y la interfaz gráfica. Se ejecuta una sola vez al arrancar la aplicación.
+     */
     public void setup() {
         db = new DataBase("admin", "12345", "mydb");
         db.connect();
@@ -37,7 +70,11 @@ public class Main extends PApplet {
 
 
     }
-
+    /**
+     * Bucle principal de renderizado. Se ejecuta en cada frame.
+     * Delega el dibujado en el método de pantalla correspondiente al valor
+     * actual de {@code gui.pantallaActual} y actualiza el cursor del ratón.
+     */
     public void draw() {
 
         switch (gui.pantallaActual) {
@@ -75,7 +112,10 @@ public class Main extends PApplet {
         updateCursor(this);
 
     }
-
+    /**
+     * Gestiona los eventos de teclado (teclas especiales como BACKSPACE).
+     * Propaga el evento a todos los campos de texto de la aplicación.
+     */
     public void keyPressed() {
         /*
         //AÑADIMOS PANTALLAS
@@ -123,7 +163,10 @@ public class Main extends PApplet {
         gui.tfDescripcion.keyPressed(keyCode);
         gui.tfEspecialidad.keyPressed(keyCode);
     }
-
+    /**
+     * Gestiona la entrada de texto real (incluyendo acentos y caracteres especiales).
+     * Propaga el carácter a todos los campos de texto de la aplicación.
+     */
     public void keyTyped() {
         gui.tfApellidos.keyTyped(key);
         gui.tfUsuari.keyTyped(key);
@@ -139,7 +182,12 @@ public class Main extends PApplet {
 
 
     }
-
+    /**
+     * Gestiona los eventos de clic en la pantalla de registro.
+     * Comprueba si el usuario ya existe antes de registrarlo y muestra el popup
+     * de error en caso de nombre duplicado. También gestiona el botón de volver
+     * y la selección de campos de texto.
+     */
     public void mousePressedPantallaSINGUP() {
         if (gui.bSignUp.mouseOverButton(this)) {
             String user = gui.tfUsuariSignUp.getText();
@@ -171,6 +219,11 @@ public class Main extends PApplet {
         gui.tfNom.isPressed(this);
 
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de inicio de sesión.
+     * Verifica las credenciales en la base de datos, activa el modo administrador
+     * si corresponde, guarda el usuario activo y muestra el popup de error si falla.
+     */
     public void mousePressedPantallaSINGIN() {
         if (gui.puSignIn.bAceptar.mouseOverButton(this) && gui.puSignIn.bAceptar.isEnabled()) {
             gui.puSignIn.setVisible(false);
@@ -197,6 +250,12 @@ public class Main extends PApplet {
         gui.tfUsuari.isPressed(this);
         gui.tfPassword.isPressed(this);
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla inicial.
+     * Controla la navegación entre pantallas, la paginación de la cuadrícula
+     * de restaurantes, la selección de una tarjeta de restaurante para ver su detalle
+     * y el acceso al panel de administración.
+     */
     public void mousePressedPantallaINICIAL() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -240,6 +299,11 @@ public class Main extends PApplet {
         gui.recarregarCarrousel(this, gui.restauranteSeleccionado);
 
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de detalle de restaurante.
+     * Controla la navegación, el botón de reservar, la eliminación del restaurante
+     * (solo admin), el carrusel de imágenes y el acceso al panel de administración.
+     */
     public void mousePressedPantallaDESCRIPCIONESRESTAURANTE() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -281,6 +345,10 @@ public class Main extends PApplet {
             }
         }
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de estadísticas.
+     * Solo controla la navegación entre pantallas y el acceso al panel de administración.
+     */
     public void mousePressedPantallaSTATS() {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -305,6 +373,12 @@ public class Main extends PApplet {
             }
         }
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de especificación de reserva.
+     * Controla el calendario, los radio buttons de tipo y horario, el campo de personas
+     * y el botón de reservar. Al confirmar, valida que se haya seleccionado tipo, hora
+     * y fecha, e inserta o modifica la reserva en la base de datos según el modo activo.
+     */
     public void mousePressedPantallaESPECIFICACIONESRESERVA(){
 
         gui.calendari.checkButtons(this);
@@ -399,6 +473,12 @@ public class Main extends PApplet {
             }
         }
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla "Mis Reservas".
+     * Controla la paginación, la selección de tarjetas, el guardado de valoraciones,
+     * el botón de modificar (que carga la reserva y navega a especificación)
+     * y el botón de eliminar (que borra la reserva y recarga la lista).
+     */
     public void mousePressedPantallaMISRESERVAS () {
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -453,6 +533,10 @@ public class Main extends PApplet {
             }
         }
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de perfil de usuario.
+     * Controla la navegación, el botón de modificar usuario y el de cerrar sesión.
+     */
     public void mousePressedPantallaUSUARIO(){
         if (gui.bMisReservas.mouseOverButton(this)) {
             gui.pantallaActual = GUI.PANTALLA.MISRESERVAS;
@@ -483,6 +567,17 @@ public class Main extends PApplet {
             }
         }
     }
+    /**
+     * Gestiona los eventos de clic en la pantalla de creación de restaurante (admin).
+     * Controla los radio buttons de proximidad y precio, los checkboxes de servicio,
+     * los campos de texto, el carrusel de imágenes, el botón de añadir imagen
+     * (que abre el selector de archivos del sistema) y el botón de crear.
+     * Al crear, recoge todos los datos del formulario, valida el nombre,
+     * inserta el restaurante en la base de datos, copia las imágenes seleccionadas
+     * a la carpeta "data/" e inserta sus referencias en la base de datos.
+     *
+     * @see #copiarFitxer(java.io.File, String, String)
+     */
     public void mousePressedPantallaCREARRESTAURANTE(){
 
         if (gui.bMisReservas.mouseOverButton(this)) {
@@ -614,7 +709,15 @@ public class Main extends PApplet {
         }
     }
 
-
+    /**
+     * Copia un archivo de imagen al directorio de destino de la aplicación.
+     * Utiliza {@code java.nio.file.Files.copy()} con la opción
+     * {@code REPLACE_EXISTING} para sobrescribir si ya existe.
+     *
+     * @param file        Archivo de origen a copiar.
+     * @param rutaCarpeta Ruta de la carpeta de destino.
+     * @param titol       Nombre del archivo en el destino.
+     */
     void copiarFitxer(java.io.File file, String rutaCarpeta, String titol){
         java.nio.file.Path original = java.nio.file.Paths.get(file.getAbsolutePath());
         java.nio.file.Path copia    = java.nio.file.Paths.get(rutaCarpeta + titol);
@@ -628,6 +731,10 @@ public class Main extends PApplet {
 
     }
 
+    /**
+     * Punto de entrada de todos los eventos de clic del ratón.
+     * Delega en el método específico de la pantalla actualmente mostrada.
+     */
     public void mousePressed() {
         if(gui.pantallaActual == GUI.PANTALLA.SIGNUP) {
             mousePressedPantallaSINGUP();
@@ -651,7 +758,14 @@ public class Main extends PApplet {
     }
 
 
-
+    /**
+     * Actualiza el cursor del ratón según la pantalla activa y los elementos
+     * sobre los que está el cursor. Filtra los componentes interactivos de cada
+     * pantalla para determinar si debe mostrarse el cursor de mano ({@code HAND})
+     * o el cursor de flecha ({@code ARROW}).
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void updateCursor(PApplet p5) {
         boolean cursorHAND = false;
 

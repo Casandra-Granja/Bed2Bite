@@ -1,18 +1,32 @@
 package B2B_Color;
 
 import processing.core.PApplet;
-
+/**
+ * Gestiona la paleta de colores de la aplicación.
+ * Almacena un conjunto fijo de colores predefinidos que se usan en todos
+ * los componentes visuales de la interfaz gráfica.
+ */
 public class Colors {
 
-    //Propietats
+    /**
+     * Array que almacena los colores de la paleta en formato entero ARGB de Processing.
+     */
     int colors[];
 
-    //Constructor
+    /**
+     * Constructor que inicializa la paleta de colores.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing, necesario para llamar a {@code color()}.
+     */
     public Colors(PApplet p5){
         this.setColors(p5);
     }
 
-    //setter dels colors
+    /**
+     * Inicializa el array de colores con los valores ARGB predefinidos de la aplicación.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     void setColors(PApplet p5){
 
         this.colors = new int[7];
@@ -27,48 +41,95 @@ public class Colors {
 
     }
 
-    // Getter del número de colors
+    /**
+     * Devuelve el número total de colores en la paleta.
+     *
+     * @return Número de colores almacenados en el array.
+     */
     public int getNumColors(){
         return this.colors.length;
     }
 
-    // Getter del color primari
+    /**
+     * Devuelve el color azul principal de la paleta (índice 0).
+     *
+     * @return Color azul en formato entero ARGB.
+     */
     public int getBlueColor(){
         return  this.colors[0];
     }
 
-    // Getter del color secundari
+    /**
+     * Devuelve el color verde de la paleta (índice 1).
+     *
+     * @return Color verde en formato entero ARGB.
+     */
     public int getGreenColor(){
         return  this.colors[1];
     }
 
-    // Getter del color terciari
+    /**
+     * Devuelve el color rojo de la paleta (índice 2).
+     *
+     * @return Color rojo en formato entero ARGB.
+     */
     public int getRedColor(){
         return  this.colors[2];
     }
 
-    // Getter del color quaternari
+    /**
+     * Devuelve el color amarillo de la paleta (índice 3).
+     *
+     * @return Color amarillo en formato entero ARGB.
+     */
     public int getYellowColor(){
         return  this.colors[3];
     }
 
-    // Getter del color cinc
+    /**
+     * Devuelve el color negro de la paleta (índice 4).
+     *
+     * @return Color negro en formato entero ARGB.
+     */
     public int getBlackColor(){
         return  this.colors[4];
     }
+    /**
+     * Devuelve el color base de los botones (índice 5).
+     *
+     * @return Color de botón en formato entero ARGB.
+     */
     public int getBotonColor(){
         return  this.colors[5];
     }
+    /**
+     * Devuelve el color de botón cuando el cursor está encima (hover) (índice 6).
+     *
+     * @return Color hover de botón en formato entero ARGB.
+     */
     public int getBotonOverColor(){
         return  this.colors[6];
     }
 
-
-    // Getter del color i-èssim
+    /**
+     * Devuelve el color situado en la posición indicada del array.
+     *
+     * @param i Índice del color deseado.
+     * @return Color en formato entero ARGB correspondiente al índice {@code i}.
+     */
     public int getColorAt(int i){
         return this.colors[i];
     }
 
+    /**
+     * Dibuja en pantalla una paleta visual con todos los colores del array.
+     * Útil para depuración y previsualización de la paleta.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @param x  Coordenada X donde empieza la paleta.
+     * @param y  Coordenada Y donde empieza la paleta.
+     * @param w  Anchura total de la paleta.
+     */
     void displayColors(PApplet p5, float x, float y, float w){
 
         p5.pushStyle();

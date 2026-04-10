@@ -6,20 +6,65 @@ import B2B_Medidas.Layout;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * Tarjeta visual que representa una reserva del usuario en la pantalla "Mis Reservas".
+ * Muestra la imagen del restaurante, el nombre, los detalles de la reserva
+ * (fecha, hora, personas y tipo), un sistema de valoración con estrellas,
+ * y los botones de modificar y eliminar.
+ */
 public class MisReservasCard {
 
-        PImage img;
-        String titol;
-        String info;
-        public Button bModificar;
+    /** Imagen del restaurante asociado a la reserva. */
+    PImage img;
+
+    /** Nombre del restaurante (título de la tarjeta). */
+    String titol;
+
+    /** Información de la reserva en formato "fecha | hora | personas | tipo". */
+    String info;
+
+    /** Botón para modificar la reserva. */
+    public Button bModificar;
+
+    /** Botón para eliminar la reserva. */
     public Button bEliminar;
-        float x, y, w, h;
-        Colors appColors;
-        CheckBoxStarList cbl;
-        String[] imgs = {"starON.png", "starOFF.png"};
-        public String idReserva = "";
+
+    /** Coordenada X de la esquina superior izquierda de la tarjeta. */
+    float x;
+
+    /** Coordenada Y de la esquina superior izquierda de la tarjeta. */
+    float y;
+
+    /** Anchura de la tarjeta en píxeles. */
+    float w;
+
+    /** Altura de la tarjeta en píxeles. */
+    float h;
+
+    /** Paleta de colores de la aplicación. */
+    Colors appColors;
+
+    /** Lista de estrellas de valoración de la reserva. */
+    CheckBoxStarList cbl;
+    /** Array con los nombres de las imágenes de estrella activada y desactivada. */
+    String[] imgs = {"starON.png", "starOFF.png"};
+
+    /** Array con los nombres de las imágenes de estrella activada y desactivada. */
+    public String idReserva = "";
+
+    /** Número de estrellas actualmente seleccionadas en la valoración. */
         public int estrellasSeleccionadas = 0;
 
+    /**
+     * Constructor que inicializa la tarjeta con el título, la información
+     * y la paleta de colores. La posición y dimensiones se calculan usando
+     * las constantes de {@link B2B_Medidas.Layout}.
+     *
+     * @param p5        Referencia al objeto PApplet de Processing.
+     * @param titol     Nombre del restaurante.
+     * @param info      Información de la reserva.
+     * @param appColors Paleta de colores de la aplicación.
+     */
         public MisReservasCard(PApplet p5, String titol, String info, Colors appColors){
             this.titol= titol;
             this.info = info;
@@ -32,6 +77,15 @@ public class MisReservasCard {
         }
 
 
+    /**
+     * Actualiza la posición y dimensiones de la tarjeta y reposiciona
+     * los botones y las estrellas de valoración en consecuencia.
+     *
+     * @param x Nueva coordenada X.
+     * @param y Nueva coordenada Y.
+     * @param w Nueva anchura.
+     * @param h Nueva altura.
+     */
     public void setDimensions(float x, float y, float w, float h){
         this.x = x; this.y = y;
         this.w = w; this.h = h;
@@ -54,16 +108,34 @@ public class MisReservasCard {
         }
     }
 
+    /**
+     * Establece la imagen del restaurante que se mostrará en la tarjeta.
+     *
+     * @param img Imagen del restaurante.
+     */
         public void setImage(PImage img){
             this.img= img;
 
         }
+    /**
+     * Comprueba si el cursor del ratón está sobre el área de la tarjeta.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @return {@code true} si el cursor está dentro de los límites de la tarjeta.
+     */
          public boolean mouseOver(PApplet p5) {
             return this.x < p5.mouseX && p5.mouseX < this.x + this.w &&
                 this.y < p5.mouseY && p5.mouseY < this.y + this.h;
         }
 
 
+    /**
+     * Crea e inicializa los botones de modificar y eliminar, y la lista de estrellas.
+     * Los botones se posicionan en la esquina inferior derecha de la tarjeta
+     * y las estrellas en la parte inferior izquierda del área de texto.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void CrearBotons(PApplet p5){
         // Botones posicionados respecto a x, y, w, h
         bModificar = new Button(p5, "MODIFICAR", (int)(x + w - 200), (int)(y + h - 70), 120, 40, appColors);
@@ -79,6 +151,16 @@ public class MisReservasCard {
         estrellasSeleccionadas = 0;
     }
 
+    /**
+     * Dibuja la tarjeta en pantalla.
+     * Muestra la sombra, el fondo blanco, la imagen o un placeholder si no hay imagen,
+     * una línea divisoria vertical, el título, una línea bajo el título, los campos
+     * de información divididos por el separador "|", la etiqueta de valoración,
+     * y los botones y estrellas de valoración.
+     *
+     * @param p5       Referencia al objeto PApplet de Processing.
+     * @param selected Indica si la tarjeta está seleccionada (actualmente no altera el renderizado).
+     */
     public void display(PApplet p5, boolean selected){
         p5.pushStyle();
 
@@ -144,8 +226,14 @@ public class MisReservasCard {
         cbl.display(p5);
         p5.popStyle();
     }
-    // Modifica el cursor
 
+    /**
+     * Gestiona los clics sobre los elementos interactivos de la tarjeta:
+     * botón modificar, botón eliminar y estrellas de valoración.
+     * Actualiza {@link #estrellasSeleccionadas} cuando se cambia la valoración.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void clickMouseOnCardItems(PApplet p5){
         if(bModificar.mouseOverButton(p5)){
             System.out.println("MODIFICAR clicked: " + idReserva);

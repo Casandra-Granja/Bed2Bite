@@ -1,18 +1,52 @@
 package B2B_ElementsGUI;
     import processing.core.PApplet;
 
-    public class DayButton {
+/**
+ * Componente de botón que representa un día dentro del calendario ({@link Calendari}).
+ * Muestra el número del día en un rectángulo con esquinas redondeadas y, cuando está
+ * seleccionado, dibuja un círculo de color sobre el número.
+ * Puede estar habilitado (día del mes actual) o deshabilitado (día del mes anterior).
+ */
+public class DayButton {
 
-        // Dimensions del botó
-        float x, y, w, h;
+    /** Coordenada X de la esquina superior izquierda del botón. */
+    float x;
 
-        // Data representativa
-        int dia, mes, any;
+    /** Coordenada Y de la esquina superior izquierda del botón. */
+    float y;
 
-        // Estats del botó
-        boolean selected, enabled;
+    /** Anchura del botón en píxeles. */
+    float w;
 
-        // Constructor
+    /** Altura del botón en píxeles. */
+    float h;
+
+    /** Número del día que representa este botón. */
+    int dia;
+
+    /** Mes al que pertenece este botón. */
+    int mes;
+
+    /** Año al que pertenece este botón. */
+    int any;
+
+    /** Indica si el botón está seleccionado como fecha elegida. */
+    boolean selected;
+
+    /** Indica si el botón está habilitado (pertenece al mes visible) o no. */
+    boolean enabled;
+
+    /**
+     * Constructor que inicializa el botón de día con posición, dimensiones y fecha.
+     *
+     * @param x Coordenada X de la esquina superior izquierda.
+     * @param y Coordenada Y de la esquina superior izquierda.
+     * @param w Anchura del botón.
+     * @param h Altura del botón.
+     * @param d Número del día.
+     * @param m Mes correspondiente.
+     * @param a Año correspondiente.
+     */
         public DayButton(float x, float y, float w, float h, int d, int m, int a){
             this.x = x; this.y=y; this.w = w; this.h = h;
             this.dia = d; this.mes = m; this.any = a;
@@ -20,18 +54,34 @@ package B2B_ElementsGUI;
             this.enabled = true;
         }
 
-        // Setters
-
+    /**
+     * Habilita o deshabilita el botón de día.
+     * Los botones deshabilitados se muestran en color gris oscuro.
+     *
+     * @param b {@code true} para habilitar, {@code false} para deshabilitar.
+     */
         public void setEnabled(boolean b){
             this.enabled = b;
         }
 
+    /**
+     * Marca o desmarca el botón como fecha seleccionada.
+     *
+     * @param b {@code true} para seleccionar, {@code false} para deseleccionar.
+     */
         public void setSelected(boolean b){
             this.selected = b;
         }
 
 
-        // Dibuixa el botó
+    /**
+     * Dibuja el botón de día en pantalla.
+     * Los botones habilitados se muestran en blanco y los deshabilitados en gris.
+     * Si el botón está seleccionado, dibuja un círculo rojizo de fondo
+     * sobre el número del día.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
         public void display(PApplet p5){
             p5.pushStyle();
             if(enabled){
@@ -51,7 +101,12 @@ package B2B_ElementsGUI;
             p5.popStyle();
         }
 
-        // Ratolí sobre el botó
+    /**
+     * Comprueba si el cursor del ratón está sobre el área del botón de día.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @return {@code true} si el cursor está dentro de los límites del botón.
+     */
         public boolean mouseOver(PApplet p5){
             return p5.mouseX>=this.x && p5.mouseX<=this.x+this.w &&
                     p5.mouseY>=this.y && p5.mouseY<=this.y+this.h;

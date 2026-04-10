@@ -2,18 +2,45 @@ package B2B_ElementsGUI;
 
 import processing.core.PApplet;
 
+/**
+ * Componente de botón de opción (radio button) circular para la interfaz gráfica.
+ * Muestra un círculo exterior y, cuando está seleccionado, un círculo interior
+ * de menor tamaño. Puede mostrar opcionalmente un texto a su derecha.
+ */
 public class RadioButton {
 
-    // Propietats
-    int x, y, r;
+    /** Coordenada X del centro del radio button. */
+    int x;
 
-    // B2B_Color.Colors
-    int bgColor, borderColor, checkedColor;
+    /** Coordenada Y del centro del radio button. */
+    int y;
 
+    /** Radio del círculo exterior en píxeles. */
+    int r;
+
+    /** Color de fondo del círculo exterior. */
+    int bgColor;
+
+    /** Color del borde del círculo. */
+    int borderColor;
+
+    /** Color del círculo interior cuando está seleccionado. */
+    int checkedColor;
+
+    /** Indica si el radio button está seleccionado. */
     boolean checked;
+
+    /** Texto opcional que se muestra a la derecha del radio button. */
     String text;
 
-    // Constructor
+    /**
+     * Constructor que inicializa el radio button con posición y radio.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @param x  Coordenada X del centro.
+     * @param y  Coordenada Y del centro.
+     * @param r  Radio del círculo en píxeles.
+     */
     public RadioButton(PApplet p5, int x, int y, int r){
         this.x = x;
         this.y = y;
@@ -24,15 +51,30 @@ public class RadioButton {
         this.checkedColor = p5.color(180);
     }
 
-    // Getter
+    /**
+     * Indica si el radio button está actualmente seleccionado.
+     *
+     * @return {@code true} si está seleccionado, {@code false} en caso contrario.
+     */
     public  boolean isChecked(){
         return  this.checked;
     }
 
+    /**
+     * Establece el texto que se muestra a la derecha del radio button.
+     *
+     * @param t Texto a mostrar.
+     */
     public void setText(String t){ this.text = t; }
 
 
-    // Dibuixa el B2B_ElementsGUI.Buttons.CheckBox
+    /**
+     * Dibuja el radio button en pantalla.
+     * Muestra el círculo exterior y, si está seleccionado, un círculo interior
+     * de color. Si se ha asignado texto, lo muestra a la derecha.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void display(PApplet p5){
 
         p5.pushStyle();
@@ -54,17 +96,30 @@ public class RadioButton {
         p5.popStyle();
     }
 
+    /**
+     * Establece directamente el estado de selección del radio button.
+     *
+     * @param b {@code true} para seleccionar, {@code false} para deseleccionar.
+     */
     public void setChecked(boolean b){
         this.checked = b;
     }
 
-    // Canvia l'estat de selecció
+    /**
+     * Alterna el estado de selección del radio button.
+     */
     public void toggle(){
         this.checked = ! this.checked;
     }
 
 
-    // Mira si el ratolí està sobre el checkbox
+    /**
+     * Comprueba si el cursor del ratón está sobre el área del radio button,
+     * usando distancia euclidiana al centro.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @return {@code true} si el cursor está dentro del radio del botón.
+     */
     public boolean onMouseOver(PApplet p5){
         return  p5.dist(p5.mouseX, p5.mouseY, this.x, this.y) < this.r;
     }

@@ -11,85 +11,249 @@ import processing.core.PImage;
 import static B2B_Medidas.Layout.*;
 
 
+/**
+ * Controlador principal de la interfaz gráfica de la aplicación.
+ * Centraliza la creación, configuración y renderizado de todos los componentes
+ * visuales: botones, campos de texto, radio buttons, calendarios, carruseles,
+ * tarjetas paginadas y popups. Gestiona las diferentes pantallas de la aplicación
+ * a través del enum {@link PANTALLA} y delega en {@link DataBase} para
+ * todas las operaciones con datos.
+ */
 public class GUI {
 
+    /**
+     * Enumerado con los identificadores de todas las pantallas de la aplicación.
+     */
+    public enum PANTALLA {
+        /** Pantalla de inicio con la cuadrícula de restaurantes. */
+        INICIAL,
+        /** Pantalla de registro de nuevo usuario. */
+        SIGNUP,
+        /** Pantalla de inicio de sesión. */
+        SIGNIN,
+        /** Pantalla de detalle de un restaurante. */
+        DESCRIPCIONRESTAURANTE,
+        /** Pantalla de estadísticas y rankings. */
+        STATS,
+        /** Pantalla de configuración de una reserva. */
+        ESPECIFICACIONRESERVA,
+        /** Pantalla con las reservas del usuario. */
+        MISRESERVAS,
+        /** Pantalla de perfil del usuario. */
+        USUARIO,
+        /** Pantalla de creación de un nuevo restaurante (solo admin). */
+        CREARRESTAURANTE
+    }
 
-    public enum PANTALLA{INICIAL, SIGNUP, SIGNIN, DESCRIPCIONRESTAURANTE, STATS, ESPECIFICACIONRESERVA, MISRESERVAS, USUARIO, CREARRESTAURANTE};
-
+    /** Pantalla actualmente mostrada en la aplicación. */
     public PANTALLA pantallaActual;
 
+    /** Referencia al objeto de base de datos para todas las operaciones con datos. */
     DataBase db;
 
+    /** Referencia al objeto PApplet principal de Processing. */
     PApplet p5ref;
 
+    /** Gestor de fuentes tipográficas de la aplicación. */
     Fonts f;
 
-    // --- COMPONENTES DE INTERFAZ (BOTONES) ---
-    Button bInicio, bStats, bMisReservas, bCerrarSesion;
-    Button bSignIn, bDontHaveAnAccount, bModificarUsuario, bSignUp;
-    Button bReservar, bEliminarImatges;
+    // --- BOTONES DE NAVEGACIÓN Y ACCIONES ---
+
+    /** Botón de navegación a la pantalla de inicio. */
+    Button bInicio;
+    /** Botón de navegación a la pantalla de estadísticas. */
+    Button bStats;
+    /** Botón de navegación a la pantalla de mis reservas. */
+    Button bMisReservas;
+    /** Botón para cerrar sesión. */
+    Button bCerrarSesion;
+    /** Botón de inicio de sesión. */
+    Button bSignIn;
+    /** Botón para ir al registro cuando no se tiene cuenta. */
+    Button bDontHaveAnAccount;
+    /** Botón para modificar los datos del usuario. */
+    Button bModificarUsuario;
+    /** Botón de registro de nuevo usuario. */
+    Button bSignUp;
+    /** Botón para confirmar una reserva. */
+    Button bReservar;
+    /** Botón para eliminar las imágenes seleccionadas (admin). */
+    Button bEliminarImatges;
+    /** Botón para crear un nuevo restaurante (admin). */
     Button bCrear;
-    Button bNextMisReservasPC, bPrevMisReservasPC;
-    Button bPrevRestaurantPC, bNextRestaurantPC;
-    Button bEliminarRestaurante, bBack;
-    RoundButton rbPerfil, rbCrear;
+    /** Botón de página siguiente en "Mis Reservas". */
+    Button bNextMisReservasPC;
+    /** Botón de página anterior en "Mis Reservas". */
+    Button bPrevMisReservasPC;
+    /** Botón de página anterior en la cuadrícula de restaurantes. */
+    Button bPrevRestaurantPC;
+    /** Botón de página siguiente en la cuadrícula de restaurantes. */
+    Button bNextRestaurantPC;
+    /** Botón para eliminar el restaurante actual (admin). */
+    Button bEliminarRestaurante;
+    /** Botón para volver a la pantalla anterior. */
+    Button bBack;
 
-    // --- ELEMENTOS DE SELECCIÓN (RADIO BUTTONS) ---
-    RadioButton radbDesayuno, radbComida, radbCena;
-    RadioButtonGroup radbgTipoReserva, radbgHorarioReservaDesayuno, radbgHorarioReservaComida, radbgHorarioReservaCena;
+    /** Botón circular de perfil de usuario en la barra de navegación. */
+    RoundButton rbPerfil;
+    /** Botón circular de creación de restaurante (admin). */
+    RoundButton rbCrear;
 
-    RadioButton radbmas5min, radbmenos5min;
+    // --- RADIO BUTTONS DE TIPO DE RESERVA Y HORARIO ---
+
+    /** Radio button para seleccionar el tipo de reserva "Desayuno". */
+    RadioButton radbDesayuno;
+    /** Radio button para seleccionar el tipo de reserva "Comida". */
+    RadioButton radbComida;
+    /** Radio button para seleccionar el tipo de reserva "Cena". */
+    RadioButton radbCena;
+    /** Grupo de radio buttons para el tipo de reserva. */
+    RadioButtonGroup radbgTipoReserva;
+    /** Grupo de radio buttons para el horario de desayuno. */
+    RadioButtonGroup radbgHorarioReservaDesayuno;
+    /** Grupo de radio buttons para el horario de comida. */
+    RadioButtonGroup radbgHorarioReservaComida;
+    /** Grupo de radio buttons para el horario de cena. */
+    RadioButtonGroup radbgHorarioReservaCena;
+
+    /** Radio button para proximidad "a más de 5 minutos a pie". */
+    RadioButton radbmas5min;
+    /** Radio button para proximidad "a menos de 5 minutos a pie". */
+    RadioButton radbmenos5min;
+    /** Grupo de radio buttons para la proximidad del restaurante. */
     RadioButtonGroup radbgProximidad;
 
-    RadioButton radb1015, radb1520, radb2025, radb2530;
+    /** Radio button para precio medio de 10-15 €. */
+    RadioButton radb1015;
+    /** Radio button para precio medio de 15-20 €. */
+    RadioButton radb1520;
+    /** Radio button para precio medio de 20-25 €. */
+    RadioButton radb2025;
+    /** Radio button para precio medio de 25-30 €. */
+    RadioButton radb2530;
+    /** Grupo de radio buttons para el precio medio por persona. */
     RadioButtonGroup radbgPrecioMPP;
 
-    // --- CAMPOS DE TEXTO (TEXT FIELDS) ---
-    TextField tfUsuari, tfUsuariSignUp, tfPassword, tfPasswordSignUp, tfNom, tfApellidos, tfNumHabitacion, tfNumPersonas;
-    TextField tfNombreRestaurante, tfDescripcion, tfEspecialidad;
+    // --- CAMPOS DE TEXTO ---
 
-    // --- COMPONENTES COMPLEJOS (PAGINACIÓN Y CALENDARIO) ---
+    /** Campo de texto para el usuario en la pantalla de inicio de sesión. */
+    TextField tfUsuari;
+    /** Campo de texto para el usuario en la pantalla de registro. */
+    TextField tfUsuariSignUp;
+    /** Campo de texto para la contraseña en inicio de sesión. */
+    TextField tfPassword;
+    /** Campo de texto para la contraseña en el registro. */
+    TextField tfPasswordSignUp;
+    /** Campo de texto para el nombre en el registro. */
+    TextField tfNom;
+    /** Campo de texto para los apellidos en el registro. */
+    TextField tfApellidos;
+    /** Campo de texto para el número de habitación. */
+    TextField tfNumHabitacion;
+    /** Campo de texto para el número de personas de la reserva. */
+    TextField tfNumPersonas;
+    /** Campo de texto para el nombre del nuevo restaurante. */
+    TextField tfNombreRestaurante;
+    /** Campo de texto para la descripción del nuevo restaurante. */
+    TextField tfDescripcion;
+    /** Campo de texto para la especialidad del nuevo restaurante. */
+    TextField tfEspecialidad;
+
+    // --- COMPONENTES COMPLEJOS ---
+
+    /** Componente paginado 2D con la cuadrícula de tarjetas de restaurante. */
     PagedCard2DRestaurantCard restaurantePC;
+    /** Componente paginado con las tarjetas de reservas del usuario. */
     PagedCardMisReservas misReservasPC;
+    /** Componente de calendario para la selección de fecha de reserva. */
     Calendari calendari;
 
-    // --- RECURSOS VISUALES (IMÁGENES) ---
-    PImage iconaPerfil, logo, logoLong, crearRestaurante;
+    // --- IMÁGENES ---
 
-    // --- POPUP ---
-    PopUp puSignIn, puSignUp;
+    /** Imagen del icono de perfil de usuario. */
+    PImage iconaPerfil;
+    /** Logo pequeño de la aplicación. */
+    PImage logo;
+    /** Logo largo de la aplicación (para pantallas de login). */
+    PImage logoLong;
+    /** Imagen del botón circular de creación de restaurante. */
+    PImage crearRestaurante;
 
-    // --- SELECT ---
-    CheckBox cbDesayuno, cbComida, cbCena;
+    // --- POPUPS ---
 
-    // --- ESTILOS Y CONFIGURACIÓN ---
+    /** Popup de error para inicio de sesión incorrecto. */
+    PopUp puSignIn;
+    /** Popup de error para registro de usuario duplicado. */
+    PopUp puSignUp;
+
+    // --- CHECKBOXES DE TIPO DE SERVICIO ---
+
+    /** Checkbox para el servicio de desayuno (creación de restaurante). */
+    CheckBox cbDesayuno;
+    /** Checkbox para el servicio de comida (creación de restaurante). */
+    CheckBox cbComida;
+    /** Checkbox para el servicio de cena (creación de restaurante). */
+    CheckBox cbCena;
+
+    /** Paleta de colores de la aplicación. */
     Colors appColors;
 
+    /** Array con los horarios disponibles para el desayuno. */
     String[] horasDesayuno = {"7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00"};
+    /** Array con los horarios disponibles para la comida. */
     String[] horasComida ={"12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00"};
+    /** Array con los horarios disponibles para la cena. */
     String[] horasCena ={"19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30", "23:00", "23:30"};
+    /** Array de radio buttons generados para los horarios de desayuno. */
     RadioButton[] radioHorasDesayno;
+    /** Array de radio buttons generados para los horarios de comida. */
     RadioButton[] radioHorasComida;
+    /** Array de radio buttons generados para los horarios de cena. */
     RadioButton[] radioHorasCena;
 
-    Carrousel cr, crDetalle;
+    /** Carrusel de imágenes para la pantalla de creación de restaurante. */
+    Carrousel cr;
+    /** Carrusel de imágenes para la pantalla de detalle de restaurante. */
+    Carrousel crDetalle;
 
+    /** Botón para abrir el selector de archivos de imagen. */
     Button bCarregarImatge;
+    /** Lista de archivos de imagen seleccionados para el nuevo restaurante. */
     java.util.List<java.io.File> fitxersSeleccionats = new java.util.ArrayList<>();
+    /** Lista con los nombres de los archivos de imagen seleccionados. */
     java.util.List<String> titolsImatges = new java.util.ArrayList<>();
 
+    /** Identificador del restaurante actualmente seleccionado. */
     String restauranteSeleccionado = "";
+    /**
+     * Array con la información del restaurante seleccionado:
+     * [nombre, descripción, especialidad, proximidad, precioMPP].
+     */
     String[] infoRestaurantSeleccionat = new String[]{"","","","",""};
 
+    /** Identificador de la reserva actualmente seleccionada para modificar. */
     String idReservaSeleccionada = "";
+    /** Indica si se está en modo modificación de una reserva existente. */
     boolean modificandoReserva = false;
 
+    /** Array con las rutas de imágenes del restaurante top para el carrusel de stats. */
     String[] carouselImgs;
+
+    /** Índice de la imagen actualmente mostrada en el carrusel de stats. */
     int imgIndex = 0;
+    /** Contador de frames para controlar el cambio automático de imagen en stats. */
     int frameCounter = 0;
 
 
-
+    /**
+     * Constructor principal que inicializa toda la interfaz gráfica.
+     * Sigue el orden: (1) colores y estado inicial, (2) objetos y fuentes,
+     * (3) multimedia, (4) componentes GUI.
+     *
+     * @param p5        Referencia al objeto PApplet de Processing.
+     * @param appColors Paleta de colores de la aplicación.
+     * @param db        Referencia a la base de datos.
+     */
     public GUI(PApplet p5, Colors appColors, DataBase db){
         this.p5ref = p5;
         // 1. Configuración de olores y estado inicial
@@ -113,7 +277,12 @@ public class GUI {
         creaCheckBox(p5);
 
     }
-
+    /**
+     * Crea e inicializa todos los botones de la aplicación agrupados por pantalla.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @param c  Paleta de colores de la aplicación.
+     */
     public void creaBotons(PApplet p5, Colors c){
 
         f= new Fonts(p5);
@@ -154,6 +323,11 @@ public class GUI {
         bCarregarImatge = new Button(p5, "AÑADIR IMAGENES", 100, 870, 200, 60, c);
     }
 
+    /**
+     * Crea e inicializa todos los campos de texto de la aplicación.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void creaTextField(PApplet p5){
         // --- PANTALLA SING-IN ---
         tfPassword = new TextField(p5, p5.width/2 -255, p5.height/2 +50 , 510, 80, 40, appColors);
@@ -170,7 +344,13 @@ public class GUI {
         tfDescripcion = new TextField(p5, p5.width/2+ 120, 750, 550, 160, 300, appColors);
         tfEspecialidad = new TextField(p5, p5.width/2+ 120, 650, 200, 40, 16, appColors);
     }
-
+    /**
+     * Crea e inicializa todos los radio buttons y sus grupos.
+     * Incluye los de tipo de reserva, horarios de desayuno/comida/cena,
+     * proximidad y precio medio por persona.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void creaRadioButton(PApplet p5){
         radbDesayuno= new RadioButton(p5,  (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+40),(int)Layout.marginInicialH+220,10);
         radbComida= new RadioButton(p5, (int) (marginInicialW + Layout.restaurantDetalleWidth + Layout.marginWBR+ Layout.infoDetalleWidth/2-20),(int)Layout.marginInicialH+220,10);
@@ -235,7 +415,12 @@ public class GUI {
             radbgPrecioMPP.setSelected(0);
 
     }
-
+    /**
+     * Carga las imágenes necesarias para la interfaz gráfica
+     * (logos, iconos y recursos visuales).
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void setMedia(PApplet p5){
         iconaPerfil = p5.loadImage("data/iconoPerfil.png"); //canviar imatges
         logo= p5.loadImage("data/B2B-Logo.png");
@@ -243,7 +428,13 @@ public class GUI {
         crearRestaurante = p5.loadImage("crearRestaurante.png");
 
     }
-
+    /**
+     * Crea e inicializa los componentes paginados de tarjetas
+     * de restaurantes y de "Mis Reservas", configurando sus dimensiones
+     * y cargando los datos desde la base de datos.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void setCards(PApplet p5){
         //PagedCatrd Mis reservas
         misReservasPC = new PagedCardMisReservas(4,appColors);
@@ -258,17 +449,30 @@ public class GUI {
 
 
     }
-
+    /**
+     * Crea e inicializa los botones circulares de perfil y de creación de restaurante.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void creaRoundButton(PApplet p5){
         rbPerfil= new RoundButton(p5, iconaPerfil,p5.width-Layout.marginW-70,100,50);
         rbCrear = new RoundButton(p5,crearRestaurante, p5.width-Layout.marginW-200,100,40);
     }
-
+    /**
+     * Crea e inicializa los popups de error de inicio de sesión y de registro.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void creaPopUp(PApplet p5){
         puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2-300, p5.height/2-200, 600, 340, appColors);
         puSignUp = new PopUp(p5,"EROR!", "EL USUARIO YA ESTÁ COGIDO", p5.width/2, p5.height/2, 600, 340, appColors);
     }
-
+    /**
+     * Crea e inicializa los checkboxes de tipo de servicio para la pantalla
+     * de creación de restaurante.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void creaCheckBox(PApplet p5){
         cbDesayuno = new CheckBox(p5,p5.width/2 +125, 580, 15);
         cbComida =   new CheckBox(p5,p5.width/2 +370, 580, 15);
@@ -278,7 +482,14 @@ public class GUI {
 
     //**************************************************** PANTALLAS  *************************************************************************************
 
-    // 0
+    /**
+     * Dibuja la pantalla de registro de usuario.
+     * Muestra el logo, los campos de texto de usuario, contraseña, nombre,
+     * apellidos y número de habitación, el botón de registro, el popup
+     * de error y el botón de volver.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaSingUp(PApplet p5) {
         p5.pushStyle();
         p5.background(200);
@@ -306,7 +517,13 @@ public class GUI {
         p5.popStyle();
 
     }
-    // 1
+    /**
+     * Dibuja la pantalla de inicio de sesión.
+     * Muestra el logo, los campos de usuario y contraseña, el botón de
+     * inicio de sesión, el enlace al registro y el popup de error.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaSingIn(PApplet p5) {
         p5.pushStyle();
         p5.background(200);
@@ -324,7 +541,14 @@ public class GUI {
         p5.popStyle();
 
     }
-    //2
+    /**
+     * Dibuja la pantalla inicial con la cuadrícula de restaurantes.
+     * Muestra los elementos esenciales de navegación, el texto de bienvenida,
+     * la cuadrícula paginada de tarjetas de restaurante y los botones de paginación.
+     * Si el usuario es administrador, muestra además el botón de crear restaurante.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaInicial(PApplet p5) {
         // Dibuixa el fons (gris)
         p5.background(200);
@@ -347,7 +571,15 @@ public class GUI {
         }
         p5.popStyle();
     }
-    //4
+    /**
+     * Dibuja la pantalla de detalle de un restaurante.
+     * Muestra el carrusel de imágenes del restaurante y un panel de información
+     * con nombre, descripción, especialidad, proximidad y precio medio organizados
+     * en etiquetas de colores. Si el usuario es admin, muestra los botones
+     * de eliminar restaurante y crear restaurante.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaDescripcionDelRestaurante(PApplet p5) {
         p5.background(200);
         elementosEsenciales(p5);
@@ -440,7 +672,14 @@ public class GUI {
         }
         p5.popStyle();
     }
-    //5
+    /**
+     * Dibuja la pantalla de estadísticas y rankings.
+     * Muestra el ranking de top restaurantes. Si el usuario es administrador,
+     * muestra además el ranking de usuarios con más reservas. Para usuarios
+     * normales muestra un carrusel animado con imágenes del restaurante mejor valorado.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaStats(PApplet p5){
         p5.background(200);
         p5.pushStyle();
@@ -596,7 +835,14 @@ public class GUI {
         p5.popStyle();
 
     }
-    //6
+    /**
+     * Dibuja la pantalla de especificación de una reserva.
+     * Muestra el calendario de selección de fecha, el campo de número de personas,
+     * los radio buttons de tipo de reserva (desayuno, comida, cena) y los radio buttons
+     * de horario correspondientes al tipo seleccionado. Incluye el botón de reservar.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaEspecificacionReserva(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
@@ -664,7 +910,11 @@ public class GUI {
         calendari.display(p5);
         p5.popStyle();
     }
-    // 8
+    /**
+     * Dibuja la pantalla "Mis Reservas" con la lista paginada de reservas del usuario.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaMisReservas(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
@@ -686,7 +936,13 @@ public class GUI {
 
 
     }
-
+    /**
+     * Dibuja la pantalla de perfil de usuario.
+     * Muestra un icono circular de avatar y los botones de modificar usuario
+     * y cerrar sesión.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaUsuario(PApplet p5){
         elementosEsenciales(p5);
         p5.pushStyle();
@@ -708,6 +964,14 @@ public class GUI {
 
     //**************************************************** PANTALLAS  ESPECÍFICAS CLIENTE *************************************************************************************
 
+    /**
+     * Dibuja la pantalla de creación de un nuevo restaurante (solo admin).
+     * Muestra los campos de nombre, descripción, especialidad, los radio buttons
+     * de proximidad y precio, los checkboxes de tipo de servicio, el carrusel
+     * de imágenes seleccionadas y los botones de crear, añadir imagen y eliminar imágenes.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void dibuixaPantallaCrearRestaurante(PApplet p5){
         p5.pushStyle();
         elementosEsenciales(p5);
@@ -747,7 +1011,12 @@ public class GUI {
 
     //**************************************************** ELEMENTOS DE LAS PANTALLAS *************************************************************************************
 
-
+    /**
+     * Dibuja los elementos comunes a todas las pantallas autenticadas:
+     * zona principal, logo, botones de navegación y botón de perfil.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void elementosEsenciales(PApplet p5){
         zonaPrincipal(p5);
         logo(p5);
@@ -757,7 +1026,11 @@ public class GUI {
         rbPerfil.display(p5);
 
     }
-
+    /**
+     * Dibuja el rectángulo de fondo de la zona principal de contenido.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void zonaPrincipal(PApplet p5){
         p5.pushStyle();
         p5.fill(200);
@@ -766,25 +1039,42 @@ public class GUI {
         p5.popStyle();
 
     }
-
+    /**
+     * Dibuja el logo pequeño de la aplicación en la posición del banner.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void logo(PApplet p5){
         p5.image(logo, Layout.marginW, Layout.marginH -20, Layout.logoWidth, Layout.logoHeight);
     }
 
-
+    /**
+     * Dibuja el logo largo de la aplicación centrado en la pantalla de registro.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void logoSingUp(PApplet p5){
         p5.image(logoLong, p5.width/2-150, p5.height/2 -570, 300,300);
     }
-
+    /**
+     * Dibuja el logo largo de la aplicación centrado en la pantalla de inicio de sesión.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void logoSingIn(PApplet p5){
         p5.image(logoLong, p5.width/2-210, p5.height/2 -500, 400,400);
     }
 
+// ─── MÉTODOS DE CARGA Y RECARGA ───────────────────────────────────────────
 
-
-
-
-
+    /**
+     * Recarga el carrusel de la pantalla de creación con las imágenes
+     * de un restaurante ya guardadas en la base de datos,
+     * añadiendo el prefijo "data/" a cada nombre de archivo.
+     *
+     * @param p5           Referencia al objeto PApplet de Processing.
+     * @param idRestaurant Identificador del restaurante.
+     */
     public void recarregarCarrousel(PApplet p5, String idRestaurant) {
         String[] nomsDB = db.getRutesImatgesRestaurant(idRestaurant);
         if (nomsDB.length > 0) {
@@ -795,6 +1085,15 @@ public class GUI {
             cr.setImages(p5, nomsDB);
         }
     }
+
+    /**
+     * Callback invocado por el selector de archivos del sistema operativo
+     * cuando el usuario elige una imagen. Añade el archivo a la lista de
+     * imágenes seleccionadas, recrea el carrusel y carga todas las imágenes
+     * acumuladas hasta el momento, posicionando el carrusel en la última añadida.
+     *
+     * @param selection Archivo seleccionado por el usuario, o {@code null} si canceló.
+     */
     public void fileSelected(java.io.File selection) {
         if (selection == null) {
             System.out.println("No s'ha seleccionat cap fitxer.");
@@ -821,10 +1120,23 @@ public class GUI {
             cr.currentImage    = imgsTemp.length - 1; // salta a la última imagen añadida
         }
     }
+    /**
+     * Recarga la cuadrícula de tarjetas de restaurante con los datos actualizados
+     * de la base de datos. Se llama tras crear o eliminar un restaurante.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void recarregarRestaurantePC(PApplet p5){
         restaurantePC.setData(db.infoRestaurants());
         restaurantePC.setCards(p5);
     }
+    /**
+     * Carga la información completa de un restaurante y crea su carrusel de detalle
+     * con las imágenes obtenidas de la base de datos.
+     *
+     * @param p5           Referencia al objeto PApplet de Processing.
+     * @param idRestaurant Identificador del restaurante a cargar.
+     */
     public void carregarRestaurant(PApplet p5, String idRestaurant){
         // Carga la info
         infoRestaurantSeleccionat = db.getInfoRestaurant(idRestaurant);
@@ -840,6 +1152,12 @@ public class GUI {
             crDetalle.setImages(p5, nomsDB);
         }
     }
+    /**
+     * Recarga la lista paginada de reservas del usuario actual desde la base de datos
+     * y asigna la imagen correspondiente a cada tarjeta si está disponible.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
     public void recarregarMisReservas(PApplet p5){
         String[][] reserves = db.getReservesUsuari(Main.usuariActual);
 
@@ -854,12 +1172,18 @@ public class GUI {
             }
         }
     }
-
+    /**
+     * Prepara la aplicación para modificar una reserva existente.
+     * Guarda el identificador de la reserva, activa el modo modificación
+     * y obtiene los datos actuales de la reserva para precargarlos.
+     *
+     * @param p5        Referencia al objeto PApplet de Processing.
+     * @param idReserva Identificador de la reserva a modificar.
+     */
     public void carregarReservaAModificar(PApplet p5, String idReserva){
         idReservaSeleccionada = idReserva;
         modificandoReserva = true;
         String[] info = db.getInfoReserva(idReserva);
-        // info[5] = restaurante, info[6] = tipoReserva
         restauranteSeleccionado = info[5];
         System.out.println("Cargando reserva a modificar: " + idReserva);
     }

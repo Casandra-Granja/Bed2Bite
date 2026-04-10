@@ -5,27 +5,57 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * Gestiona toda la comunicación con la base de datos MySQL de la aplicación.
+ * Encapsula la conexión JDBC y proporciona métodos de consulta e inserción
+ * para usuarios, restaurantes, imágenes y reservas. También incluye métodos
+ * de ranking y valoración.
+ * <p>
+ * La conexión se establece con {@link #connect()} y debe llamarse antes
+ * de cualquier consulta.
+ * </p>
+ */
 public class DataBase {
 
-    //COnectar
+    /** Objeto de conexión JDBC con la base de datos. */
     public Connection c;
 
-    //exacutar instruccions
+    /** Objeto para ejecutar sentencias SQL sobre la conexión activa. */
     public Statement query;
 
+    /** Referencia a la interfaz gráfica (actualmente no utilizada en métodos). */
     public GUI gui;
 
-    //info conectarse
-    String user, password, databaseName;
+    /** Nombre de usuario de la base de datos. */
+    String user;
 
+    /** Contraseña del usuario de la base de datos. */
+    String password;
+
+    /** Nombre de la base de datos a la que se conecta. */
+    String databaseName;
+
+    /** Indica si la conexión con la base de datos se ha establecido correctamente. */
     boolean connectat = false;
 
+    /**
+     * Constructor que almacena las credenciales de conexión.
+     *
+     * @param user         Nombre de usuario de la base de datos.
+     * @param password     Contraseña del usuario.
+     * @param databaseName Nombre de la base de datos.
+     */
     public DataBase(String user, String password, String databaseName){
         this.user = user;
         this.password = password;
         this.databaseName = databaseName;
     }
 
+    /**
+     * Establece la conexión con la base de datos MySQL en {@code localhost:3306}.
+     * Si la conexión tiene éxito, activa el flag {@link #connectat}.
+     * En caso de error imprime la excepción por consola.
+     */
     public void connect() {
         try {
             c = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + databaseName, user, password);
@@ -38,83 +68,12 @@ public class DataBase {
 
     }
 
-    // Retorna la informació d'una casella
-        public String getInfo(String nomTaula, String nomColumna, String nomClau, String identificador){
-            try{
-                String q =  "SELECT " + nomColumna +
-                        " FROM " + nomTaula +
-                        " WHERE "+ nomClau  + " = '" + identificador + "' ";
-                //          SELECT NOM AS N
-                //          ORDER BY NOM ASC, EDAT ASC    orderar nombre ascendent o descendent, depenguent de dues coses per això va entre comes
-                System.out.println(q);
-                ResultSet rs= query.executeQuery(q);
-                rs.next();
-                return rs.getString(nomColumna);
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-            return "";
-        }
 
-        // Retorna el número total de files d'una taula
-
-        public int getNumFilesTaula(String nomTaula){
-            String q = "SELECT COUNT(*) AS num FROM "+ nomTaula;
-            try{
-                ResultSet rs = query.executeQuery(q);
-                rs.next();
-                return rs.getInt("num");
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-            return 0;
-        }
-
-        // Retorna totes les caselles d'una columna
-
-        public String[] getInfoArray(String nomTaula, String nomColumna){
-            int n = getNumFilesTaula(nomTaula);
-            String[] info = new String[n];
-            String q = "SELECT "+ nomColumna +
-                    " FROM " + nomTaula +
-                    " ORDER BY " + nomColumna + " ASC";
-            System.out.println(q);
-            try{
-                ResultSet rs = query.executeQuery(q);
-                int f=0;
-                while(rs.next()){
-                    info[f] = rs.getString(nomColumna);
-                    f++;
-                }
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-            return info;
-        }
-
-    public String[] getNomTotsUsuaris(){
-        String q= "SELECT Nombre FROM usuario ORDER BY Nombre ASC";
-        System.out.println(q);
-        try{
-            int numFiles = getNumFilesTaula("usuario");
-            String[] info = new String[numFiles];
-            ResultSet rs= query.executeQuery(q);
-            int f= 0;
-            while(rs.next()){
-                info[f] = rs.getString("Nombre");
-                f++;
-            }
-            return info;
-
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return null;
-    }
+    /**
+     * Imprime por consola un array unidimensional de cadenas con formato indexado.
+     *
+     * @param info Array de cadenas a imprimir.
+     */
     public void printArray1D (String[]info){
         System.out.println();
         for( int i =0; i<info.length; i++){
@@ -122,29 +81,11 @@ public class DataBase {
         }
     }
 
-    public String[][] getInfoTotsClients(){
-        String q= "SELECT Nombre, Apellido, User, NºHabitación, Contraseña FROM usuario ORDER BY Nombre ASC";
-        System.out.println(q);
-        try{
-            int numFiles = getNumFilesTaula("usuario");
-            String[][] info = new String[numFiles][5]; //son dues només hi ha dni i nom, si hagues més es canviaria
-            ResultSet rs= query.executeQuery(q);
-            int f= 0;
-            while(rs.next()){
-                info[f][0] = rs.getString("Nombre");
-                info[f][1] = rs.getString("Apellido");
-                info[f][2] = rs.getString("User");
-                info[f][3] = rs.getString("NºHabitación");
-                info[f][4] = rs.getString("Contraseña");
-                f++;
-            }
-            return info;
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return null;
-    }
+    /**
+     * Imprime por consola una matriz bidimensional de cadenas con formato indexado.
+     *
+     * @param info Matriz de cadenas a imprimir.
+     */
     public void printArray2D (String[][] info){
         System.out.println();
         for( int i =0; i<info.length; i++){
@@ -156,38 +97,17 @@ public class DataBase {
 
         }
     }
-    //Funció que retorna el nom del usuari amb un cert Nº de habitació
-
-    public String getNomUsuariAmbNºHabitacio(String NºHabitación){
-        String q = "SELECT Nombre FROM usuario WHERE NºHabitación ='"+ NºHabitación +"'";
-        System.out.println(q);
-        try{
-            ResultSet rs= query.executeQuery(q);
-            rs.next();
-            String nom= rs.getString("Nombre");
-            return nom;
 
 
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-        return null;
-    }
-        public int getNumFilesQuery(String q){
-            try{
-                ResultSet rs = query.executeQuery(q);
-                rs.next();
-                return rs.getInt('n');
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-            return 0;
-        }
-
-
-
+    /**
+     * Comprueba si las credenciales de inicio de sesión son correctas.
+     * Busca en la tabla {@code usuario} un registro que coincida exactamente
+     * con el usuario y contraseña proporcionados.
+     *
+     * @param nom      Nombre de usuario.
+     * @param password Contraseña del usuario.
+     * @return {@code true} si existe exactamente un registro coincidente.
+     */
         public boolean loginCorrecte(String nom, String password){
 
         String q = "SELECT COUNT(*) AS N " +
@@ -206,6 +126,14 @@ public class DataBase {
         return false;
         }
 
+    /**
+     * Comprueba si el registro de un nuevo usuario es correcto verificando
+     * que las credenciales ya existen en la base de datos (post-inserción).
+     *
+     * @param nom      Nombre de usuario.
+     * @param password Contraseña del usuario.
+     * @return {@code true} si existe exactamente un registro coincidente.
+     */
     public boolean signUpCorrecte(String nom, String password){
 
         String q = "SELECT COUNT(*) AS N " +
@@ -224,6 +152,12 @@ public class DataBase {
         return false;
     }
 
+    /**
+     * Comprueba si un nombre de usuario ya está registrado en la base de datos.
+     *
+     * @param user Nombre de usuario a comprobar.
+     * @return {@code true} si el usuario ya existe.
+     */
     public boolean hiHaUsuari(String user){
         String q = "SELECT COUNT(*) AS N " +
                 "FROM usuario" +
@@ -241,6 +175,15 @@ public class DataBase {
         return false;
     }
 
+    /**
+     * Registra un nuevo usuario en la tabla {@code usuario}.
+     *
+     * @param nom         Nombre del usuario.
+     * @param ape         Apellidos del usuario.
+     * @param user        Nombre de usuario (login).
+     * @param noHabitacion Número de habitación asignada.
+     * @param contrseña   Contraseña del usuario.
+     */
     public void signUpUsuari(String nom, String ape, String user, String noHabitacion, String contrseña){
         String q = "INSERT INTO `usuario` (`Nombre`, `Apellido`, `User`, `NºHabitación`, `Contraseña`)" +
                 " VALUES ('"+nom+"', '"+ape+"', '"+user+"', '"+noHabitacion+"', '"+contrseña+"')";
@@ -252,6 +195,13 @@ public class DataBase {
             System.out.println(e);
         }
     }
+
+    /**
+     * Obtiene la información de todos los restaurantes con su imagen asociada.
+     * Utiliza LEFT JOIN para incluir restaurantes sin imagen asignada.
+     *
+     * @return Matriz de cadenas con columnas [nombre, descripción, foto].
+     */
     public String[][] infoRestaurants(){
         // Usamos LEFT JOIN para que aparezcan restaurantes sin imagen también
         String q = "SELECT res.idRestaurante AS nombre, res.Descripcion AS descripcion, " +
@@ -277,6 +227,17 @@ public class DataBase {
         }
         return new String[0][0];
     }
+
+    /**
+     * Inserta un nuevo restaurante en la base de datos con todos sus atributos.
+     *
+     * @param nom         Nombre (identificador) del restaurante.
+     * @param descripcion Descripción del restaurante.
+     * @param especialidad Especialidad culinaria.
+     * @param proximidad  Proximidad al hotel.
+     * @param precioMPP   Precio medio por persona.
+     * @param servicio    Tipo de servicio disponible (desayuno, comida, cena).
+     */
     public void insertarRestaurant(String nom, String descripcion, String especialidad, String proximidad, String precioMPP, String servicio){
         String q = "INSERT INTO restaurante (idRestaurante, Descripcion, Especialidad_idEspecialidad, " +
                 "Proximidad_idProximidad, PrecioMPP_idPrecioMPP, ServicioDisponible_idServicioDisponible) " +
@@ -290,6 +251,13 @@ public class DataBase {
             System.out.println(e);
         }
     }
+
+    /**
+     * Inserta una imagen asociada a un restaurante en la tabla {@code imagen}.
+     *
+     * @param nomFitxer    Nombre del archivo de imagen.
+     * @param idRestaurant Identificador del restaurante al que pertenece la imagen.
+     */
     public void insertarImatge(String nomFitxer, String idRestaurant) {
         String q = "INSERT INTO imagen (Nombre, Restaurante_idRestaurante) " +
                 "VALUES ('" + nomFitxer + "', '" + idRestaurant + "')";
@@ -301,6 +269,14 @@ public class DataBase {
             System.out.println(e);
         }
     }
+
+    /**
+     * Obtiene todos los nombres de imagen asociados a un restaurante,
+     * ordenados alfabéticamente.
+     *
+     * @param idRestaurant Identificador del restaurante.
+     * @return Array de cadenas con los nombres de archivo de imagen.
+     */
     public String[] getRutesImatgesRestaurant(String idRestaurant) {
         String q = "SELECT Nombre FROM imagen " +
                 "WHERE Restaurante_idRestaurante = '" + idRestaurant + "' " +
@@ -318,6 +294,14 @@ public class DataBase {
         return new String[0];
     }
 
+
+    /**
+     * Obtiene los datos completos de un restaurante (nombre, descripción,
+     * especialidad, proximidad y precio medio por persona).
+     *
+     * @param idRestaurant Identificador del restaurante.
+     * @return Array de 5 cadenas con los datos, o array de cadenas vacías si hay error.
+     */
     public String[] getInfoRestaurant(String idRestaurant){
         String q = "SELECT idRestaurante, Descripcion, Especialidad_idEspecialidad, " +
                 "Proximidad_idProximidad, PrecioMPP_idPrecioMPP " +
@@ -340,6 +324,17 @@ public class DataBase {
         return new String[]{"","","","",""};
     }
 
+    /**
+     * Inserta una nueva reserva en la base de datos.
+     * Genera un identificador único basado en el timestamp actual del sistema.
+     *
+     * @param user          Nombre de usuario que realiza la reserva.
+     * @param idRestaurant  Identificador del restaurante.
+     * @param fecha         Fecha de la reserva en formato "yyyy-MM-dd".
+     * @param hora          Hora de la reserva en formato "HH:mm".
+     * @param numPersonas   Número de personas.
+     * @param tipoReserva   Tipo de reserva (Desayuno, Comida o Cena).
+     */
     public void insertarReserva(String user, String idRestaurant, String fecha, String hora, int numPersonas, String tipoReserva){
         // ID simple con timestamp para que sea único
         String id = String.valueOf(System.currentTimeMillis());
@@ -356,6 +351,15 @@ public class DataBase {
             System.out.println(e);
         }
     }
+
+    /**
+     * Obtiene todas las reservas de un usuario concreto con los datos del restaurante
+     * y la imagen asociada. Utiliza LEFT JOIN con la tabla de imágenes y agrupa
+     * por ID de reserva para evitar duplicados.
+     *
+     * @param user Nombre de usuario.
+     * @return Matriz de cadenas con columnas [restaurante, infoFormateada, foto, fecha, hora, id].
+     */
     public String[][] getReservesUsuari(String user){
         String q = "SELECT r.Id, r.Fecha, r.Hora, r.NºPersonas, " +
                 "r.Restaurante_idRestaurante, r.TipoReserva_idTipoReserva, " +
@@ -389,6 +393,11 @@ public class DataBase {
         return new String[0][0];
     }
 
+    /**
+     * Elimina una reserva de la base de datos por su identificador.
+     *
+     * @param idReserva Identificador único de la reserva a eliminar.
+     */
     public void eliminarReserva(String idReserva){
         String q = "DELETE FROM reserva WHERE Id = '" + idReserva + "'";
         System.out.println(q);
@@ -400,6 +409,13 @@ public class DataBase {
         }
     }
 
+    /**
+     * Obtiene todos los datos de una reserva por su identificador.
+     *
+     * @param idReserva Identificador único de la reserva.
+     * @return Array de 7 cadenas [id, fecha, hora, personas, valoraciones, restaurante, tipoReserva],
+     *         o array de cadenas vacías si hay error.
+     */
     public String[] getInfoReserva(String idReserva){
         String q = "SELECT * FROM reserva WHERE Id = '" + idReserva + "'";
         System.out.println(q);
@@ -422,6 +438,15 @@ public class DataBase {
         return new String[]{"","","","","","",""};
     }
 
+    /**
+     * Actualiza los datos de una reserva existente.
+     *
+     * @param idReserva   Identificador de la reserva a modificar.
+     * @param fecha       Nueva fecha de la reserva.
+     * @param hora        Nueva hora de la reserva.
+     * @param numPersonas Nuevo número de personas.
+     * @param tipoReserva Nuevo tipo de reserva.
+     */
     public void modificarReserva(String idReserva, String fecha, String hora,
                                  int numPersonas, String tipoReserva){
         String q = "UPDATE reserva SET " +
@@ -439,6 +464,13 @@ public class DataBase {
         }
     }
 
+    /**
+     * Elimina un restaurante y todos sus datos asociados (reservas e imágenes)
+     * de forma ordenada para respetar las restricciones de clave foránea.
+     * El orden de eliminación es: (1) reservas, (2) imágenes, (3) restaurante.
+     *
+     * @param idRestaurant Identificador del restaurante a eliminar.
+     */
     public void eliminarRestaurante(String idRestaurant){
 
         try{
@@ -464,6 +496,13 @@ public class DataBase {
             System.out.println(e);
         }
     }
+
+    /**
+     * Guarda o actualiza la valoración en estrella de una reserva concreta.
+     *
+     * @param idReserva Identificador de la reserva.
+     * @param valor     Número de estrellas (1-5) a guardar.
+     */
     public void guardarValoracion(String idReserva, int valor){
         String q = "UPDATE reserva SET Valoraciones = " + valor +
                 " WHERE Id = '" + idReserva + "'";
@@ -475,6 +514,12 @@ public class DataBase {
             System.out.println(e);
         }
     }
+    /**
+     * Obtiene el ranking de restaurantes ordenado por valoración media descendente.
+     * Solo incluye restaurantes con al menos una valoración mayor que 0.
+     *
+     * @return Matriz de cadenas con columnas [idRestaurant, mediaValoracion].
+     */
     public String[][] rankingRestaurantes(){
         String q = "SELECT Restaurante_idRestaurante, AVG(Valoraciones) AS media " +
                 "FROM reserva " +
@@ -498,6 +543,12 @@ public class DataBase {
         }
         return new String[0][0];
     }
+
+    /**
+     * Obtiene el ranking de usuarios ordenado por número total de reservas descendente.
+     *
+     * @return Matriz de cadenas con columnas [usuarioUser, totalReservas].
+     */
     public String[][] rankingUsuarios(){
         String q = "SELECT Usuario_User, COUNT(*) AS total " +
                 "FROM reserva " +

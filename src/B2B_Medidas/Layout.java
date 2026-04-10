@@ -2,52 +2,156 @@ package B2B_Medidas;
 
 import RestaurantCards.PagedCard2DRestaurantCard;
 
+/**
+ * Clase de constantes estáticas que define todas las dimensiones y márgenes
+ * del layout de la interfaz gráfica de la aplicación.
+ * Al ser todos sus campos estáticos, no es necesario instanciar la clase
+ * para acceder a sus valores.
+ */
 public class Layout {
 
-    // Dimensions Logo
-    public static float logoWidth  = 200, logoHeight = 180;
+    /**
+     * Anchura del logo en píxeles.
+     */
+    public static float logoWidth = 200;
 
-    // Dimensions Banner
-    public static float bannerWidth  = 1296, bannerHeight = 150;
+    /**
+     * Altura del logo en píxeles.
+     */
+    public static float logoHeight = 180;
 
-    //Dimensiones del restaurante principal
-    public static float restaurantWidthMain = 950, resturantHeightMain = 700;
+    /**
+     * Anchura del banner superior en píxeles.
+     */
+    public static float bannerWidth = 1296;
 
-    //Dimensiones del restaurante
-    public static float restaurantWidth = 450, resturantHeight = 330;
+    /**
+     * Altura del banner superior en píxeles.
+     */
+    public static float bannerHeight = 150;
 
-    //B2B_Medidas.Mides Top
-    public static float topW= 200, topH=80;
+    /**
+     * Anchura del restaurante principal (vista destacada) en píxeles.
+     */
+    public static float restaurantWidthMain = 950;
 
-    //Dimensiones restaurante en detalle
-    public static float restaurantDetalleWidth= 810, restaurantDetalleHeight= 600;
+    /**
+     * Altura del restaurante principal (vista destacada) en píxeles.
+     */
+    public static float resturantHeightMain = 700;
 
-    //Dimensiones restaurante en detalle
-    public static float infoDetalleWidth= 590;
+    /**
+     * Anchura estándar de una tarjeta de restaurante en píxeles.
+     */
+    public static float restaurantWidth = 450;
 
-    // Margenes entre los restaurantes
-    public static float marginWBR= 50, marginHBR= 40;
+    /**
+     * Altura estándar de una tarjeta de restaurante en píxeles.
+     */
+    public static float resturantHeight = 330;
 
-    // Marges Horitzontal i Verticalm
-    public static float marginW = 20, marginH = 20;
+    /**
+     * Anchura del componente superior (top bar) en píxeles.
+     */
+    public static float topW = 200;
 
-    //Margenes iniciales, margenes + margen nuevo (por si decido quitar el margen que no me cambie)
-    public static float marginInicialW=  23 + marginW, marginInicialH= 65 +marginH + logoHeight;
+    /**
+     * Altura del componente superior (top bar) en píxeles.
+     */
+    public static float topH = 80;
 
-    public static float imagenMisReservasW= 600, imagenMisReservasH= 100 ;
+    /**
+     * Anchura del panel de detalle del restaurante en píxeles.
+     */
+    public static float restaurantDetalleWidth = 810;
 
-    // Dimensions de les cards de Mis reservas
-    public static float misReservasCardsW = 800, misReservasCardsH = 700;
+    /**
+     * Altura del panel de detalle del restaurante en píxeles.
+     */
+    public static float restaurantDetalleHeight = 600;
 
-    // Dimensions dels botons de prev i next de Mis Reservas
-    public static float misReservasButtonW = 60, misReservasButtonH = 60;
+    /**
+     * Anchura del panel de información de detalle en píxeles.
+     */
+    public static float infoDetalleWidth = 590;
 
-    // Dimensions de les cards de Restaurant Card
-    public static float restaurantCardsW = 1200, restaurantCardsH = 700;
+    /**
+     * Margen horizontal entre bloques de restaurante en píxeles.
+     */
+    public static float marginWBR = 50;
 
-    // Dimensions dels botons de restaurant Card
-    public static float restaurantButtonW = 60, restaurantButtonH = 60;
+    /**
+     * Margen vertical entre bloques de restaurante en píxeles.
+     */
+    public static float marginHBR = 40;
 
+    /**
+     * Margen horizontal exterior general en píxeles.
+     */
+    public static float marginW = 20;
 
+    /**
+     * Margen vertical exterior general en píxeles.
+     */
+    public static float marginH = 20;
 
+    /**
+     * Margen inicial horizontal (margen exterior + desplazamiento adicional) en píxeles.
+     */
+    public static float marginInicialW = 23 + marginW;
+
+    /**
+     * Margen inicial vertical (margen exterior + logo + desplazamiento) en píxeles.
+     */
+    public static float marginInicialH = 65 + marginH + logoHeight;
+
+    /**
+     * Anchura de la imagen en la pantalla "Mis Reservas" en píxeles.
+     */
+    public static float imagenMisReservasW = 600;
+
+    /**
+     * Altura de la imagen en la pantalla "Mis Reservas" en píxeles.
+     */
+    public static float imagenMisReservasH = 100;
+
+    /**
+     * Anchura del área de tarjetas de "Mis Reservas" en píxeles.
+     */
+    public static float misReservasCardsW = 800;
+
+    /**
+     * Altura del área de tarjetas de "Mis Reservas" en píxeles.
+     */
+    public static float misReservasCardsH = 700;
+
+    /**
+     * Anchura de los botones de navegación de "Mis Reservas" en píxeles.
+     */
+    public static float misReservasButtonW = 60;
+
+    /**
+     * Altura de los botones de navegación de "Mis Reservas" en píxeles.
+     */
+    public static float misReservasButtonH = 60;
+
+    /**
+     * Anchura del área de tarjetas de restaurantes en píxeles.
+     */
+    public static float restaurantCardsW = 1200;
+
+    /**
+     * Altura del área de tarjetas de restaurantes en píxeles.
+     */
+    public static float restaurantCardsH = 700;
+
+    /**
+     * Anchura de los botones de navegación de restaurantes en píxeles.
+     */
+    public static float restaurantButtonW = 60;
+
+    /**
+     * Altura de los botones de navegación de restaurantes en píxeles.
+     */
+    public static float restaurantButtonH = 60;
 }

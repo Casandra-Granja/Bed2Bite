@@ -3,16 +3,49 @@ package B2B_ElementsGUI;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * Componente de botón circular con icono de imagen para la interfaz gráfica.
+ * Muestra una imagen centrada en un área circular y detecta si el cursor
+ * está sobre él usando distancia euclidiana al centro.
+ */
 public class RoundButton {
-        // Propietats d'un botó:
 
-        float x, y, r;  // Posició (x, y) i dimensions (radi)
-        int fillColor, strokeColor; // B2B_Color.Colors del boto (fill / stroke).
-        int fillColorOver, fillColorDisabled;  // B2B_Color.Colors del boto (actiu / inactiu).
-        PImage icona;  // Icona del botó
-        boolean enabled;  // Estat del botó (actiu / inactiu).
+    /** Coordenada X del centro del botón. */
+    float x;
 
-        // Constructor
+    /** Coordenada Y del centro del botón. */
+    float y;
+
+    /** Radio del botón circular en píxeles. */
+    float r;
+
+    /** Color de relleno en estado normal. */
+    int fillColor;
+
+    /** Color del borde del botón. */
+    int strokeColor;
+
+    /** Color de relleno cuando el cursor está encima (hover). */
+    int fillColorOver;
+
+    /** Color de relleno cuando el botón está deshabilitado. */
+    int fillColorDisabled;
+
+    /** Imagen que se muestra como icono del botón. */
+    PImage icona;
+
+    /** Indica si el botón está habilitado ({@code true}) o deshabilitado ({@code false}). */
+    boolean enabled;
+
+    /**
+     * Constructor que inicializa el botón circular con imagen, posición y radio.
+     *
+     * @param p5  Referencia al objeto PApplet de Processing.
+     * @param img Imagen que se usará como icono del botón.
+     * @param x   Coordenada X del centro del botón.
+     * @param y   Coordenada Y del centro del botón.
+     * @param r   Radio del botón en píxeles.
+     */
         public RoundButton(PApplet p5, PImage img, float x, float y, float r){
             this.icona = img;
             this.x = x;
@@ -25,14 +58,30 @@ public class RoundButton {
             this.strokeColor = p5.color(0);
         }
 
-        // Setters
 
+    /**
+     * Reemplaza la imagen del icono del botón.
+     *
+     * @param img Nueva imagen a mostrar.
+     */
         public void setImage(PImage img){ this.icona = img; }
 
+    /**
+     * Habilita o deshabilita el botón.
+     *
+     * @param b {@code true} para habilitar, {@code false} para deshabilitar.
+     */
         public void setEnabled(boolean b){
             this.enabled = b;
         }
-
+    /**
+     * Actualiza todos los colores del botón manualmente.
+     *
+     * @param cFill     Color de relleno normal.
+     * @param cStroke   Color de borde.
+     * @param cOver     Color de relleno en hover.
+     * @param cDisabled Color de relleno cuando está deshabilitado.
+     */
         public void setColors(int cFill, int cStroke, int cOver, int cDisabled){
             this.fillColor = cFill;
             this.strokeColor = cStroke;
@@ -40,7 +89,12 @@ public class RoundButton {
             this.fillColorDisabled = cDisabled;
         }
 
-        // Dibuixa el botó
+    /**
+     * Dibuja el botón circular en pantalla.
+     * Muestra la imagen centrada en el punto (x, y) escalada al diámetro del botón.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     */
         public void display(PApplet p5){
             p5.pushStyle();
 
@@ -63,12 +117,24 @@ public class RoundButton {
             p5.popStyle();
         }
 
-        // Indica si el cursor està sobre el botó
+    /**
+     * Comprueba si el cursor está dentro del área circular del botón
+     * usando distancia euclidiana al centro.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @return {@code true} si el cursor está dentro del radio del botón.
+     */
         public boolean mouseOverButton(PApplet p5){
             return p5.dist(p5.mouseX, p5.mouseY, this.x, this.y)<= this.r;
         }
 
-        // Indica si cal posar el cursor a HAND
+    /**
+     * Comprueba si el cursor está sobre el botón y éste está habilitado,
+     * para activar el cursor tipo mano.
+     *
+     * @param p5 Referencia al objeto PApplet de Processing.
+     * @return {@code true} si el cursor debe cambiar a mano.
+     */
         public boolean updateHandCursor(PApplet p5){
             return mouseOverButton(p5) && enabled;
         }
