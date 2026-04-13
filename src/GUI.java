@@ -289,7 +289,7 @@ public class GUI {
         p5.textFont(f.getFirstFont());
         // --- LOGIN Y REGISTRO ---
         bSignIn         = new Button(p5, "SIGN IN", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
-        bDontHaveAnAccount = new Button(p5, "YOU DON'T HAVE AN ACCOUNT?", p5.width -330, p5.height/2 +360 , 300, 80, c);
+        bDontHaveAnAccount = new Button(p5, "CREAR USUARIO", p5.width -330, p5.height/2 +360 , 300, 80, c);
         bSignUp = new Button(p5,"SIGN UP", p5.width/2 -150, p5.height/2 +350 , 300, 80, c);
         bBack = new Button(p5, "ATRÁS", 50,50, 200, 40, c);
 
@@ -464,8 +464,8 @@ public class GUI {
      * @param p5 Referencia al objeto PApplet de Processing.
      */
     public void creaPopUp(PApplet p5){
-        puSignIn = new PopUp(p5,"EROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2-300, p5.height/2-200, 600, 340, appColors);
-        puSignUp = new PopUp(p5,"EROR!", "EL USUARIO YA ESTÁ COGIDO", p5.width/2, p5.height/2, 600, 340, appColors);
+        puSignIn = new PopUp(p5,"ERROR DE SIGN IN!", "LA CONTRASEÑA O EL USUARIO ES INCORRECTO", p5.width/2-300, p5.height/2-200, 600, 340, appColors);
+        puSignUp = new PopUp(p5,"ERROR!", "EL USUARIO YA ESTÁ COGIDO", p5.width/2, p5.height/2, 600, 340, appColors);
     }
     /**
      * Crea e inicializa los checkboxes de tipo de servicio para la pantalla
@@ -499,15 +499,15 @@ public class GUI {
         p5.textFont(f.getFirstFont());
         p5.textSize(25);
         p5.fill(0);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 -190);
+        p5.text("CONTRASEÑA",p5.width/2 -255, p5.height/2 -190);
         tfPasswordSignUp.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 -320);
+        p5.text("NOMBRE DE USUARIO",p5.width/2 -255, p5.height/2 -320);
         tfUsuariSignUp.display(p5);
-        p5.text("NAME",p5.width/2 -255, p5.height/2-60);
+        p5.text("NOMBRE",p5.width/2 -255, p5.height/2-60);
         tfNom.display(p5);
         p5.text("APELLIDOS",p5.width/2 -255, p5.height/2 +70  );
         tfApellidos.display(p5);
-        p5.text("ROOM NUMER",p5.width/2 -255, p5.height/2 +265 - 60 );
+        p5.text("NÚMERO DE HABITACIÓN",p5.width/2 -255, p5.height/2 +265 - 60 );
         p5.popStyle();
         p5.textFont(f.getFirstFont());
         tfNumHabitacion.display(p5);
@@ -531,9 +531,9 @@ public class GUI {
         logoSingIn(p5);
         p5.fill(0);
         p5.textSize(25);
-        p5.text("PASSWORD",p5.width/2 -255, p5.height/2 +40);
+        p5.text("CONTRASEÑA",p5.width/2 -255, p5.height/2 +40);
         tfPassword.display(p5);
-        p5.text("USER",p5.width/2 -255, p5.height/2 -110);
+        p5.text("NOMBRE DE USUARIO",p5.width/2 -255, p5.height/2 -110);
         tfUsuari.display(p5);
         bDontHaveAnAccount.display(p5);
         bSignIn.display(p5);
@@ -696,7 +696,7 @@ public class GUI {
         p5.textSize(25);
         p5.text("RANKING DE LO QUE MÁS GUSTA", 705, 112);
         p5.strokeWeight(3);
-        p5.line(80, 233, 350, 233);
+        p5.line(80, 233, 310, 233);
 
         // =====================
         // 📊 DATOS
@@ -950,6 +950,8 @@ public class GUI {
         p5.circle(p5.width/2, p5.height/2 -100, 300);
         bCerrarSesion.display(p5);
         bModificarUsuario.display(p5);
+        tfPassword.removeAllText();
+        tfUsuari.removeAllText();
         p5.popStyle();
         if(Main.isAdmin){
             rbCrear.display(p5);
